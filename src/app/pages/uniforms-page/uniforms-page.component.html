@@ -1,0 +1,244 @@
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+<!-- Hero Banner -->
+<div class="relative h-80 md:h-96 overflow-hidden bg-gradient-to-r from-primary to-secondary">
+  <div class="absolute inset-0">
+    <img
+      src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80"
+      alt="Uniformes escolares"
+      class="w-full h-full object-cover opacity-30"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-secondary/80"></div>
+  </div>
+  <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg mb-4">
+      Uniformes Escolares
+    </h1>
+    <p class="text-lg md:text-xl text-gray-100 drop-shadow-md max-w-2xl">
+      Visualiza nuestros uniformes escolares con todas las características y detalles
+    </p>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <!-- Info Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+    <div class="bg-surface-light dark:bg-surface-dark rounded-lg shadow-md p-6 text-center border-l-4 border-primary">
+      <div class="text-4xl text-primary font-bold mb-2">{{ uniforms.length }}</div>
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">Tipos de Uniformes</h3>
+      <p class="text-gray-600 dark:text-gray-300 text-sm">Opciones para todos los niveles educativos</p>
+    </div>
+
+    <div class="bg-surface-light dark:bg-surface-dark rounded-lg shadow-md p-6 text-center border-l-4 border-secondary">
+      <div class="text-4xl text-secondary font-bold mb-2">{{ categories.length }}</div>
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">Categorías</h3>
+      <p class="text-gray-600 dark:text-gray-300 text-sm">Diario, deportivo, ceremonia y más</p>
+    </div>
+
+    <div class="bg-surface-light dark:bg-surface-dark rounded-lg shadow-md p-6 text-center border-l-4 border-primary">
+      <div class="text-4xl text-primary font-bold mb-2">100%</div>
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">Calidad Garantizada</h3>
+      <p class="text-gray-600 dark:text-gray-300 text-sm">Tela de primera calidad y durabilidad</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- Sidebar - Uniform Selection -->
+    <div class="lg:col-span-1">
+      <div class="bg-surface-light dark:bg-surface-dark rounded-lg shadow-md p-6 sticky top-24">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 pb-3 border-b border-gray-200 dark:border-gray-700">
+          Uniformes
+        </h2>
+
+        <div class="space-y-2">
+          <button
+            *ngFor="let uniform of uniforms"
+            (click)="selectUniform(uniform.id)"
+            [class.bg-primary]="selectedUniformId === uniform.id"
+            [class.text-white]="selectedUniformId === uniform.id"
+            [class.bg-gray-100]="selectedUniformId !== uniform.id"
+            [class.dark:bg-gray-700]="selectedUniformId !== uniform.id"
+            [class.text-gray-900]="selectedUniformId !== uniform.id"
+            [class.dark:text-white]="selectedUniformId !== uniform.id"
+            class="w-full text-left px-4 py-3 rounded-lg transition-all hover:shadow-md font-medium text-sm"
+          >
+            <div class="flex items-center gap-2">
+              <span class="material-icons text-base">{{ selectedUniformId === uniform.id ? 'check_circle' : 'radio_button_unchecked' }}</span>
+              <span>{{ uniform.name }}</span>
+            </div>
+            <div class="text-xs ml-6 mt-1 opacity-75">
+              {{ uniform.category }}
+            </div>
+          </button>
+        </div>
+
+        <!-- Legend -->
+        <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Información</h3>
+          <div class="space-y-2 text-xs text-gray-600 dark:text-gray-400">
+            <div class="flex items-start gap-2">
+              <span class="text-primary font-bold">•</span>
+              <span>Haz click en una imagen para hacer zoom</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-primary font-bold">•</span>
+              <span>Usa las flechas para navegar entre imágenes</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-primary font-bold">•</span>
+              <span>Las miniaturas muestran todas las vistas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="lg:col-span-3">
+      <ng-container *ngIf="selectedUniform">
+        <!-- Uniform Details -->
+        <div class="mb-8">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+            <div>
+              <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+                {{ selectedUniform.name }}
+              </h2>
+              <div class="flex items-center gap-3 mt-2">
+                <span class="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                  {{ selectedUniform.category }}
+                </span>
+                <span
+                  class="inline-block px-3 py-1 rounded-full text-sm font-semibold"
+                  [class.bg-green-100]="selectedUniform.availability === 'En stock'"
+                  [class.text-green-800]="selectedUniform.availability === 'En stock'"
+                  [class.bg-yellow-100]="selectedUniform.availability !== 'En stock'"
+                  [class.text-yellow-800]="selectedUniform.availability !== 'En stock'"
+                  [class.dark:bg-green-900]="selectedUniform.availability === 'En stock'"
+                  [class.dark:text-green-200]="selectedUniform.availability === 'En stock'"
+                  [class.dark:bg-yellow-900]="selectedUniform.availability !== 'En stock'"
+                  [class.dark:text-yellow-200]="selectedUniform.availability !== 'En stock'"
+                >
+                  {{ selectedUniform.availability }}
+                </span>
+              </div>
+            </div>
+            <div class="text-right" *ngIf="selectedUniform.price">
+              <div class="text-4xl font-bold text-primary">
+                {{ selectedUniform.price }}
+              </div>
+              <div class="text-gray-600 dark:text-gray-400 text-sm">Precio aproximado</div>
+            </div>
+          </div>
+
+          <p class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
+            {{ selectedUniform.description }}
+          </p>
+        </div>
+
+        <!-- Gallery Component -->
+        <div class="mb-8">
+          <app-image-gallery
+            [images]="selectedUniform.images"
+            [title]="'Galería de Imágenes: ' + selectedUniform.name"
+            [description]="'Visualiza todos los detalles del ' + selectedUniform.name + ' desde diferentes ángulos'"
+          ></app-image-gallery>
+        </div>
+
+        <!-- Features Section -->
+        <div class="bg-surface-light dark:bg-surface-dark rounded-lg shadow-md p-6 md:p-8">
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Características</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex gap-4">
+              <div class="flex-shrink-0">
+                <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 text-primary">
+                  <span class="material-icons">checkmark</span>
+                </span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">Tela de Calidad</h4>
+                <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Material transpirable y duradero para máximo confort
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0">
+                <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 text-primary">
+                  <span class="material-icons">checkmark</span>
+                </span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">Diseño Moderno</h4>
+                <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Estilos actuales que reflejan la identidad institucional
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0">
+                <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 text-primary">
+                  <span class="material-icons">checkmark</span>
+                </span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">Variedad de Tallas</h4>
+                <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Disponible en todas las tallas desde XS hasta XXL
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0">
+                <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 text-primary">
+                  <span class="material-icons">checkmark</span>
+                </span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">Bordado Institucional</h4>
+                <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Logo y distintivos bordados con precisión
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0">
+                <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 text-primary">
+                  <span class="material-icons">checkmark</span>
+                </span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">Fácil de Limpiar</h4>
+                <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Resistente al lavado frecuente sin decolorarse
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0">
+                <span class="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 text-primary">
+                  <span class="material-icons">checkmark</span>
+                </span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">Garantía de Calidad</h4>
+                <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Respaldado por garantía de satisfacción institucional
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,13 @@
+/* App Component Global Styles */
+:host {
+  --primary: #F4B400;
+  --secondary: #0B2C5F;
+  --background-light: #F9FAFB;
+  --background-dark: #111827;
+  --surface-light: #FFFFFF;
+  --surface-dark: #1F2937;
+  --card-dark: #374151;
+}
+
+/* Tailwind CSS with Plugins is already loaded in index.html */
+/* These are just CSS variables for reference */

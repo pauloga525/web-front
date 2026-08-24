@@ -1,0 +1,36 @@
+<section class="py-12 sm:py-16 md:py-20 bg-gray-100 dark:bg-background-dark">
+  <div class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 sm:mb-12 gap-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-secondary dark:text-white italic">{{ sectionTitle }}</h2>
+      <a 
+        [href]="btnUrl"
+        class="w-full sm:w-auto px-4 sm:px-6 py-2 border-2 border-secondary text-secondary font-bold rounded-full hover:bg-secondary hover:text-white transition-all flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base" 
+      >
+        {{ btnLabel }}
+        <span class="material-icons text-sm">calendar_today</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+      @for (event of events; track event.id) {
+        <div class="bg-surface-light dark:bg-surface-dark rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100 dark:border-gray-700 flex flex-col h-full">
+          <a [routerLink]="['/events', event.id]" class="relative h-32 sm:h-40 md:h-48 overflow-hidden block cursor-pointer group">
+            <img 
+              [alt]="event.title"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+              [src]="event.image"
+            >
+          </a>
+          <div class="p-4 sm:p-5 md:p-6 flex-1 flex flex-col">
+            <div class="flex items-center gap-2 text-primary font-bold text-xs sm:text-sm mb-2">
+              <span class="material-icons text-base">event</span>
+              {{ event.date }}
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2">{{ event.title }}</h3>
+            <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mb-4 line-clamp-2">{{ event.description }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

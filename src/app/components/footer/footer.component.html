@@ -1,0 +1,212 @@
+<footer class="bg-blue-900 text-white pt-8 sm:pt-12 md:pt-16 pb-6 sm:pb-8 border-t border-blue-800">
+  <div class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+    <!-- Main Footer Content -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-12 mb-8 sm:mb-12">
+      <!-- Brand Section -->
+      <div class="space-y-4 sm:space-y-6">
+        <div class="flex items-center gap-2 mb-2 sm:mb-4">
+          @if (logoUrl) {
+            <img
+              [src]="logoUrl"
+              [alt]="logoAlt"
+              appSuppressImageWarning
+              class="h-10 sm:h-12 w-auto object-contain"
+            />
+          }
+        </div>
+        <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">{{ descripcion }}</p>
+        <div class="flex gap-2 sm:gap-3">
+          @for (social of socialLinks; track social.name) {
+            <a 
+              [href]="social.href" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              [title]="social.name"
+              class="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-600 hover:text-white transition-colors text-xs sm:text-sm flex items-center justify-center"
+            >
+              @switch(social.icon) {
+                @case('facebook') {
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+                }
+                @case('instagram') {
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.315 1.347 20.646.935 19.858.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.265.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.906 1.382-.419.419-.824.679-1.38.896-.422.164-1.057.36-2.227.413-1.265.059-1.644.072-4.85.072-3.205 0-3.584-.015-4.85-.072-1.17-.061-1.805-.256-2.227-.421-.562-.224-.96-.479-1.381-.906-.419-.419-.678-.824-.896-1.38-.164-.422-.36-1.057-.413-2.227-.059-1.265-.072-1.644-.072-4.85 0-3.204.015-3.585.072-4.85.061-1.17.256-1.805.421-2.227.224-.562.479-.96.906-1.381.419-.419.824-.678 1.38-.896.422-.164 1.057-.36 2.227-.413 1.26-.06 1.642-.073 4.85-.073zm0 5.838a6.002 6.002 0 100 12 6.002 6.002 0 000-12zm0 9.84a3.84 3.84 0 110-7.68 3.84 3.84 0 010 7.68zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path></svg>
+                }
+                @case('twitter') {
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417a9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path></svg>
+                }
+                @case('youtube') {
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
+                }
+                @case('tiktok') {
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"><path d="M19.498 3h-4.996v15.326c0 1.3-.954 2.35-2.29 2.35-1.336 0-2.29-1.05-2.29-2.35 0-1.3.954-2.35 2.29-2.35.268 0 .526.037.782.11V9.41a5.971 5.971 0 0 0-.782-.052c-3.315 0-6.002 2.748-6.002 6.142 0 3.395 2.687 6.143 6.002 6.143 3.314 0 6.002-2.748 6.002-6.143V5.565c1.205 1.192 2.857 1.905 4.708 1.905V3.88c-.983 0-1.906-.304-2.63-.84-.322 1.24-1.455 2.194-2.79 2.194z"></path></svg>
+                }
+                @case('spotify') {
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.335-.74.435-1.056.175-2.938-1.805-6.604-2.21-10.94-1.212-.417.122-.779-.122-.899-.539-.12-.417.122-.779.539-.899 4.709-1.153 8.7-.635 11.89 1.405.339.206.449.696.21 1.056zm1.44-3.3c-.301.42-.841.54-1.262.21-3.362-2.045-8.459-2.634-12.412-1.44-.47.149-.97-.212-1.119-.682-.149-.47.212-.97.682-1.119 4.500-1.366 10.086-.742 13.768 1.652.361.223.476.77.204 1.141zm.181-3.431c-4.038-2.407-10.693-2.627-14.553-.407-.469.268-1.068-.056-1.336-.524-.268-.469.056-1.068.524-1.336 4.359-2.407 11.128-2.154 15.404.469.437.278.657.904.38 1.341-.277.437-.904.656-1.341.38z"></path></svg>
+                }
+              }
+            </a>
+          }
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="font-bold text-white mb-4 sm:mb-6 text-sm sm:text-base">{{ quickLinksTitulo }}</h4>
+        <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm text-gray-400">
+          @for (link of quickLinks; track link.label) {
+            <li>
+              @if (link.label === 'Bolsa de Empleo') {
+                <a class="hover:text-primary transition-colors cursor-pointer" (click)="openComingSoonModal()">{{ link.label }}</a>
+              } @else {
+                <a class="hover:text-primary transition-colors" [routerLink]="link.href">{{ link.label }}</a>
+              }
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="font-bold text-white mb-4 sm:mb-6 text-sm sm:text-base">Contacto</h4>
+        <ul class="space-y-2 sm:space-y-4 text-xs sm:text-sm text-gray-400">
+          <li class="flex items-start gap-2 cursor-pointer group" (click)="openMapModal()">
+            <span class="material-icons text-primary text-base mr-1 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform">location_on</span>
+            <span class="group-hover:text-blue-300 transition-colors">{{ contact.address }}</span>
+          </li>
+          <li class="flex items-start sm:items-center gap-2">
+            <span class="material-icons text-primary text-base mr-1 flex-shrink-0">call</span>
+            <span>{{ contact.phone1 }} / {{ contact.phone2 }}</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="material-icons text-primary text-base mr-1 flex-shrink-0">email</span>
+            <span>{{ contact.email }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Location Map -->
+      <div>
+        <h4 class="font-bold text-white mb-4 sm:mb-6 text-sm sm:text-base">Ubicación</h4>
+        <div class="bg-blue-800 rounded-xl overflow-hidden h-24 sm:h-32 w-full relative group cursor-pointer hover:ring-2 hover:ring-blue-400 transition-all" (click)="openMapModal()">
+          <img 
+            alt="Mapa" 
+            class="w-full h-full object-cover opacity-30 grayscale group-hover:grayscale-0 transition-all duration-500" 
+            [src]="contact.map"
+          >
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-8 sm:w-10 h-8 sm:h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20 group-hover:bg-blue-600 group-hover:scale-110 transition-all">
+              <span class="material-icons text-white text-base sm:text-lg">map</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="border-t border-blue-800 pt-4 sm:pt-6 md:pt-8 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 text-xs sm:text-xs text-gray-500">
+      <p>{{ copyright || ('© ' + currentYear + ' Unidad Educativa. Todos los derechos reservados.') }}</p>
+      <div class="flex gap-2 sm:gap-4 flex-wrap justify-center sm:justify-end">
+        @for (link of footerLinks; track link.label) {
+          <a class="hover:text-gray-300" [href]="link.href">{{ link.label }}</a>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Map Modal -->
+  @if (isMapModalOpen) {
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2" (click)="closeMapModal()">
+      <div class="bg-white rounded-2xl shadow-2xl w-full h-[95vh] flex flex-col overflow-hidden" (click)="$event.stopPropagation()">
+        <!-- Modal Header -->
+        <div class="bg-blue-900 text-white p-4 sm:p-6 flex justify-between items-center flex-shrink-0">
+          <div>
+            <h3 class="text-lg sm:text-2xl font-bold mb-1">Ubicación del Plantel</h3>
+            <p class="text-sm sm:text-base text-blue-200 flex items-center gap-2">
+              <span class="material-icons text-base">location_on</span>
+              {{ contact.address }}
+            </p>
+          </div>
+          <button 
+            (click)="closeMapModal()" 
+            class="text-white hover:bg-blue-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors flex-shrink-0"
+            [attr.aria-label]="'Cerrar mapa'"
+          >
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="flex-1 overflow-hidden">
+          <iframe 
+            [src]="mapUrl" 
+            width="100%" 
+            height="100%" 
+            style="border: none; display: block;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="bg-gray-100 px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center gap-2 flex-shrink-0">
+          <a 
+            [href]="contact.map" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-blue-600 hover:text-blue-800 text-sm sm:text-base font-semibold flex items-center gap-2 transition-colors"
+          >
+            <span class="material-icons text-base">open_in_new</span>
+            Abrir en Google Maps
+          </a>
+          <button 
+            (click)="closeMapModal()" 
+            class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors text-sm sm:text-base font-semibold"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Coming Soon Modal -->
+  @if (isComingSoonModalOpen) {
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2" (click)="closeComingSoonModal()">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden animate-pulse" (click)="$event.stopPropagation()">
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 text-center">
+          <div class="inline-block p-3 bg-white/20 rounded-full mb-4">
+            <span class="material-icons text-4xl">schedule</span>
+          </div>
+          <h3 class="text-2xl font-bold">¡Próximamente!</h3>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-6 text-center">
+          <p class="text-gray-600 dark:text-gray-300 text-lg mb-4">
+            La <strong>Bolsa de Empleo</strong> estará disponible muy pronto.
+          </p>
+          <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">
+            Estamos preparando una plataforma para conectar a nuestros estudiantes y egresados con oportunidades laborales.
+          </p>
+          <div class="flex gap-3 justify-center">
+            <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style="animation-delay: 0s"></div>
+            <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-center">
+          <button 
+            (click)="closeComingSoonModal()" 
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+          >
+            Entendido
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</footer>

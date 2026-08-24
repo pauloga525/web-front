@@ -1,0 +1,142 @@
+/* Admissions Page Styles - Custom Theme Colors */
+/* These styles only apply within the admissions-page-container */
+
+.admissions-page-container {
+  --admissions-primary: #307de8;
+  --admissions-primary-dark: #1d4ed8;
+  --admissions-accent-yellow: #fbbf24;
+  --admissions-accent-yellow-dark: #d97706;
+  --admissions-bg-light: #f6f7f8;
+  --admissions-bg-dark: #111821;
+}
+
+/* Hero Section - Full Width */
+.admissions-hero {
+  position: relative;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@media (min-width: 640px) {
+  .admissions-hero {
+    min-height: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .admissions-hero {
+    min-height: 500px;
+  }
+}
+
+/* Override primary color only for this component */
+.admissions-page-container .bg-primary {
+  background-color: #307de8 !important;
+}
+
+.admissions-page-container .text-primary {
+  color: #307de8 !important;
+}
+
+.admissions-page-container .border-primary {
+  border-color: #307de8 !important;
+}
+
+.admissions-page-container .border-t-4.border-primary {
+  border-top-color: #307de8 !important;
+}
+
+.admissions-page-container .border-l-4.border-primary {
+  border-left-color: #307de8 !important;
+}
+
+.admissions-page-container .bg-primary\/10 {
+  background-color: rgba(48, 125, 232, 0.1) !important;
+}
+
+.admissions-page-container .hover\:text-primary-dark:hover {
+  color: #1d4ed8 !important;
+}
+
+.admissions-page-container .bg-primary-dark\/30 {
+  background-color: rgba(29, 78, 216, 0.3) !important;
+}
+
+.admissions-page-container .hover\:bg-primary-dark\/50:hover {
+  background-color: rgba(29, 78, 216, 0.5) !important;
+}
+
+.admissions-page-container .bg-accent-yellow {
+  background-color: #fbbf24 !important;
+}
+
+.admissions-page-container .hover\:bg-accent-yellow-dark:hover {
+  background-color: #d97706 !important;
+}
+
+.admissions-page-container .shadow-accent-yellow\/20 {
+  box-shadow: 0 10px 15px -3px rgba(251, 191, 36, 0.2) !important;
+}
+
+.admissions-page-container .bg-accent-yellow\/20 {
+  background-color: rgba(251, 191, 36, 0.2) !important;
+}
+
+.admissions-page-container .text-accent-yellow {
+  color: #fbbf24 !important;
+}
+
+.admissions-page-container .border-accent-yellow\/30 {
+  border-color: rgba(251, 191, 36, 0.3) !important;
+}
+
+.admissions-page-container main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.admissions-page-container section {
+  position: relative;
+}
+
+/* Image background styles */
+.admissions-page-container [style*="backgroundImage"] {
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+/* Hover effects */
+.admissions-page-container .group:hover {
+  transition: all 0.3s ease;
+}
+
+.admissions-page-container .group:hover .shadow-sm {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for CTA buttons */
+.admissions-page-container button {
+  transition: all 0.3s ease;
+}
+
+.admissions-page-container button:active {
+  transform: scale(0.98);
+}
+
+/* Smooth transitions */
+.admissions-page-container .transition-all,
+.admissions-page-container .transition-colors,
+.admissions-page-container .transition-shadow,
+.admissions-page-container .transition-transform {
+  transition: all 0.3s ease;
+}
+
+/* Timeline responsive adjustments */
+@media (max-width: 768px) {
+  .admissions-page-container .absolute.left-1\/2 {
+    display: none;
+  }
+}

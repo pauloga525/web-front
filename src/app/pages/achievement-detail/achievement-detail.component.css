@@ -1,0 +1,46 @@
+.layout-content-container {
+  width: 100%;
+}
+
+/* Achievement Badge */
+.achievement-badge {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.badge-gold {
+  background-color: #f59e0b;
+}
+
+.badge-blue {
+  background-color: #3b82f6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  article {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Link hover effects */
+a {
+  transition: all 0.3s ease;
+}
+
+/* Dark mode optimizations */
+:host-context(.dark) .badge-gold {
+  background-color: #f59e0b;
+  color: #1f2937;
+}
+
+:host-context(.dark) .badge-blue {
+  background-color: #3b82f6;
+  color: white;
+}

@@ -1,0 +1,21 @@
+/* News Admin Styles */
+:host {
+  display: block;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+textarea:focus,
+input:focus {
+  border-color: #196ee6;
+}

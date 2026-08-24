@@ -1,0 +1,7 @@
+.card-image {
+  transition: transform 0.5s ease-out;
+}
+
+.group\/card:hover .card-image {
+  transform: scale(1.05);
+}

@@ -1,0 +1,466 @@
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+@if (loading) {
+  <div class="flex justify-center items-center py-20">
+    <div class="text-center">
+      <span class="material-symbols-outlined animate-spin text-4xl text-primary">hourglass_empty</span>
+      <p class="mt-4 text-gray-600">Cargando especialidad...</p>
+    </div>
+  </div>
+} @else if (specialty) {
+  <div class="ts-hero" [style.backgroundImage]="(specialty.imagenSecundaria || specialty.imagenHero || specialty.imagen) ? 'url(' + (specialty.imagenSecundaria || specialty.imagenHero || specialty.imagen) + ')' : ''">
+    <div class="ts-overlay"></div>
+    <div class="max-w-7xl mx-auto w-full px-4">
+      <div class="relative z-10">
+        <span class="inline-block py-2 px-4 rounded-full text-sm font-bold uppercase mb-4 shadow-sm ts-badge">
+          {{ specialty.titulo || 'Especialidad Técnica' }}
+        </span>
+        <h1 class="text-5xl font-black mb-2 leading-tight">
+          {{ specialty.titulo || specialty.nombre }}
+        </h1>
+        @if (specialty.subtitulo) {
+          <p class="text-xl text-yellow-300 font-semibold mb-3">{{ specialty.subtitulo }}</p>
+        }
+        <p class="text-lg text-gray-200 mb-8">
+          {{ specialty.descripcion }}
+        </p>
+        <div class="flex flex-wrap gap-4">
+          @if (specialty.malla?.length) {
+            <a href="#curriculum" class="ts-btn" (click)="scrollTo('curriculum', $event)">
+              Ver Malla Curricular
+            </a>
+          }
+          @if (videoUrl) {
+            <button class="ts-btn ts-btn-outline" (click)="openVideoModal()">
+              <span class="material-icons">play_circle_outline</span>
+              Ver Video
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ts-content">
+    <div class="grid lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+
+        <!-- Perfil del estudiante -->
+        @if (specialty.perfilEstudiante?.descripcion || specialty.perfil_estudiante) {
+          <section class="ts-section">
+            <h2 class="ts-section-title">Perfil del Estudiante</h2>
+            <p class="text-gray-700 mb-4">{{ specialty.perfilEstudiante?.descripcion || specialty.perfil_estudiante }}</p>
+            @if (specialty.perfilEstudiante?.habilidades?.length) {
+              <ul class="ts-list">
+                @for (h of specialty.perfilEstudiante!.habilidades; track $index) {
+                  <li class="ts-list-item">{{ h }}</li>
+                }
+              </ul>
+            }
+          </section>
+        }
+
+        <!-- Salidas profesionales -->
+        @if (specialty.salidasProfesionales?.length) {
+          <section class="ts-section">
+            <h2 class="ts-section-title">Futuro Profesional</h2>
+            <div class="grid sm:grid-cols-2 gap-4">
+              @for (salida of specialty.salidasProfesionales; track $index) {
+                <div class="border border-gray-100 rounded-xl p-4 bg-gray-50 flex gap-3 items-start">
+                  @if (salida.icono) {
+                    <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center" [innerHTML]="iconService.getIcon(salida.icono)"></div>
+                  }
+                  <div>
+                    <h4 class="font-bold text-gray-900 mb-1">{{ salida.titulo }}</h4>
+                    <p class="text-sm text-gray-600">{{ salida.descripcion }}</p>
+                  </div>
+                </div>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Malla curricular (backend: malla[] con label y materias[]) -->
+        @if (specialty.malla?.length) {
+          <section id="curriculum" class="ts-section">
+            <h2 class="ts-section-title">Malla Curricular</h2>
+            <p class="text-gray-600 mb-6">Módulos técnicos distribuidos en los años de bachillerato.</p>
+            <div>
+              @for (anio of specialty.malla; track anio.id) {
+                <div class="ts-accordion">
+                  <button 
+                    class="ts-accordion-button"
+                    [class.active]="isYearExpanded(anio.label)"
+                    (click)="toggleYear(anio.label)">
+                    <span>{{ anio.label }}</span>
+                    <span class="material-icons transition-transform" 
+                          [style.transform]="isYearExpanded(anio.label) ? 'rotate(180deg)' : 'rotate(0deg)'">
+                      expand_more
+                    </span>
+                  </button>
+                  @if (isYearExpanded(anio.label)) {
+                    <div class="ts-accordion-content">
+                      <ul class="ts-list">
+                        @for (m of anio.materias; track $index) {
+                          <li class="ts-list-item">{{ m.nombre }}@if (m.horas) { <span class="text-xs text-gray-400 ml-1">({{ m.horas }} h/sem)</span>}</li>
+                        }
+                      </ul>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </section>
+        } @else if (specialty.malla_curricular?.length) {
+          <!-- Compatibilidad con formato antiguo -->
+          <section id="curriculum" class="ts-section">
+            <h2 class="ts-section-title">Malla Curricular</h2>
+            <div>
+              @for (year of specialty.malla_curricular; track year.anio) {
+                <div class="ts-accordion">
+                  <button class="ts-accordion-button" [class.active]="isYearExpanded(year.anio)" (click)="toggleYear(year.anio)">
+                    <span>{{ year.anio }}</span>
+                    <span class="material-icons transition-transform" [style.transform]="isYearExpanded(year.anio) ? 'rotate(180deg)' : 'rotate(0deg)'">expand_more</span>
+                  </button>
+                  @if (isYearExpanded(year.anio)) {
+                    <div class="ts-accordion-content">
+                      <ul class="ts-list">
+                        @for (subject of year.asignaturas; track $index) {
+                          <li class="ts-list-item">{{ subject }}</li>
+                        }
+                      </ul>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Instalaciones — carrusel -->
+        @if (specialty.instalaciones?.length) {
+          <section class="ts-section">
+            <h2 class="ts-section-title">Nuestras Instalaciones</h2>
+
+            <div class="relative overflow-hidden rounded-2xl bg-black" style="height: 420px;">
+
+              <!-- Slides -->
+              @for (img of specialty.instalaciones; track $index) {
+                <div class="absolute inset-0 transition-opacity duration-500"
+                     [style.opacity]="carouselIndex === $index ? '1' : '0'"
+                     [style.z-index]="carouselIndex === $index ? '1' : '0'">
+                  <img [src]="getInstalacionUrl(img)"
+                       [alt]="getInstalacionTitulo(img, 'Instalación ' + ($index + 1))"
+                       class="w-full h-full object-cover cursor-pointer"
+                       (click)="openLightbox($index)" />
+                  @if (getInstalacionTitulo(img, '')) {
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-6 py-5">
+                      <p class="text-white font-semibold text-sm drop-shadow">{{ getInstalacionTitulo(img, '') }}</p>
+                    </div>
+                  }
+                </div>
+              }
+
+              @if (specialty.instalaciones!.length > 1) {
+                <!-- Flecha izquierda -->
+                <button (click)="prevInstalacion()"
+                  class="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/70 text-white rounded-full p-2.5 transition backdrop-blur-sm"
+                  aria-label="Anterior">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                  </svg>
+                </button>
+
+                <!-- Flecha derecha -->
+                <button (click)="nextInstalacion()"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-black/40 hover:bg-black/70 text-white rounded-full p-2.5 transition backdrop-blur-sm"
+                  aria-label="Siguiente">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </button>
+
+                <!-- Contador -->
+                <div class="absolute top-3 right-3 z-10 bg-black/50 text-white text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm">
+                  {{ carouselIndex + 1 }} / {{ specialty.instalaciones!.length }}
+                </div>
+
+                <!-- Puntos indicadores -->
+                <div class="absolute bottom-4 left-0 right-0 z-10 flex justify-center items-center gap-2">
+                  @for (img of specialty.instalaciones; track $index) {
+                    <button (click)="goToInstalacion($index)"
+                      class="rounded-full transition-all duration-300"
+                      [style.width]="carouselIndex === $index ? '24px' : '8px'"
+                      [style.height]="'8px'"
+                      [style.background-color]="carouselIndex === $index ? 'white' : 'rgba(255,255,255,0.45)'"
+                      [attr.aria-label]="'Ir a imagen ' + ($index + 1)">
+                    </button>
+                  }
+                </div>
+              }
+
+            </div>
+          </section>
+        }
+
+        <!-- Imagen secundaria -->
+        @if (specialty.imagenSecundaria) {
+          <section class="ts-section">
+            <img [src]="specialty.imagenSecundaria" [alt]="specialty.titulo" class="w-full rounded-xl object-cover max-h-80" />
+          </section>
+        }
+
+        <!-- Testimonios -->
+        @if (specialty.testimonios?.length) {
+          <section class="ts-section">
+            <h2 class="ts-section-title">Testimonios</h2>
+            <div class="space-y-4">
+              @for (t of specialty.testimonios; track $index) {
+                <div class="border border-gray-100 rounded-xl p-5 bg-gray-50">
+                  <p class="text-gray-700 italic mb-3">"{{ t.texto }}"</p>
+                  <p class="font-bold text-gray-900 text-sm">{{ t.autor }}@if (t.cargo) { <span class="font-normal text-gray-500"> — {{ t.cargo }}</span>}</p>
+                </div>
+              }
+            </div>
+          </section>
+        }
+      </div>
+
+      <div class="lg:col-span-1">
+        <div class="ts-sidebar">
+          <!-- Información Rápida -->
+          <div class="ts-sidebar-widget">
+            <h3 class="ts-sidebar-title">Información Rápida</h3>
+            <div class="space-y-4">
+              @if (specialty.tituloAObtener) {
+                <div class="flex items-start gap-3">
+                  <span class="material-icons text-primary mt-1">school</span>
+                  <div>
+                    <p class="text-sm text-gray-600">Título a obtener</p>
+                    <p class="font-bold text-gray-900">{{ specialty.tituloAObtener }}</p>
+                  </div>
+                </div>
+              }
+              <div class="flex items-start gap-3">
+                <span class="material-icons text-primary mt-1">schedule</span>
+                <div>
+                  <p class="text-sm text-gray-600">Duración</p>
+                  <p class="font-bold text-gray-900">{{ specialty.duracion || '3 años' }}</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="material-icons text-primary mt-1">trending_up</span>
+                <div>
+                  <p class="text-sm text-gray-600">Nivel</p>
+                  <p class="font-bold text-gray-900">{{ specialty.nivel || 'Bachillerato' }}</p>
+                </div>
+              </div>
+              @if (specialty.modalidad) {
+                <div class="flex items-start gap-3">
+                  <span class="material-icons text-primary mt-1">calendar_today</span>
+                  <div>
+                    <p class="text-sm text-gray-600">Modalidad</p>
+                    <p class="font-bold text-gray-900">{{ specialty.modalidad }}</p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Coordinador -->
+          @if (specialty.perfilCoordinador?.nombre || specialty.coordinador) {
+            <div class="ts-sidebar-widget">
+              <h3 class="ts-sidebar-title">Coordinador</h3>
+              <div class="flex items-center gap-3 mb-3">
+                @if (specialty.perfilCoordinador?.foto) {
+                  <img [src]="specialty.perfilCoordinador!.foto"
+                       [alt]="specialty.perfilCoordinador!.nombre"
+                       class="w-14 h-14 rounded-full object-cover border-2 border-gray-200 shrink-0" />
+                } @else {
+                  <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <span class="material-icons text-primary text-2xl">person</span>
+                  </div>
+                }
+                <div>
+                  <p class="font-bold text-gray-900">{{ specialty.perfilCoordinador?.nombre || specialty.coordinador }}</p>
+                  @if (specialty.perfilCoordinador?.cargo) {
+                    <p class="text-sm text-gray-500">{{ specialty.perfilCoordinador!.cargo }}</p>
+                  }
+                </div>
+              </div>
+              @if (specialty.perfilCoordinador?.email) {
+                <div class="flex items-center gap-2 text-sm text-gray-600 mb-1">
+                  <span class="material-icons text-sm text-primary">email</span>
+                  <a [href]="'mailto:' + specialty.perfilCoordinador!.email" class="hover:text-primary break-all">
+                    {{ specialty.perfilCoordinador!.email }}
+                  </a>
+                </div>
+              }
+              @if (specialty.perfilCoordinador?.telefono) {
+                <div class="flex items-center gap-2 text-sm text-gray-600">
+                  <span class="material-icons text-sm text-primary">phone</span>
+                  <a [href]="'tel:' + specialty.perfilCoordinador!.telefono" class="hover:text-primary">
+                    {{ specialty.perfilCoordinador!.telefono }}
+                  </a>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- Admisiones -->
+          @if (specialty.admisiones?.texto || specialty.admisiones?.botones?.length || specialty.admisiones?.fechaImportante) {
+            <div class="ts-sidebar-widget">
+              <h3 class="ts-sidebar-title">Admisiones</h3>
+              @if (specialty.admisiones!.texto) {
+                <p class="text-sm text-gray-600 mb-3">{{ specialty.admisiones!.texto }}</p>
+              }
+              @if (specialty.admisiones!.fechaImportante) {
+                <div class="flex items-center gap-2 mb-3 p-2 bg-primary/5 rounded-lg">
+                  <span class="material-icons text-primary text-sm">event</span>
+                  <p class="text-sm font-bold text-primary">
+                    {{ specialty.admisiones!.labelFecha || 'Fecha' }}: {{ specialty.admisiones!.fechaImportante }}
+                  </p>
+                </div>
+              }
+              <div class="space-y-2">
+                @for (btn of specialty.admisiones!.botones; track $index) {
+                  <a [href]="btn.url" target="_blank"
+                    class="block w-full text-center px-4 py-2 rounded-lg text-sm font-bold transition"
+                    [class]="btn.estilo === 'outline'
+                      ? 'border-2 border-primary text-primary hover:bg-primary hover:text-white'
+                      : 'bg-primary text-white hover:bg-primary/90'">
+                    {{ btn.label }}
+                  </a>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (videoUrl) {
+    <app-video-modal
+      [isOpen]="isVideoModalOpen"
+      [videoUrl]="videoUrl"
+      (close)="closeVideoModal()">
+    </app-video-modal>
+  }
+
+  <!-- ══ LIGHTBOX ══ -->
+  @if (lightboxOpen) {
+<div class="fixed inset-0 z-[300] bg-black/95 flex flex-col select-none"
+     (mousemove)="lbDragMove($event)"
+     (mouseup)="lbDragEnd()"
+     (mouseleave)="lbDragEnd()">
+
+  <!-- Barra superior -->
+  <div class="flex items-center justify-between px-4 py-3 shrink-0 border-b border-white/10">
+    <span class="text-white/60 text-sm truncate max-w-xs">
+      {{ getInstalacionTitulo(specialty.instalaciones![lightboxIndex], specialty.titulo || '') }}
+    </span>
+    <div class="flex items-center gap-1 shrink-0">
+      <!-- Zoom out -->
+      <button (click)="lbZoomOut()" [disabled]="lightboxScale <= 1"
+        title="Reducir (−)"
+        class="w-9 h-9 flex items-center justify-center rounded-lg text-white hover:bg-white/10 disabled:opacity-30 transition text-lg font-bold">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      </button>
+      <!-- Porcentaje zoom -->
+      <span class="text-white/60 text-xs w-10 text-center">{{ lightboxScale * 100 | number:'1.0-0' }}%</span>
+      <!-- Zoom in -->
+      <button (click)="lbZoomIn()" [disabled]="lightboxScale >= 5"
+        title="Ampliar (+)"
+        class="w-9 h-9 flex items-center justify-center rounded-lg text-white hover:bg-white/10 disabled:opacity-30 transition">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      </button>
+      <!-- Reset zoom -->
+      @if (lightboxScale > 1) {
+        <button (click)="lbResetZoom()"
+          class="px-2.5 h-7 rounded-lg text-xs text-white bg-white/10 hover:bg-white/20 transition ml-1">
+          Reset
+        </button>
+      }
+      <!-- Contador -->
+      @if (specialty.instalaciones!.length > 1) {
+        <span class="text-white/40 text-xs ml-3">
+          {{ lightboxIndex + 1 }} / {{ specialty.instalaciones!.length }}
+        </span>
+      }
+      <!-- Cerrar -->
+      <button (click)="closeLightbox()" title="Cerrar (Esc)"
+        class="ml-3 w-9 h-9 flex items-center justify-center rounded-lg text-white hover:bg-white/10 transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Área de imagen -->
+  <div class="flex-1 flex items-center justify-center overflow-hidden relative">
+
+    <!-- Flecha izquierda -->
+    @if (specialty.instalaciones!.length > 1) {
+      <button (click)="prevLightbox()"
+        class="absolute left-4 z-10 bg-black/50 hover:bg-black/80 text-white rounded-full p-3 transition backdrop-blur-sm">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+    }
+
+    <!-- Imagen -->
+    <img [src]="getInstalacionUrl(specialty.instalaciones![lightboxIndex])"
+         [alt]="getInstalacionTitulo(specialty.instalaciones![lightboxIndex], '')"
+         draggable="false"
+         [class]="isDragging ? 'max-w-full max-h-full object-contain' : 'max-w-full max-h-full object-contain transition-transform duration-150'"
+         [style.transform]="'translate(' + lightboxTX + 'px,' + lightboxTY + 'px) scale(' + lightboxScale + ')'"
+         [style.cursor]="isDragging ? 'grabbing' : (lightboxScale > 1 ? 'grab' : 'default')"
+         (mousedown)="lbDragStart($event)"
+         (wheel)="lbWheel($event)" />
+
+    <!-- Flecha derecha -->
+    @if (specialty.instalaciones!.length > 1) {
+      <button (click)="nextLightbox()"
+        class="absolute right-4 z-10 bg-black/50 hover:bg-black/80 text-white rounded-full p-3 transition backdrop-blur-sm">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    }
+  </div>
+
+  <!-- Barra inferior: puntos -->
+  @if (specialty.instalaciones!.length > 1) {
+    <div class="shrink-0 flex justify-center items-center gap-2 py-4 border-t border-white/10">
+      @for (img of specialty.instalaciones; track $index) {
+        <button (click)="lbGoTo($index)"
+          class="rounded-full transition-all duration-300"
+          [style.width]="lightboxIndex === $index ? '24px' : '8px'"
+          [style.height]="'8px'"
+          [style.background-color]="lightboxIndex === $index ? 'white' : 'rgba(255,255,255,0.35)'"
+          [attr.aria-label]="'Ir a imagen ' + ($index + 1)">
+        </button>
+      }
+    </div>
+  }
+
+</div>
+  }
+
+} @else {
+  <div class="flex justify-center items-center py-20">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Especialidad no encontrada</h2>
+      <p class="text-gray-600 mb-8">La especialidad que buscas no existe.</p>
+      <a href="/" class="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90">
+        Volver al inicio
+      </a>
+    </div>
+  </div>
+}
+
+<app-footer></app-footer>

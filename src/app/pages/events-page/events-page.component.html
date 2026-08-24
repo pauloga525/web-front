@@ -1,0 +1,70 @@
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+<!-- Hero Banner -->
+<div class="relative bg-secondary overflow-hidden h-96">
+  <div class="absolute inset-0">
+    <img 
+      alt="School Festival" 
+      class="w-full h-full object-cover object-center" 
+      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHVzmkiSD0N0_TEi55Q6_5yHsy7bVgTGIiWqDv2gDW5UZrsb7-3_UtzoyguNg0mLtYQ6ANqH2zCw3yNarHY24lKiau3ZazE--dYJV4u2vgg5CZkjRHH_dw2UbclsS-ZTCFOIw27Ta9tXz39vqD8weBDfoS7CcFs9Cq8m-2oIfGWI5_5KAm0oQeJT14DrqCxd8yHlVlqgx0h2cxyfJwodx7rAW3hhRWLvWe7b9tQ33Siob4qxiEwHKqJP8c7Uqn1_vu2XiVmM4fxFk"
+    >
+    <div class="absolute inset-0 bg-secondary/80 mix-blend-multiply"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-transparent"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+    <div class="w-full text-center md:text-left">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
+        Eventos Institucionales
+      </h1>
+      <p class="text-lg text-gray-200 max-w-2xl font-light mb-6">
+        Descubre las actividades académicas, culturales y deportivas que dan vida a nuestra comunidad educativa.
+      </p>
+      <a routerLink="/calendar" class="inline-flex items-center justify-center rounded-lg bg-primary hover:bg-primary/90 text-secondary font-bold px-6 py-3 shadow-lg transition-all transform hover:scale-105">
+        <span class="material-icons mr-2">calendar_today</span>
+        Ver Calendario
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky Filter Section -->
+<div class="sticky top-20 z-40 bg-white dark:bg-gray-800 shadow-md border-b border-gray-200 dark:border-gray-700">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <app-events-filter (filterChange)="applyFilter($event)"></app-events-filter>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <!-- Featured Event -->
+  <div class="mb-16">
+    <h2 class="text-2xl font-bold text-secondary dark:text-white mb-6 flex items-center gap-2">
+      <span class="material-icons text-primary">star</span>
+      Evento Destacado
+    </h2>
+    @if (featuredEvent) {
+      <app-featured-event [event]="featuredEvent"></app-featured-event>
+    }
+  </div>
+
+  <!-- Events Grid Title -->
+  <h2 class="text-2xl font-bold text-secondary dark:text-white mb-8">Próximos Eventos</h2>
+
+  <!-- Events Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+    @for (event of filteredEvents; track event.id) {
+      <app-event-card [event]="event"></app-event-card>
+    }
+  </div>
+
+  <!-- Pagination -->
+  <app-events-pagination 
+    [currentPage]="currentPage" 
+    [totalPages]="totalPages"
+    (pageChange)="onPageChange($event)"
+  ></app-events-pagination>
+</div>
+
+<app-footer></app-footer>

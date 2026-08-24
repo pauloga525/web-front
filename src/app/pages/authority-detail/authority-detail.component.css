@@ -1,0 +1,8 @@
+/* Authority Detail Styles */
+:host {
+  display: block;
+}
+
+.prose {
+  color: inherit;
+}

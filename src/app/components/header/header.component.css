@@ -1,0 +1,37 @@
+/* Header Component Styles */
+
+/* Dropdown Animation */
+.group .group-hover\:opacity-100 {
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Rotate icon on dropdown hover */
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Dropdown positioning and transitions */
+.group {
+  position: relative;
+}
+
+.group-hover\:visible {
+  visibility: visible;
+}
+
+.group-hover\:opacity-100 {
+  opacity: 1;
+}
+
+/* Smooth dropdown item transitions */
+a[routerLink] {
+  transition: all 0.2s ease;
+}
+
+/* Focus styles for accessibility */
+button:focus,
+a:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+

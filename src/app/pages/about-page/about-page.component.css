@@ -1,0 +1,92 @@
+/* About Page Styles - Custom Theme Colors */
+/* These styles only apply within the about-page-container */
+
+.about-page-container {
+  --about-primary: #0f58bd;
+  --about-primary-dark: #0a408f;
+  --about-accent-yellow: #ffc107;
+  --about-bg-light: #f6f7f8;
+  --about-bg-dark: #101822;
+}
+
+/* Override primary color only for this component */
+.about-page-container .bg-primary {
+  background-color: #0f58bd !important;
+}
+
+.about-page-container .text-primary {
+  color: #0f58bd !important;
+}
+
+.about-page-container .border-primary {
+  border-color: #0f58bd !important;
+}
+
+.about-page-container .border-t-4.border-primary {
+  border-top-color: #0f58bd !important;
+}
+
+.about-page-container .bg-primary\/10 {
+  background-color: rgba(15, 88, 189, 0.1) !important;
+}
+
+.about-page-container .bg-accent-yellow {
+  background-color: #ffc107 !important;
+}
+
+.about-page-container .hover\:bg-yellow-400:hover {
+  background-color: #ffca3a !important;
+}
+
+.about-page-container .text-blue-100 {
+  color: #dbeafe !important;
+}
+
+.about-page-container main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.about-page-container section {
+  position: relative;
+}
+
+/* Image background styles */
+.about-page-container [style*="backgroundImage"] {
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+/* Hover effects */
+.about-page-container .group:hover {
+  transition: all 0.3s ease;
+}
+
+.about-page-container .group:hover .shadow-sm {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for CTA buttons */
+.about-page-container button {
+  transition: all 0.3s ease;
+}
+
+.about-page-container button:active {
+  transform: scale(0.98);
+}
+
+/* Smooth transitions */
+.about-page-container .transition-all,
+.about-page-container .transition-colors,
+.about-page-container .transition-shadow,
+.about-page-container .transition-transform {
+  transition: all 0.3s ease;
+}
+
+/* Timeline responsive adjustments */
+@media (max-width: 768px) {
+  .about-page-container .absolute.left-1\/2 {
+    display: none;
+  }
+}

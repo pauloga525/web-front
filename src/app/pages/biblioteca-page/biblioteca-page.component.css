@@ -1,0 +1,64 @@
+/* Colores únicos para la Biblioteca UETS */
+:host {
+  --biblioteca-primary: #003366;
+  --biblioteca-secondary: #FDD835;
+  --biblioteca-primary-dark: #001f4d;
+  --biblioteca-primary-light: #004d99;
+}
+
+/* Hero Section */
+.biblioteca-hero {
+  position: relative;
+  background-color: var(--biblioteca-primary);
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAiMzP3dF-ywftRU0p51H-bYHbqJSZokQDNrvxFDN8ZW6dCuA3A0OPKUnmubtVtJLGrQTum75-xsTdLMOTIjvjZ6bSBBPQvtx7X4XYeQaNdltLoVowtrJdCgLYE3FjMn89_DFzDWOdGr0SJkN8w_XHZG7Yk2FhnqNFzo_SEspUn8PWEd_qqcA9Jm80txG23BXBTl5DigZ57hnONjJxje9YkU_VuDAz4S0SwM3pHFoBxpuvJfW_aZDWkLUvhMzIzVFUglV4_LAyWDvE');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+}
+
+.biblioteca-gradient {
+  background: linear-gradient(to right, rgba(0, 51, 102, 0.9), rgba(0, 51, 102, 0.7));
+}
+
+.biblioteca-text-secondary {
+  color: var(--biblioteca-secondary);
+}
+
+/* Accent Bar */
+.biblioteca-accent-bar {
+  background-color: var(--biblioteca-secondary);
+  display: block;
+}
+
+/* Badge */
+.biblioteca-badge-new {
+  background-color: var(--biblioteca-secondary);
+  color: var(--biblioteca-primary);
+}
+
+/* Focus Ring */
+.biblioteca-focus-ring {
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1), 0 0 0 3px rgba(253, 216, 53, 0.1) !important;
+}
+
+input:focus.biblioteca-focus-ring,
+select:focus.biblioteca-focus-ring {
+  border-color: var(--biblioteca-primary);
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
+/* Footer */
+/* Removed - using app-footer component instead */
+
+/* Border Utilities */
+/* Removed - not used */
+
+/* Pagination */
+/* Removed - using ngClass with tailwind classes instead */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .biblioteca-hero {
+    height: 300px;
+  }
+}

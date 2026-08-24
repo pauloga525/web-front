@@ -1,0 +1,137 @@
+/* Newspaper Layout Styles */
+.newspaper-cols {
+  column-count: 1;
+  column-gap: 2.5rem;
+  column-rule: 1px solid #e2e8f0;
+}
+
+@media (min-width: 1024px) {
+  .newspaper-cols {
+    column-count: 3;
+  }
+}
+
+.dark .newspaper-cols {
+  column-rule-color: #334155;
+}
+
+/* Drop Cap Styling */
+.drop-cap::first-letter {
+  float: left;
+  font-size: 5rem;
+  line-height: 0.8;
+  padding-right: 0.5rem;
+  padding-top: 0.2rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  color: #0B2C5F;
+}
+
+.dark .drop-cap::first-letter {
+  color: #0B2C5F;
+}
+
+/* Article Content Base Styles */
+.article-content p {
+  margin-bottom: 1rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.article-content h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #0B2C5F;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-top: 2px solid #e2e8f0;
+  padding-top: 1rem;
+}
+
+.dark .article-content h3 {
+  color: #0B2C5F;
+  border-top-color: #1e293b;
+}
+
+.article-content ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.article-content blockquote {
+  font-style: italic;
+  font-size: 1.5rem;
+  border-top: 2px solid rgba(11, 44, 95, 0.2);
+  border-bottom: 2px solid rgba(11, 44, 95, 0.2);
+  padding: 1.5rem 0;
+  margin: 2rem 0;
+  color: #0B2C5F;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  line-height: 1.6;
+  break-inside: avoid;
+}
+
+.dark .article-content blockquote {
+  color: #0B2C5F;
+  border-top-color: rgba(11, 44, 95, 0.2);
+  border-bottom-color: rgba(11, 44, 95, 0.2);
+}
+
+/* Figure and Figcaption */
+.article-content figure {
+  margin: 2rem 0;
+  break-inside: avoid;
+}
+
+.article-content figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  font-style: italic;
+  border-left: 2px solid #e2e8f0;
+  padding-left: 1rem;
+  padding-top: 0.25rem;
+}
+
+.dark .article-content figcaption {
+  color: #94a3b8;
+  border-left-color: #334155;
+}
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}

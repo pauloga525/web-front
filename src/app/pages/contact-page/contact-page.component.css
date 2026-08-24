@@ -1,0 +1,124 @@
+/* Contact Page Styles - Custom Theme Colors */
+/* These styles only apply within the contact-page-container */
+
+.contact-page-container {
+  --contact-primary: #1763cf;
+  --contact-bg-light: #f6f7f8;
+  --contact-bg-dark: #111821;
+}
+
+/* Override primary color only for this component */
+.contact-page-container .bg-primary {
+  background-color: #1763cf !important;
+}
+
+.contact-page-container .text-primary {
+  color: #1763cf !important;
+}
+
+.contact-page-container .border-primary {
+  border-color: #1763cf !important;
+}
+
+.contact-page-container .bg-primary\/10 {
+  background-color: rgba(23, 99, 207, 0.1) !important;
+}
+
+.contact-page-container .hover\:bg-primary:hover {
+  background-color: #1763cf !important;
+}
+
+.contact-page-container .hover\:bg-primary\/90:hover {
+  background-color: rgba(23, 99, 207, 0.9) !important;
+}
+
+.contact-page-container .focus\:border-primary:focus {
+  border-color: #1763cf !important;
+}
+
+.contact-page-container .focus\:ring-primary:focus {
+  --tw-ring-color: rgba(23, 99, 207, 1) !important;
+}
+
+.contact-page-container .focus\:ring-primary\/20:focus {
+  --tw-ring-color: rgba(23, 99, 207, 0.2) !important;
+}
+
+.contact-page-container main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  align-items: center;
+}
+
+.contact-page-container section {
+  position: relative;
+}
+
+/* Form styles */
+.contact-page-container input,
+.contact-page-container select,
+.contact-page-container textarea {
+  transition: all 0.3s ease;
+}
+
+.contact-page-container input:focus,
+.contact-page-container select:focus,
+.contact-page-container textarea:focus {
+  box-shadow: 0 0 0 3px rgba(23, 99, 207, 0.1);
+}
+
+/* Button hover effects */
+.contact-page-container button {
+  transition: all 0.3s ease;
+}
+
+.contact-page-container button:active {
+  transform: scale(0.98);
+}
+
+/* Card hover effects */
+.contact-page-container .shadow-sm:hover {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 
+              0 1px 3px 0 rgba(23, 99, 207, 0.1) !important;
+}
+
+/* Smooth transitions */
+.contact-page-container .transition-all,
+.contact-page-container .transition-colors,
+.contact-page-container .transition-shadow,
+.contact-page-container .transition-transform {
+  transition: all 0.3s ease;
+}
+
+/* Social media hover effects */
+.contact-page-container .group:hover {
+  transition: all 0.3s ease;
+}
+
+/* Select dropdown styling */
+.contact-page-container select {
+  appearance: none;
+  background-image: none;
+}
+
+.contact-page-container select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.contact-page-container select::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.contact-page-container select::-webkit-scrollbar-thumb {
+  background: #1763cf;
+  border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .contact-page-container {
+    --contact-primary: #1763cf;
+  }
+}

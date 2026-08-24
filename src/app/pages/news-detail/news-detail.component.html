@@ -1,0 +1,114 @@
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-paper dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-body transition-colors duration-200" *ngIf="news">
+  <!-- Masthead -->
+  <header class="border-b-4 border-double border-secondary dark:border-slate-800 mx-auto w-full max-w-7xl px-4 py-8 flex flex-col items-center">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="material-symbols-outlined text-4xl text-secondary dark:text-white">school</span>
+      <h1 class="font-display text-4xl md:text-6xl font-black uppercase tracking-tighter text-secondary dark:text-white">University Gazette</h1>
+    </div>
+    <div class="w-full flex justify-between items-center py-2 border-y border-slate-300 dark:border-slate-700 font-sans text-xs font-bold uppercase tracking-widest text-slate-600 dark:text-slate-400">
+      
+      <span class="hidden md:block">Technology &amp; Innovation Edition</span>
+      <span>Monday, October 16, 2023</span>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Lead Headline -->
+    <section class="mb-12">
+      <div class="flex flex-col items-center text-center max-w-5xl mx-auto">
+        <span class="inline-block px-2 py-0.5 mb-6 text-xs font-bold tracking-widest text-slate-900 dark:text-slate-900 bg-slate-200 uppercase"></span>
+        <h2 class="font-display text-5xl md:text-7xl lg:text-8xl font-black leading-none text-secondary dark:text-white mb-8">
+          {{ news.title }}
+        </h2>
+        <div class="w-full max-w-2xl border-t border-slate-300 dark:border-slate-700 pt-4 flex flex-col md:flex-row justify-center items-center gap-4 text-sm font-sans uppercase font-bold tracking-tight text-slate-500 dark:text-slate-400">
+          <span class="text-secondary dark:text-white">By {{ news.author }}</span>
+          <span class="hidden md:block text-slate-300">|</span>
+          <span>North Campus Bureau</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Main Story Area -->
+      <div class="lg:col-span-9">
+        <!-- Main Image -->
+        <figure class="mb-10">
+          <img [alt]="news.title" class="w-full h-auto grayscale-[30%] hover:grayscale-0 transition-all duration-700 border border-slate-200" [src]="news.featuredImage" />
+          <figcaption class="mt-3 text-sm text-slate-500 italic border-l-2 border-slate-300 pl-4 py-1">
+            {{ news.description || 'Futuristic visualization' }} (Photo: Gazette/Archive)
+          </figcaption>
+        </figure>
+
+        <!-- Multi-column Text -->
+        <div class="newspaper-cols article-content text-lg leading-relaxed text-slate-800 dark:text-slate-300">
+          <p class="drop-cap font-bold text-xl italic mb-6 leading-tight">
+            {{ news.description }}
+          </p>
+
+          <!-- Dynamic content from service -->
+          <div *ngFor="let paragraph of news.content.split('\n\n')">
+            <p *ngIf="paragraph.trim()">{{ paragraph }}</p>
+          </div>
+
+          <!-- Gallery Images -->
+          <figure class="my-8 break-inside-avoid" *ngFor="let image of news.images">
+            <img [alt]="image.alt" class="w-full h-auto border border-slate-200" [src]="image.url" />
+            <figcaption class="mt-2 text-xs text-slate-500 uppercase tracking-tighter">{{ image.alt }}</figcaption>
+          </figure>
+
+          <!-- Tags and Footer -->
+          <p class="mt-8 border-t border-slate-200 pt-4 italic text-sm text-slate-500" *ngIf="news.tags && news.tags.length > 0">
+            Reporting contributed by the Gazette Science Desk. Tags: <span *ngFor="let tag of news.tags; let last = last">{{ tag }}<span *ngIf="!last">, </span></span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Sidebar / Related Columns -->
+      <aside class="lg:col-span-3 border-l-0 lg:border-l border-slate-300 dark:border-slate-700 pl-0 lg:pl-8">
+        <h4 class="font-display text-xl font-black uppercase border-b-2 border-secondary dark:border-slate-700 pb-1 mb-6 text-secondary dark:text-white">More Headlines</h4>
+        <div class="space-y-8">
+          <article class="group" *ngFor="let relatedItem of relatedNews" [routerLink]="['/noticias', relatedItem._id]">
+            <span class="text-[10px] font-sans font-black uppercase text-slate-600 dark:text-slate-400 mb-1 block tracking-widest">{{ relatedItem.category }}</span>
+            <h5 class="font-display text-lg font-bold leading-tight group-hover:text-secondary dark:group-hover:text-white transition-colors cursor-pointer mb-2">{{ relatedItem.title }}</h5>
+            <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">{{ relatedItem.description }}</p>
+            <div class="border-b border-slate-200 dark:border-slate-800 pt-4"></div>
+          </article>
+
+          <!-- Ad Space placeholder -->
+          <div class="bg-slate-100 dark:bg-slate-900 p-6 text-center border border-dashed border-slate-400">
+            <span class="text-[10px] uppercase font-sans font-bold text-slate-400 block mb-2">Advertisement</span>
+            <p class="font-display font-bold text-secondary dark:text-white italic text-xl">The Alumni Association</p>
+            <p class="text-xs mt-2 text-slate-500">Connecting graduates since 1899.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-20 border-t-4 border-double border-secondary dark:border-slate-800 bg-paper dark:bg-slate-950 py-12">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+      <div class="text-center md:text-left">
+        <div class="flex items-center gap-2 text-secondary dark:text-white mb-2">
+          <span class="material-symbols-outlined font-black">school</span>
+          <span class="font-display font-black text-2xl uppercase tracking-tighter">University Gazette</span>
+        </div>
+        <p class="text-xs font-sans font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Est. 1899 • Excellence in Academic Journalism</p>
+      </div>
+      <div class="flex flex-col items-center md:items-end gap-2 text-slate-500 dark:text-slate-400 text-xs font-sans uppercase font-bold">
+        <div class="flex gap-6 mb-2">
+          <a class="hover:text-secondary dark:hover:text-white transition-colors" href="#">Submissions</a>
+          <a class="hover:text-secondary dark:hover:text-white transition-colors" routerLink="/noticias">Archives</a>
+          <a class="hover:text-secondary dark:hover:text-white transition-colors" href="#">Contact</a>
+          <a class="hover:text-secondary dark:hover:text-white transition-colors" href="#">Privacy</a>
+        </div>
+        <span>© 2023 University Press. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<app-footer></app-footer>

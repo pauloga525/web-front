@@ -1,0 +1,51 @@
+<div class="bg-white dark:bg-surface-dark rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
+  <div class="grid grid-cols-7 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+    <div class="py-3 text-center text-xs font-bold text-gray-400 uppercase tracking-wider">Dom</div>
+    <div class="py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Lun</div>
+    <div class="py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Mar</div>
+    <div class="py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Mié</div>
+    <div class="py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Jue</div>
+    <div class="py-3 text-center text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Vie</div>
+    <div class="py-3 text-center text-xs font-bold text-gray-400 uppercase tracking-wider">Sáb</div>
+  </div>
+  <div class="grid grid-cols-7 auto-rows-fr bg-white dark:bg-surface-dark">
+    @for (calendarDay of calendarDays; let i = $index; track i) {
+      <div 
+        [class]="'min-h-[100px] border-b border-r border-gray-100 dark:border-gray-700 p-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors relative group cursor-pointer ' + 
+        (!calendarDay.isCurrentMonth ? 'bg-gray-50/30 dark:bg-gray-800/20 text-gray-300' : '') +
+        (calendarDay.isSelected ? ' ring-2 ring-inset ring-secondary/20 bg-blue-50/50 dark:bg-blue-900/20' : '')"
+        (click)="selectDay(calendarDay.day!)"
+      >
+        <span [class]="'text-sm font-medium ' + (calendarDay.isSelected ? 'text-secondary dark:text-primary font-bold' : 'text-gray-700 dark:text-gray-300')">
+          {{ calendarDay.day }}
+        </span>
+        @if (calendarDay.events.length > 0) {
+          <div class="mt-2 flex flex-wrap gap-1">
+            @for (event of calendarDay.events; track event.id) {
+              <div [class]="'w-2 h-2 rounded-full ' + getCategoryColor(event.category)"></div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<div class="mt-6 flex flex-wrap gap-4 justify-center md:justify-start">
+  <div class="flex items-center gap-2">
+    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+    <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Académico</span>
+  </div>
+  <div class="flex items-center gap-2">
+    <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+    <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Cultural</span>
+  </div>
+  <div class="flex items-center gap-2">
+    <span class="w-3 h-3 rounded-full bg-green-500"></span>
+    <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Pastoral</span>
+  </div>
+  <div class="flex items-center gap-2">
+    <span class="w-3 h-3 rounded-full bg-red-500"></span>
+    <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Deportes</span>
+  </div>
+</div>

@@ -1,0 +1,149 @@
+<app-header></app-header>
+
+<app-breadcrumb></app-breadcrumb>
+
+<div class="w-full">
+  <!-- Hero Section with Achievement Image -->
+  <div class="relative h-[400px] md:h-[500px] overflow-hidden bg-slate-200 dark:bg-slate-800">
+    <img *ngIf="achievement" [src]="achievement.image" [alt]="achievement.title"
+      class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+    
+    <!-- Badge on Image -->
+    <div *ngIf="achievement" class="absolute bottom-8 left-8 flex items-end gap-4">
+      <div class="achievement-badge text-white" [ngClass]="achievement.badgeClass">
+        {{ achievement.badge }}
+      </div>
+      <div class="text-white">
+        <p class="text-sm text-gray-300">Fecha</p>
+        <p class="text-2xl font-bold">{{ achievement.date }}</p>
+      </div>
+    </div>
+  </div>
+
+  <main class="flex flex-1 flex-col">
+    <div class="flex flex-1 justify-center py-16 px-4 md:px-10">
+      <div class="layout-content-container max-w-[900px] w-full">
+        
+        <!-- Main Content -->
+        <article *ngIf="achievement" class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          
+          <!-- Content Column -->
+          <div class="lg:col-span-2 flex flex-col gap-8">
+            
+            <!-- Header -->
+            <div class="flex flex-col gap-4">
+              <div class="flex items-center gap-3">
+                <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-200 rounded-full text-sm font-semibold">
+                  {{ achievement.category }}
+                </span>
+              </div>
+              <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white leading-tight">
+                {{ achievement.title }}
+              </h1>
+              <p class="text-lg text-slate-600 dark:text-slate-400">
+                Logro destacado que refleja la excelencia de nuestra comunidad educativa
+              </p>
+            </div>
+
+            <!-- Main Description -->
+            <section>
+              <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Descripción</h2>
+              <p class="text-slate-700 dark:text-slate-300 leading-relaxed text-lg">
+                {{ achievement.description }}
+              </p>
+            </section>
+
+            <!-- Achievement Impact -->
+            <section>
+              <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Impacto y Significado</h2>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <p class="text-blue-600 dark:text-blue-300 font-semibold">Categoría</p>
+                  <p class="text-slate-900 dark:text-white text-lg font-bold">{{ achievement.category }}</p>
+                </div>
+                <div class="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
+                  <p class="text-amber-600 dark:text-amber-300 font-semibold">Año</p>
+                  <p class="text-slate-900 dark:text-white text-lg font-bold">{{ achievement.date.split(' ')[2] }}</p>
+                </div>
+              </div>
+              
+              <div class="mt-6 p-6 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                <h3 class="font-bold text-slate-900 dark:text-white mb-3">¿Por qué es importante?</h3>
+                <ul class="space-y-2 text-slate-700 dark:text-slate-300">
+                  <li class="flex items-start gap-3">
+                    <span class="material-icons text-blue-600 text-sm mt-1">check_circle</span>
+                    <span>Demuestra el compromiso de nuestros estudiantes con la excelencia</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="material-icons text-blue-600 text-sm mt-1">check_circle</span>
+                    <span>Posiciona a nuestra institución a nivel nacional e internacional</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="material-icons text-blue-600 text-sm mt-1">check_circle</span>
+                    <span>Inspira a futuras generaciones de estudiantes</span>
+                  </li>
+                </ul>
+              </div>
+            </section>
+          </div>
+
+          <!-- Sidebar -->
+          <aside class="lg:col-span-1">
+            
+            <!-- Share Section -->
+            <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700">
+              <h3 class="font-bold text-slate-900 dark:text-white mb-4">Compartir</h3>
+              <div class="flex gap-3">
+                <button class="flex-1 p-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg transition-colors flex items-center justify-center gap-2">
+                  <span class="material-icons text-sm">share</span>
+                  <span class="hidden sm:inline text-sm font-medium">Compartir</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Related Achievements -->
+            <div *ngIf="relatedAchievements.length > 0" class="mt-6">
+              <h3 class="font-bold text-slate-900 dark:text-white mb-4">Logros Relacionados</h3>
+              <div class="space-y-4">
+                <a *ngFor="let related of relatedAchievements" 
+                  [routerLink]="['/logro', related._id]"
+                  class="block p-4 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-blue-400 transition-all group">
+                  <div class="flex gap-3">
+                    <img [src]="related.image" [alt]="related.title"
+                      class="w-16 h-16 rounded object-cover group-hover:scale-105 transition-transform">
+                    <div class="flex-1 min-w-0">
+                      <p class="text-xs text-blue-600 dark:text-blue-400 font-semibold">{{ related.category }}</p>
+                      <h4 class="font-semibold text-slate-900 dark:text-white text-sm line-clamp-2 group-hover:text-blue-600">
+                        {{ related.title }}
+                      </h4>
+                      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">{{ related.date }}</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Info Box -->
+            <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+              <p class="text-sm text-blue-800 dark:text-blue-200">
+                <strong>Nota:</strong> Este logro es parte de nuestro compromiso continuo con la excelencia académica y el desarrollo integral de nuestros estudiantes.
+              </p>
+            </div>
+          </aside>
+        </article>
+
+        <!-- Loading State -->
+        <div *ngIf="!achievement" class="text-center py-16">
+          <span class="material-icons text-6xl text-slate-300 dark:text-slate-600 mb-4 block">info</span>
+          <p class="text-slate-600 dark:text-slate-400 text-lg">El logro no fue encontrado.</p>
+          <a routerLink="/estudiantes/logros" class="text-blue-600 hover:underline mt-4 inline-block">
+            Volver a logros
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,280 @@
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+<div class="w-full">
+  <div
+    class="flex flex-col relative min-h-[560px] justify-center items-center text-center p-8 bg-cover bg-center"
+    [style.backgroundImage]="'linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url(' + heroImage + ')'">
+    <div class="max-w-[800px] flex flex-col gap-6 z-10">
+      <h1 class="text-white text-5xl md:text-6xl font-black leading-tight drop-shadow-sm">
+        {{ config.heroTitulo }}
+      </h1>
+      <p class="text-white/90 text-lg md:text-xl font-normal leading-relaxed max-w-2xl mx-auto">
+        {{ config.heroDescripcion }}
+      </p>
+      <div class="flex gap-4 justify-center pt-4">
+        <a [href]="config.heroBoton1Url || '#'" class="hero-button flex items-center justify-center rounded-lg h-12 px-6 text-white text-base font-bold transition-all shadow-lg">
+          {{ config.heroBoton1Label }}
+        </a>
+        <a [href]="config.heroBoton2Url || '#'" class="flex items-center justify-center rounded-lg h-12 px-6 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-base font-bold hover:bg-white/20 transition-all">
+          {{ config.heroBoton2Label }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="flex flex-1 flex-col">
+    <div class="flex flex-1 justify-center py-10 px-4 md:px-10">
+      <div class="layout-content-container flex flex-col max-w-[1200px] flex-1 gap-16">
+
+        <section>
+          <h2 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight mb-8">{{ config.galeriaTitulo }}</h2>
+
+          @if (galleryItems.length > 0) {
+            <div class="relative overflow-hidden rounded-2xl bg-black" style="height: 520px;">
+
+              <!-- Slides -->
+              @for (item of galleryItems; track item.id) {
+                <div class="absolute inset-0 transition-opacity duration-500 cursor-pointer"
+                     [style.opacity]="galleryIndex === $index ? '1' : '0'"
+                     [style.z-index]="galleryIndex === $index ? '1' : '0'"
+                     (click)="openLightbox($index)">
+                  <img [src]="item.url" [alt]="item.alt || item.caption"
+                       class="w-full h-full object-cover" draggable="false" />
+                  @if (item.caption) {
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-6 py-6">
+                      <p class="text-white font-semibold text-sm drop-shadow">{{ item.caption }}</p>
+                    </div>
+                  }
+                </div>
+              }
+
+              @if (galleryItems.length > 1) {
+                <!-- Prev -->
+                <button (click)="prevGallery()"
+                        class="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center text-white transition backdrop-blur-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                  </svg>
+                </button>
+                <!-- Next -->
+                <button (click)="nextGallery()"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center text-white transition backdrop-blur-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </button>
+                <!-- Counter -->
+                <div class="absolute top-3 right-3 z-10 bg-black/50 text-white text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
+                  {{ galleryIndex + 1 }} / {{ galleryItems.length }}
+                </div>
+                <!-- Dots -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+                  @for (item of galleryItems; track item.id) {
+                    <button (click)="goToGallery($index)"
+                            class="rounded-full bg-white/50 hover:bg-white transition-all duration-300"
+                            [style.width]="galleryIndex === $index ? '24px' : '8px'"
+                            style="height: 8px;">
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-10 text-center text-slate-500 dark:text-slate-400">
+              Aun no hay imagenes configuradas.
+            </div>
+          }
+        </section>
+
+        <section>
+          <h2 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight mb-8">{{ config.clubesTitulo }}</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @for (club of clubs; track club.id) {
+              <div class="club-card bg-white dark:bg-slate-800 rounded-xl p-6 transition-all hover:shadow-lg group cursor-pointer">
+                <div class="club-icon h-12 w-12 rounded-lg flex items-center justify-center mb-4 group-hover:text-white transition-colors">
+                  <span class="material-icons text-xl">{{ club.icon }}</span>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">{{ club.title }}</h3>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">{{ club.description }}</p>
+                <span class="club-text text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
+                  Mas informacion <span class="material-icons text-sm">arrow_forward</span>
+                </span>
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="promotions-section rounded-2xl p-8 md:p-12 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 rounded-full -mr-32 -mt-32" style="background-color: rgba(255, 196, 0, 0.05);"></div>
+          <div class="relative z-10">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+              <div class="flex flex-col gap-2">
+                <span class="promotions-label text-sm font-bold tracking-[0.2em] uppercase">Hall de la Fama</span>
+                <h2 class="promotions-title text-4xl font-bold leading-tight">{{ config.promocionesTitulo }}</h2>
+              </div>
+              <p class="text-slate-300 max-w-md text-sm leading-relaxed">{{ config.promocionesDescripcion }}</p>
+            </div>
+
+            <div class="flex gap-6 overflow-x-auto pb-6 snap-x no-scrollbar">
+              @for (promotion of promotions; track promotion.id) {
+                <div class="min-w-[300px] md:min-w-[400px] snap-start group">
+                  <div class="relative aspect-[4/3] rounded-xl overflow-hidden mb-4 border border-white/10 ring-1 ring-white/5 bg-white/10">
+                    @if (promotion.cursos && promotion.cursos.length && promotion.cursos[0].image) {
+                      <img [alt]="promotion.classOf" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" [src]="promotion.cursos[0].image" />
+                    }
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute bottom-4 left-4 space-y-2">
+                      <span class="promo-badge text-xs font-black px-3 py-1 rounded shadow-sm">{{ promotion.classOf }}</span>
+                      @if (promotion.cursos && promotion.cursos.length) {
+                        @for (course of promotion.cursos; track course.id) { <span class="text-[11px] text-white/80 uppercase tracking-[0.12em]">{{ course.name }}</span> }
+                      }
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-center pt-4">
+                    <button (click)="navigateToPromotion(promotion)" class="promo-link text-sm font-bold flex items-center gap-2 transition-colors group/link">
+                      Ver
+                      <span class="material-icons text-sm group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="flex justify-center mt-8">
+              <a routerLink="/gallery" fragment="promociones-section" class="promo-link text-sm font-bold flex items-center gap-2 transition-colors group/link">
+                Ver Completo
+                <span class="material-icons text-sm group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="flex justify-between items-end mb-8">
+            <h2 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">{{ config.logrosTitulo }}</h2>
+            <a class="link-blue font-medium hover:underline flex items-center gap-1" [href]="config.logrosUrl || '/estudiantes/logros'">
+              Ver todos los logros <span class="material-icons text-sm">arrow_forward</span>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @for (achievement of achievements; track achievement.id) {
+              <article class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg transition-all group block">
+                <div class="h-48 w-full overflow-hidden relative bg-slate-100 dark:bg-slate-700">
+                  @if (achievement.image) {
+                    <img [alt]="achievement.title" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" [src]="achievement.image" />
+                  }
+                  @if (achievement.badge) {
+                    <div class="achievement-badge bg-primary text-white">
+                      {{ achievement.badge }}
+                    </div>
+                  }
+                </div>
+                <div class="p-6">
+                  <div class="text-slate-500 dark:text-slate-400 text-xs font-medium mb-2 uppercase tracking-wide">{{ achievement.date }}</div>
+                  <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{{ achievement.title }}</h3>
+                  <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">{{ achievement.description }}</p>
+                </div>
+              </article>
+            }
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ─── Lightbox galería ──────────────────────────────────────────────────── -->
+@if (lightboxOpen) {
+  <div class="fixed inset-0 z-[300] flex flex-col bg-black/95 backdrop-blur-sm"
+       (mouseup)="lbDragEnd()" (mouseleave)="lbDragEnd()" (mousemove)="lbDragMove($event)">
+
+    <!-- Header bar -->
+    <div class="flex items-center justify-between px-4 py-3 bg-black/60 border-b border-white/10 shrink-0">
+      <div class="flex items-center gap-2">
+        <!-- Zoom out -->
+        <button (click)="lbZoomOut()"
+                class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/>
+          </svg>
+        </button>
+        <span class="text-white/70 text-xs min-w-[42px] text-center">{{ (lightboxScale * 100) | number:'1.0-0' }}%</span>
+        <!-- Zoom in -->
+        <button (click)="lbZoomIn()"
+                class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+        </button>
+        <!-- Reset -->
+        <button (click)="lbResetZoom()"
+                class="ml-1 px-2 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 text-xs transition">
+          1:1
+        </button>
+      </div>
+      <span class="text-white/60 text-sm">{{ lightboxIndex + 1 }} / {{ galleryItems.length }}</span>
+      <!-- Close -->
+      <button (click)="closeLightbox()"
+              class="w-8 h-8 rounded-lg bg-white/10 hover:bg-red-500/70 text-white flex items-center justify-center transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Image area -->
+    <div class="flex-1 flex items-center justify-center relative overflow-hidden">
+
+      <!-- Prev -->
+      @if (galleryItems.length > 1) {
+        <button (click)="prevLightbox()"
+                class="absolute left-3 z-10 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <button (click)="nextLightbox()"
+                class="absolute right-3 z-10 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      }
+
+      <!-- Image -->
+      <img [src]="galleryItems[lightboxIndex]?.url"
+           [alt]="galleryItems[lightboxIndex]?.alt || galleryItems[lightboxIndex]?.caption"
+           [style.transform]="'translate(' + lightboxTX + 'px,' + lightboxTY + 'px) scale(' + lightboxScale + ')'"
+           [style.cursor]="lightboxScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default'"
+           class="max-w-full max-h-full object-contain select-none transition-transform duration-150"
+           draggable="false"
+           (wheel)="lbWheel($event)"
+           (mousedown)="lbDragStart($event)" />
+    </div>
+
+    <!-- Footer dots -->
+    @if (galleryItems.length > 1) {
+      <div class="flex justify-center gap-2 py-3 shrink-0">
+        @for (item of galleryItems; track item.id) {
+          <button (click)="lbGoTo($index)"
+                  class="rounded-full transition-all duration-300"
+                  [class.bg-white]="lightboxIndex === $index"
+                  [class.bg-white/30]="lightboxIndex !== $index"
+                  [style.width]="lightboxIndex === $index ? '24px' : '8px'"
+                  style="height: 8px;">
+          </button>
+        }
+      </div>
+    }
+  </div>
+}
+
+<app-footer></app-footer>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>

@@ -1,0 +1,47 @@
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6 sticky top-24">
+  <div class="border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
+    <span class="text-sm font-bold text-primary uppercase tracking-wider block mb-1">{{ getSelectedDayName() }}</span>
+    <h2 class="text-3xl font-black text-secondary dark:text-white">{{ selectedDay }} {{ getMonthName() }}</h2>
+  </div>
+
+  @if (getSelectedDayEvents().length > 0) {
+    <div class="space-y-6 mb-8">
+      @for (event of getSelectedDayEvents(); track event.id) {
+        <div [class]="'relative pl-6 border-l-4 ' + getCategoryBorder(event.category)">
+          <div class="absolute -left-[11px] top-0 w-4 h-4 rounded-full bg-white dark:bg-surface-dark border-2 ' + getCategoryBorder(event.category)"></div>
+          <div class="mb-1 text-xs font-bold text-gray-500 dark:text-gray-400">{{ event.time }}</div>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white leading-tight mb-1">{{ event.title }}</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">{{ event.location }}</p>
+          <span [class]="'inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-bold ' + getCategoryColor(event.category)">
+            {{ getCategoryLabel(event.category) }}
+          </span>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="text-center py-6">
+      <span class="material-icons text-gray-300 dark:text-gray-600 text-5xl block mb-2">event_busy</span>
+      <p class="text-gray-500 dark:text-gray-400 text-sm">No hay eventos en este día</p>
+    </div>
+  }
+
+  @if (getUpcomingEvents().length > 0) {
+    <div class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
+      <h4 class="text-sm font-bold text-secondary dark:text-white mb-3">Próximos Eventos Destacados</h4>
+      <ul class="space-y-3">
+        @for (event of getUpcomingEvents(); track event.id) {
+          <li class="flex items-start gap-3">
+            <div class="flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded p-1 w-10 min-w-[2.5rem]">
+              <span class="text-[10px] uppercase font-bold text-gray-500">{{ getMonthName(event.month) | slice:0:3 }}</span>
+              <span class="text-lg font-bold text-secondary dark:text-primary leading-none">{{ event.day }}</span>
+            </div>
+            <div>
+              <div class="text-sm font-semibold text-gray-800 dark:text-gray-200">{{ event.title }}</div>
+              <div class="text-xs text-gray-500">{{ event.location }}</div>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

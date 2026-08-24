@@ -1,0 +1,136 @@
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+<!-- 1. Hero Section -->
+<div class="hero-wrapper" [style.backgroundImage]="heroImagenFondo ? 'url(' + heroImagenFondo + ')' : ''">
+  <div class="hero-overlay"></div>
+  <div class="hero-container">
+    <div class="hero-box">
+      <div class="hero-content">
+        <span class="hero-badge">Académico</span>
+        <h1 class="hero-title">
+          {{ levelName }}
+          <span class="hero-title-accent"></span>
+        </h1>
+        <p class="hero-description">{{ levelDescription }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Overview Section -->
+<section class="overview-section">
+  <div class="overview-grid">
+    <div class="overview-text">
+      <h2 class="overview-title">{{ sectionTitle }}</h2>
+      <div class="overview-text-content">
+        <p>{{ sectionDescription }}</p>
+        <p>{{ sectionExtra }}</p>
+      </div>
+    </div>
+    <div class="facts-box">
+      <h3 class="facts-title">
+        <span class="material-icons">info</span>
+        Datos Clave
+      </h3>
+      <div class="facts-list">
+        @for (fact of keyFacts; track $index) {
+          <div class="fact-item">
+            <div class="fact-icon-box">
+              <span class="material-icons">{{ fact.icon }}</span>
+            </div>
+            <div class="fact-content">
+              <h4>{{ fact.title }}</h4>
+              <p>{{ fact.value }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Academic Pillars -->
+<app-academic-pillars></app-academic-pillars>
+
+<!-- 4. Curriculum Highlights -->
+<section class="curriculum-section">
+  <div class="curriculum-container">
+    <div class="curriculum-highlights">
+      <h2 class="curriculum-title">Malla Curricular</h2>
+      <p class="curriculum-description">
+        Nuestra malla curricular cumple con los estándares nacionales y los enriquece con programas internacionales y tecnológicos.
+      </p>
+      <div class="highlights-list">
+        @for (highlight of curriculumHighlights; track $index) {
+          <div class="highlight-item">
+            <div class="highlight-icon-box">
+              <span class="material-icons">{{ highlight.icon }}</span>
+            </div>
+            <div class="highlight-content">
+              <h4>{{ highlight.title }}</h4>
+              <p>{{ highlight.description }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+    <div class="subjects-box">
+      <h3 class="subjects-title">Asignaturas Troncales</h3>
+      <ul class="subjects-grid">
+        @for (subject of subjects; track $index) {
+          <li class="subject-item">
+            <span class="material-icons">check_circle</span>
+            {{ subject.name }}
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Faculty & Environment -->
+<section class="environment-section">
+  <div class="environment-container">
+    <div class="environment-card">
+      <div class="environment-grid">
+        @if (environmentImagen) {
+          <div class="environment-image" [style.backgroundImage]="'url(' + environmentImagen + ')'"></div>
+        }
+        <div class="environment-content" [class.full-width]="!environmentImagen">
+          <h2 class="environment-title">{{ environmentTitle }}</h2>
+          <p class="environment-description">{{ environmentDescription }}</p>
+          <div class="environment-tags">
+            <div class="environment-tag">
+              <span class="material-icons">toys</span>
+              Rincones Interactivos
+            </div>
+            <div class="environment-tag">
+              <span class="material-icons">park</span>
+              Espacios Verdes
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. CTA Section -->
+<section class="cta-section">
+  <div class="cta-box">
+    <div class="cta-background-pattern"></div>
+    <div class="cta-content">
+      <h2 class="cta-title">¿Interesado en {{ levelName }}?</h2>
+      <p class="cta-description">{{ ctaDescripcion }}</p>
+    </div>
+    <div class="cta-button-wrapper">
+      <button (click)="requestInfo()" class="cta-button">
+        Solicitar Información
+        <span class="material-icons">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>

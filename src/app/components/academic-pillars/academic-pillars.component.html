@@ -1,0 +1,19 @@
+<section class="bg-background-light dark:bg-slate-900 py-16">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mb-10 text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Pilares Académicos</h2>
+      <p class="mt-4 text-slate-600 dark:text-slate-400">Nuestra metodología se basa en tres ejes fundamentales</p>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      @for (pillar of pillars; track pillar.title) {
+        <div class="group flex flex-col items-center p-8 text-center rounded-xl bg-blue-600 text-white shadow-lg transition-transform hover:-translate-y-1">
+          <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
+            <span class="material-icons text-4xl">{{ pillar.icon }}</span>
+          </div>
+          <h3 class="mb-2 text-xl font-bold">{{ pillar.title }}</h3>
+          <p class="text-blue-100 text-sm leading-relaxed">{{ pillar.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

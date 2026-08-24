@@ -1,0 +1,154 @@
+<app-header></app-header>
+
+<div class="bg-white relative overflow-hidden border-b border-gray-100">
+  <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white"></div>
+  <div class="absolute inset-0 opacity-5 pattern-grid">
+    <svg height="100%" width="100%">
+      <defs>
+        <pattern height="40" id="grid" patternUnits="userSpaceOnUse" width="40">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0B2C5F" stroke-width="1"></path>
+        </pattern>
+      </defs>
+      <rect fill="url(#grid)" height="100%" width="100%"></rect>
+    </svg>
+  </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+    <div class="flex flex-col md:flex-row items-center justify-between">
+      <div class="mb-8 md:mb-0">
+        <div class="flex items-center space-x-2 text-secondary/80 text-sm mb-4">
+          <a class="hover:text-secondary font-medium" href="#">Servicios</a>
+          <span class="material-icons text-xs text-gray-400">chevron_right</span>
+          <span class="text-primary font-bold">Instructivos</span>
+        </div>
+        <h1 class="text-3xl md:text-5xl font-bold text-secondary mb-4 tracking-tight">Instructivos y Tutoriales</h1>
+        <p class="text-gray-600 max-w-2xl text-lg">
+          Encuentra guías paso a paso, manuales en PDF y videotutoriales para dominar todas nuestras plataformas institucionales.
+        </p>
+      </div>
+      <div class="w-full md:w-auto">
+        <div class="relative shadow-md rounded-lg">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <span class="material-icons text-secondary/50">search</span>
+          </span>
+          <input
+            [(ngModel)]="searchTerm"
+            (keyup.enter)="onSearch()"
+            class="w-full md:w-80 py-3 pl-10 pr-4 rounded-lg bg-white border border-gray-200 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+            placeholder="Buscar ayuda..."
+            type="text"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-50">
+  <div class="flex flex-col md:flex-row gap-8">
+    <!-- Sidebar de Categorías -->
+    <div class="w-full md:w-64 flex-shrink-0">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 sticky top-24">
+        <div class="p-4 border-b border-gray-100">
+          <h3 class="font-bold text-lg text-secondary">Categorías</h3>
+        </div>
+        <nav class="p-2 space-y-1">
+          <button
+            *ngFor="let category of categories"
+            (click)="selectCategory(category.name)"
+            [ngClass]="selectedCategory === category.name ? 'bg-blue-50 text-secondary border border-blue-200' : 'text-gray-600 hover:bg-gray-50 hover:text-secondary'"
+            class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-md transition-colors"
+          >
+            <div class="flex items-center">
+              <span class="material-icons mr-3" [ngClass]="selectedCategory === category.name ? 'text-secondary' : 'text-gray-400'">
+                {{ category.icon }}
+              </span>
+              {{ category.name }}
+            </div>
+            <span [ngClass]="selectedCategory === category.name ? 'bg-white border border-blue-200 text-secondary' : 'bg-gray-100 text-gray-500'" class="px-2 py-0.5 rounded-full text-xs font-bold">
+              {{ category.count }}
+            </span>
+          </button>
+        </nav>
+        <div class="p-4 mt-4 border-t border-gray-100 bg-gray-50 rounded-b-lg">
+          <div class="flex items-start space-x-3">
+            <div class="flex-shrink-0">
+              <span class="material-icons text-primary">support_agent</span>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-secondary">¿Necesitas ayuda extra?</h4>
+              <p class="text-xs text-gray-500 mt-1 mb-2">Nuestro equipo de soporte está listo para asistirte.</p>
+              <a class="text-xs font-bold text-secondary hover:underline" href="#">Contactar Soporte →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="flex-1">
+      <div class="mb-6 flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-secondary">Guías para {{ selectedCategory }}</h2>
+        <div class="flex items-center space-x-2 text-sm text-gray-500">
+          <span class="material-icons text-base">filter_list</span>
+          <span>Ordenar por: {{ sortBy }}</span>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          *ngFor="let instructivo of instructivos"
+          [ngClass]="instructivo.hoverColor"
+          class="bg-white rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-300 group flex flex-col"
+        >
+          <!-- Header con icono -->
+          <div [ngClass]="instructivo.colorClass" class="h-40 rounded-t-xl flex items-center justify-center relative overflow-hidden">
+            <span class="material-symbols-outlined text-6xl absolute -bottom-4 -right-4 transform rotate-12" [ngClass]="instructivo.type === 'pdf' ? 'text-yellow-200' : 'text-blue-200'">
+              {{ instructivo.icon }}
+            </span>
+            <div class="bg-white p-3 rounded-full shadow-sm z-10 border border-gray-100">
+              <span class="material-icons text-2xl" [ngClass]="getIconColor(instructivo.type)">
+                {{ instructivo.type === 'video' ? 'play_circle_filled' : 'picture_as_pdf' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Contenido -->
+          <div class="p-5 flex-grow">
+            <div class="flex items-center space-x-2 mb-2">
+              <span [ngClass]="getTagColor(instructivo.type)" class="px-2 py-1 text-xs rounded font-medium">
+                {{ getTagText(instructivo.type) }}
+              </span>
+              <span class="text-xs text-gray-500">{{ getDisplayDate(instructivo) }}</span>
+            </div>
+            <h3 [ngClass]="getHoverTextColor(instructivo.type)" class="font-bold text-lg text-gray-800 mb-2 transition-colors">
+              {{ instructivo.title }}
+            </h3>
+            <p class="text-sm text-gray-600 line-clamp-2">{{ instructivo.description }}</p>
+          </div>
+
+          <!-- Botón -->
+          <div class="px-5 pb-5 pt-0">
+            <button
+              [ngClass]="getButtonColor(instructivo.type)"
+              class="w-full flex items-center justify-center space-x-2 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              <span class="material-icons text-sm">
+                {{ instructivo.type === 'video' ? 'play_arrow' : 'download' }}
+              </span>
+              <span>{{ instructivo.buttonText }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 text-center">
+        <button class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-bold rounded-md text-secondary bg-white border-secondary/20 hover:bg-blue-50 hover:border-secondary transition-colors shadow-sm">
+          <span class="material-icons mr-2">add</span>
+          Ver más guías
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,21 @@
+<div class="video-modal-backdrop" 
+     [class.active]="isOpen"
+     (click)="onBackdropClick($event)">
+  <div class="video-modal-container">
+    <div class="video-modal-content">
+      <button class="video-modal-close" (click)="closeModal()" aria-label="Cerrar">
+        <span class="material-icons">close</span>
+      </button>
+      <div class="video-wrapper">
+        @if (isOpen) {
+          <iframe 
+            [src]="safeVideoUrl"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        }
+      </div>
+    </div>
+  </div>
+</div>

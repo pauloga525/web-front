@@ -1,0 +1,98 @@
+<app-header></app-header>
+
+<app-breadcrumb></app-breadcrumb>
+
+<div class="w-full">
+  <!-- Hero Section -->
+  <div class="flex flex-col relative min-h-[560px] justify-center items-center text-center p-8 bg-cover bg-center" 
+    style='background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBU_oIDmG2Q_vD7MvVvE4Vv8-0O-rV_V6T_V8B_V6F_V8C_V8D_V8E_V8F_V8G_V8H_V8I_V8J_V8K_V8L_V8M_V8N_V8O_V8P_V8Q_V8R_V8S_V8T_V8U_V8V_V8W_V8X_V8Y_V8Z_V80_V81_V82_V83_V84_V85_V86_V87_V88_V89_V90_V91_V92_V93_V94_V95_V96_V97_V98_V99_V100")'>
+    <div class="max-w-[800px] flex flex-col gap-6 z-10">
+      <h1 class="text-white text-5xl md:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-sm">
+        Logros Estudiantiles
+      </h1>
+      <p class="text-white/90 text-lg md:text-xl font-normal leading-relaxed max-w-2xl mx-auto">
+        Celebramos los logros extraordinarios de nuestros estudiantes en competencias académicas, deportes, y emprendimiento.
+      </p>
+    </div>
+  </div>
+
+  <main class="flex flex-1 flex-col">
+    <div class="flex flex-1 justify-center py-16 px-4 md:px-10">
+      <div class="layout-content-container flex flex-col max-w-[1200px] flex-1 gap-12">
+        
+        <!-- Filter Section -->
+        <section>
+          <h2 class="text-slate-900 dark:text-white text-2xl font-bold mb-6">Categorías</h2>
+          <div class="flex flex-wrap gap-3">
+            <button *ngFor="let category of categories"
+              (click)="selectCategory(category)"
+              [class.active]="selectedCategory === category"
+              class="px-6 py-2 rounded-full border-2 font-medium transition-all duration-300"
+              [ngClass]="selectedCategory === category 
+                ? 'bg-blue-600 border-blue-600 text-white' 
+                : 'border-slate-300 text-slate-700 dark:text-slate-300 dark:border-slate-600 hover:border-blue-600'">
+              {{ category }}
+            </button>
+          </div>
+        </section>
+
+        <!-- Achievements Grid -->
+        <section>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <a *ngFor="let achievement of filteredAchievements"
+              [routerLink]="['/logro', achievement._id]"
+              class="group rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 hover:border-blue-400 block">
+              
+              <!-- Achievement Image -->
+              <div class="relative h-48 overflow-hidden bg-slate-200 dark:bg-slate-800">
+                <img [src]="achievement.image" 
+                  [alt]="achievement.title"
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="achievement-badge" [ngClass]="achievement.badgeClass">
+                  {{ achievement.badge }}
+                </div>
+              </div>
+
+              <!-- Achievement Content -->
+              <div class="p-6 flex flex-col gap-4">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <p class="text-blue-600 font-semibold text-sm">{{ achievement.category }}</p>
+                    <h3 class="text-slate-900 dark:text-white text-lg font-bold mt-2">{{ achievement.title }}</h3>
+                  </div>
+                </div>
+
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{{ achievement.description }}</p>
+
+                <div class="flex items-center justify-between pt-2">
+                  <span class="text-slate-500 dark:text-slate-500 text-sm">{{ achievement.date }}</span>
+                  <span class="link-blue font-medium text-sm flex items-center gap-1">
+                    Detalles 
+                    <span class="material-icons text-sm">arrow_forward</span>
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Empty State -->
+          <div *ngIf="filteredAchievements.length === 0" class="text-center py-12">
+            <span class="material-icons text-6xl text-slate-300 dark:text-slate-600 mb-4 block">search</span>
+            <p class="text-slate-600 dark:text-slate-400 text-lg">No hay logros en esta categoría.</p>
+          </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg p-8 md:p-12 text-center text-white">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">¡Sé parte de nuestros logros!</h2>
+          <p class="text-lg mb-6 text-blue-100">Únete a una comunidad de estudiantes destacados y alcanza tus metas con nosotros.</p>
+          <button class="bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-50 transition-all">
+            Conoce nuestros programas
+          </button>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<app-footer></app-footer>

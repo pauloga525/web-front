@@ -1,0 +1,51 @@
+<section class="py-12 sm:py-16 md:py-20 bg-white dark:bg-background-dark">
+  <div class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row gap-8 md:gap-12 lg:gap-16 items-center">
+      @if (sectionImage) {
+        <!-- Image Section -->
+        <div class="lg:w-1/2 relative w-full">
+          <div class="rounded-2xl overflow-hidden shadow-2xl relative">
+            <img
+              alt="Interacción Docente Estudiante"
+              class="w-full h-64 sm:h-80 md:h-[400px] lg:h-[500px] object-cover"
+              [src]="sectionImage"
+            >
+          </div>
+          <div class="hidden md:block absolute -bottom-6 -left-6 w-32 h-32 bg-primary rounded-lg -z-10 opacity-20"></div>
+          <div class="hidden md:block absolute -top-6 -right-6 w-32 h-32 bg-secondary rounded-lg -z-10 opacity-10"></div>
+        </div>
+      }
+
+      <!-- Content Section -->
+      <div [class]="sectionImage ? 'lg:w-1/2' : 'w-full'">
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-secondary dark:text-white mb-2">{{ sectionTitle }}</h2>
+        <h3 class="text-lg sm:text-xl font-medium text-primary mb-6 sm:mb-8 italic">{{ sectionSubtitle }}</h3>
+        
+        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 leading-relaxed">
+          {{ sectionDescription }}
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10">
+          @for (feature of features; track $index) {
+            <div class="flex items-start gap-3">
+              <div class="mt-1 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <span class="material-icons text-secondary text-xs sm:text-sm">{{ feature.icon }}</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-secondary dark:text-white text-sm sm:text-base">{{ feature.title }}</h4>
+                <p class="text-xs sm:text-sm text-gray-500">{{ feature.description }}</p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <a 
+          class="inline-flex items-center justify-center px-6 sm:px-8 py-2 sm:py-3 bg-secondary text-white font-bold rounded-lg hover:bg-secondary/90 transition-colors shadow-lg shadow-secondary/20 text-sm sm:text-base" 
+          href="#"
+        >
+          Conocer más sobre nuestro modelo
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

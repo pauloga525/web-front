@@ -1,0 +1,138 @@
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+<div class="campus-page-wrapper">
+
+  <!-- Hero -->
+  <header class="campus-hero">
+    <div class="absolute inset-0">
+      @if (config.heroImagen) {
+        <img [alt]="config.heroTitulo" class="w-full h-full object-cover opacity-50" [src]="config.heroImagen" />
+      }
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <h1 class="hero-title">{{ config.heroTitulo }}</h1>
+      <p class="hero-subtitle">{{ config.heroSubtitulo }}</p>
+      <div class="hero-divider"></div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="campus-main">
+
+    @for (c of config.campus; track c.id; let idx = $index) {
+
+      <section class="campus-section" [id]="'campus-' + c.id">
+        <div class="campus-grid" [class.campus-grid-reverse]="idx % 2 !== 0">
+
+          <!-- Imágenes -->
+          <div class="campus-images">
+            <div class="image-main">
+              @if (c.imagenPrincipal) {
+                <img [alt]="c.nombre" class="w-full h-full object-cover" [src]="c.imagenPrincipal" />
+              } @else {
+                <div class="w-full h-full bg-slate-200 flex items-center justify-center">
+                  <span class="material-icons-outlined text-5xl text-slate-400">school</span>
+                </div>
+              }
+            </div>
+            <div class="images-grid">
+              <div class="image-small">
+                @if (c.imagenSecundaria1) {
+                  <img [alt]="c.nombre" class="w-full h-full object-cover" [src]="c.imagenSecundaria1" />
+                } @else {
+                  <div class="w-full h-full bg-slate-100"></div>
+                }
+              </div>
+              <div class="image-small">
+                @if (c.imagenSecundaria2) {
+                  <img [alt]="c.nombre" class="w-full h-full object-cover" [src]="c.imagenSecundaria2" />
+                } @else {
+                  <div class="w-full h-full bg-slate-100"></div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="campus-info">
+            <div class="campus-badge">{{ c.badge }}</div>
+            <h2 class="campus-title">{{ c.nombre }}</h2>
+            <p class="campus-description">{{ c.descripcion }}</p>
+
+            <div class="campus-features">
+              @for (f of c.caracteristicas; track f.id) {
+                <div class="feature">
+                  <span class="material-icons-outlined">{{ f.icon }}</span>
+                  <span>{{ f.label }}</span>
+                </div>
+              }
+            </div>
+
+            <div class="location-card">
+              <div class="location-info">
+                <span class="material-icons-outlined">location_on</span>
+                <div>
+                  <h4>Ubicación</h4>
+                  <p>{{ c.ubicacion }}</p>
+                </div>
+              </div>
+              <div class="location-map">
+                @if (c.mapaImagen) {
+                  <img [alt]="'Mapa ' + c.nombre" [src]="c.mapaImagen" />
+                } @else {
+                  <div class="w-full h-full bg-slate-200 flex items-center justify-center min-h-[80px]">
+                    <span class="material-icons-outlined text-slate-400">map</span>
+                  </div>
+                }
+                <div class="map-overlay">
+                  <span class="map-btn" (click)="openMap(c.mapaUrl)" style="cursor: pointer;">
+                    <span class="material-icons-outlined">map</span> Ver Mapa
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      @if (idx < config.campus.length - 1) {
+        <div class="campus-section-divider">
+          <div class="divider-line divider-line-left"></div>
+          <div class="divider-badge badge-principal">
+            <span class="material-icons-outlined">location_city</span>
+          </div>
+          <div class="divider-line divider-line-right"></div>
+        </div>
+      }
+
+    } @empty {
+      <div class="py-20 text-center text-slate-500">
+        <span class="material-icons-outlined text-5xl block mb-4">school</span>
+        <p>No hay campus configurados aún.</p>
+      </div>
+    }
+
+    <!-- Plataformas -->
+    @if (plataformas.length > 0) {
+      <section class="py-16 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 class="text-2xl font-bold text-secondary mb-4">{{ config.plataformasTitulo }}</h2>
+          <p class="text-gray-600 mb-8">{{ config.plataformasDescripcion }}</p>
+          <div class="flex flex-wrap justify-center gap-8 md:gap-12">
+            @for (p of plataformas; track p.id) {
+              <a [href]="p.url || '#'" target="_blank" rel="noopener" class="hover:opacity-80 transition-opacity">
+                <img [src]="p.image" [alt]="p.name" class="h-16 md:h-20 w-auto object-contain" appSuppressImageWarning />
+              </a>
+            }
+          </div>
+        </div>
+      </section>
+    }
+
+  </main>
+</div>
+
+<app-footer></app-footer>

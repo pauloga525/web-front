@@ -1,0 +1,147 @@
+<header class="bg-surface-light dark:bg-surface-dark border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow-sm hover:shadow-md transition-shadow duration-500">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-24 gap-4">
+      <!-- Logo -->
+      <a routerLink="/" class="flex items-center flex-shrink-0 min-w-fit hover:scale-105 transition-transform duration-300 ease-in-out">
+        @if (logoUrl) {
+          <img
+            [src]="logoUrl"
+            [alt]="config.logoAlt || 'Logo Unidad Educativa Ecuador'"
+            appSuppressImageWarning
+            class="h-20 w-auto object-contain"
+          />
+        }
+      </a>
+
+      <!-- Navigation -->
+      <nav class="hidden lg:flex flex-1 justify-center space-x-6 text-sm font-medium text-gray-600 dark:text-gray-300">
+        @for (item of navItems; track item.label; let i = $index) {
+          @if (item.hasDropdown) {
+            <!-- Dropdown Menu Item -->
+            <div 
+              class="relative"
+              (mouseenter)="openDropdownByIndex(i)"
+              (mouseleave)="closeDropdownByIndex(i)"
+            >
+              <button 
+                [class]="isActive(item.routerLink) 
+                  ? 'text-secondary dark:text-primary font-bold border-b-2 border-secondary dark:border-primary pb-1 transition-all duration-300 flex items-center justify-center gap-1 cursor-pointer h-full scale-105' 
+                  : 'hover:text-secondary dark:hover:text-primary hover:scale-105 transition-all duration-300 flex items-center justify-center gap-1 cursor-pointer h-full'"
+              >
+                {{ item.label }}
+                <span class="material-icons text-sm transition-transform duration-300" [class.rotate-180]="isDropdownOpen(i)">
+                  expand_more
+                </span>
+              </button>
+
+              <!-- Dropdown Content -->
+              @if (isDropdownOpen(i)) {
+                <div class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 z-50 animate-in fade-in slide-in-from-top-2">
+                  @for (submenuItem of item.submenu; track submenuItem.label) {
+                    <a 
+                      [routerLink]="submenuItem.routerLink"
+                      (click)="closeDropdown()"
+                      class="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-secondary dark:hover:text-primary hover:translate-x-1 transition-all duration-200 first:rounded-t-lg last:rounded-b-lg text-gray-600 dark:text-gray-300"
+                    >
+                      {{ submenuItem.label }}
+                    </a>
+                  }
+                </div>
+              }
+            </div>
+          } @else {
+            <!-- Regular Menu Item -->
+            <a 
+              [class]="isActive(item.routerLink) 
+                ? 'text-secondary dark:text-primary font-bold border-b-2 border-secondary dark:border-primary pb-1 transition-all duration-300 flex items-center gap-1 cursor-pointer scale-105' 
+                : 'hover:text-secondary dark:hover:text-primary hover:scale-105 transition-all duration-300 flex items-center gap-1 cursor-pointer'"
+              [routerLink]="item.routerLink"
+            >
+              {{ item.label }}
+            </a>
+          }
+        }
+      </nav>
+
+      <!-- Virtual Classroom -->
+      <div class="hidden lg:flex items-center space-x-4 animate-in fade-in slide-in-from-right-4 duration-700">
+        <a 
+          class="bg-secondary hover:bg-secondary/80 text-white px-6 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-110 whitespace-nowrap" 
+          [href]="config.aulaVirtualUrl || 'https://edu.esemtia.com/LoginEsemtia.aspx'"
+          target="_blank"
+        >
+          <span class="material-icons text-base animate-bounce" style="--animation-duration: 1s">computer</span>
+          {{ config.aulaVirtualLabel || 'Aula Virtual' }}
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button 
+        (click)="toggleMobileMenu()"
+        class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-110 transition-all duration-300"
+      >
+        <span class="material-icons text-gray-600 dark:text-gray-300 transition-transform duration-300" [class.rotate-90]="isMobileMenuOpen">
+          {{ isMobileMenuOpen ? 'close' : 'menu' }}
+        </span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    @if (isMobileMenuOpen) {
+      <nav class="lg:hidden border-t border-gray-200 dark:border-gray-700 py-4 space-y-2 animate-in fade-in slide-in-from-top-4 duration-300">
+        @for (item of navItems; track item.label; let i = $index) {
+          @if (item.hasDropdown) {
+            <!-- Mobile Dropdown Item -->
+            <div>
+              <button 
+                (click)="toggleMobileDropdown(i)"
+                class="w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-secondary dark:hover:text-primary hover:translate-x-1 transition-all duration-200 flex items-center justify-between text-gray-600 dark:text-gray-300 text-sm font-medium"
+              >
+                {{ item.label }}
+                <span class="material-icons text-sm transition-transform duration-300" [class.rotate-180]="isMobileDropdownOpen(i)">
+                  expand_more
+                </span>
+              </button>
+
+              <!-- Mobile Dropdown Content -->
+              @if (isMobileDropdownOpen(i)) {
+                <div class="bg-gray-50 dark:bg-gray-800 border-l-2 border-secondary dark:border-primary ml-4 mt-1 animate-in fade-in slide-in-from-left-4 duration-200">
+                  @for (submenuItem of item.submenu; track submenuItem.label) {
+                    <a 
+                      [routerLink]="submenuItem.routerLink"
+                      (click)="closeMobileMenu()"
+                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-secondary dark:hover:text-primary hover:translate-x-1 transition-all duration-200 text-gray-600 dark:text-gray-300 text-sm"
+                    >
+                      {{ submenuItem.label }}
+                    </a>
+                  }
+                </div>
+              }
+            </div>
+          } @else {
+            <!-- Mobile Regular Item -->
+            <a 
+              [routerLink]="item.routerLink"
+              (click)="closeMobileMenu()"
+              class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-secondary dark:hover:text-primary hover:translate-x-1 transition-all duration-200 text-gray-600 dark:text-gray-300 text-sm font-medium"
+            >
+              {{ item.label }}
+            </a>
+          }
+        }
+
+        <!-- Mobile Aula Virtual Button -->
+        <div class="px-4 py-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <a 
+            [href]="config.aulaVirtualUrl || 'https://edu.esemtia.com/LoginEsemtia.aspx'"
+            target="_blank"
+            class="bg-secondary hover:bg-secondary/80 text-white px-6 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 w-full transform hover:-translate-y-1 hover:scale-105"
+          >
+            <span class="material-icons text-base animate-bounce" style="--animation-duration: 1s">computer</span>
+            {{ config.aulaVirtualLabel || 'Aula Virtual' }}
+          </a>
+        </div>
+      </nav>
+    }
+  </div>
+</header>

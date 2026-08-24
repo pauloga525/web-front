@@ -1,0 +1,61 @@
+.layout-content-container {
+  width: 100%;
+}
+
+.link-blue {
+  color: rgb(59, 130, 246);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link-blue:hover {
+  text-decoration: underline;
+}
+
+/* Achievement Badge Styles */
+.achievement-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.badge-gold {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.badge-blue {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Smooth transition for filter buttons */
+button {
+  cursor: pointer;
+}
+
+/* Achievement card hover effect */
+:host ::ng-deep {
+  .group {
+    transition: all 0.3s ease;
+  }
+
+  .group:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* Responsive grid */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+

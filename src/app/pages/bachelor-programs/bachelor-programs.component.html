@@ -1,0 +1,113 @@
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+<!-- Hero Section -->
+<div class="hero-wrapper" [style.backgroundImage]="heroImagenFondo ? 'url(' + heroImagenFondo + ')' : ''">
+  <div class="hero-overlay"></div>
+  <div class="hero-container">
+    <div class="hero-box">
+      <div class="hero-content">
+        <span class="hero-badge">Académico</span>
+        <h1 class="hero-title">
+          {{ heroTitulo }}
+          <span class="hero-title-accent"></span>
+        </h1>
+        <p class="hero-description">{{ heroDescripcion }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filters Section -->
+<div class="filters-section">
+  <div class="filters-container">
+    <div class="filters-wrapper">
+      <div class="filters-controls">
+        <div class="filter-label">
+          <span class="material-icons">filter_list</span>
+          <span class="filter-label-text">Filtros</span>
+        </div>
+        <select [(ngModel)]="currentFilters.faculty" (change)="onFilterChange()" class="filter-select">
+          <option value="">Todas las Facultades</option>
+          <option value="Business">Negocios</option>
+          <option value="Tech">Tecnología</option>
+          <option value="Arts">Artes</option>
+          <option value="Health">Salud</option>
+          <option value="Engineering">Ingeniería</option>
+        </select>
+        <select [(ngModel)]="currentFilters.modality" (change)="onFilterChange()" class="filter-select">
+          <option value="">Cualquier Modalidad</option>
+          <option value="Presencial">Presencial</option>
+          <option value="Online">En línea</option>
+          <option value="Hybrid">Híbrida</option>
+        </select>
+        <select [(ngModel)]="currentFilters.duration" (change)="onFilterChange()" class="filter-select">
+          <option value="">Cualquier Duración</option>
+          <option value="2">Cursos Cortos</option>
+          <option value="4">Pregrado (4-5 Años)</option>
+          <option value="6">Postgrado (1-2 Años)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Programs Section -->
+<section class="programs-section">
+  <div class="programs-container">
+    <div class="programs-header">
+      <h2 class="programs-title">Conoce Nuestra Oferta Académica</h2>
+    </div>
+
+    @if (!filteredPrograms.length) {
+      <p class="programs-empty">No hay especialidades publicadas aún.</p>
+    }
+
+    <div class="programs-grid">
+      @for (program of filteredPrograms; track program.id) {
+        <div class="program-card">
+          <div class="program-card-image" (click)="navigateToCareer(program)">
+            @if (program.image) {
+              <img [src]="program.image" [alt]="program.title" class="card-image" />
+            } @else {
+              <div class="card-image-placeholder">
+                <span class="material-icons">school</span>
+              </div>
+            }
+          </div>
+          <div class="program-card-content">
+            <h3 class="program-card-title">{{ program.title }}</h3>
+            <p class="program-card-description">{{ program.description }}</p>
+            <div class="program-card-meta">
+              <div class="program-meta-items">
+                <div class="meta-item">
+                  <span class="material-icons">schedule</span>
+                  <span>{{ program.duration }}</span>
+                </div>
+              </div>
+              <button (click)="navigateToCareer(program)" class="program-button">
+                <span>Ver Carrera</span>
+                <span class="material-icons">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="cta-container">
+    <h2 class="cta-title">{{ ctaTitulo }}</h2>
+    <p class="cta-description">{{ ctaDescripcion }}</p>
+    <div class="cta-buttons">
+      <a [href]="ctaUrlDescarga" class="cta-button cta-button-primary">
+        Inicia tu Proceso de Admisión
+      </a>
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>

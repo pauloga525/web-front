@@ -1,0 +1,141 @@
+/* Estilos locales completamente aislados */
+
+/* Colores locales */
+:host {
+  --local-blue: #0B2C5F;
+  --local-gold: #FFC400;
+}
+
+/* Reset de estilos globales */
+* {
+  --legacy-blue: initial;
+  --legacy-gold: initial;
+  --primary: initial;
+}
+
+/* Hero button */
+.hero-button {
+  background-color: #0B2C5F !important;
+  color: white !important;
+}
+
+.hero-button:hover {
+  background-color: #092147 !important;
+}
+
+/* Links azules */
+.link-blue {
+  color: #0B2C5F !important;
+}
+
+.link-blue:hover {
+  color: #092147 !important;
+}
+
+/* Club cards */
+.club-card {
+  background-color: white !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 0.75rem;
+}
+
+.club-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.club-icon {
+  background-color: rgba(11, 44, 95, 0.1) !important;
+  color: #0B2C5F !important;
+  border-radius: 0.5rem;
+}
+
+.club-card:hover .club-icon {
+  background-color: #0B2C5F !important;
+  color: white !important;
+}
+
+.club-text {
+  color: #0B2C5F !important;
+}
+
+/* Promotions section */
+.promotions-section {
+  background-color: #0B2C5F !important;
+  border-bottom: 4px solid #FFC400 !important;
+  border-radius: 1rem;
+}
+
+.promotions-label {
+  color: #FFC400 !important;
+}
+
+.promotions-title {
+  color: white !important;
+}
+
+.promo-badge {
+  background-color: #FFC400 !important;
+  color: #0B2C5F !important;
+}
+
+.promo-link {
+  color: #FFC400 !important;
+}
+
+.promo-link:hover {
+  color: white !important;
+}
+
+/* Achievement badges */
+.achievement-badge {
+  position: absolute !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  display: inline-block !important;
+  border-radius: 9999px;
+  padding: 2px 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10 !important;
+}
+
+.badge-gold {
+  background-color: #FFC400 !important;
+  color: #0B2C5F !important;
+}
+
+.badge-blue {
+  background-color: #0B2C5F !important;
+  color: white !important;
+}
+
+/* Achievement cards links */
+.achievement-link {
+  color: #0B2C5F !important;
+}
+
+.achievement-link:hover {
+  color: #092147 !important;
+}
+
+/* No scrollbar */
+.no-scrollbar::-webkit-scrollbar { 
+  display: none; 
+}
+
+.no-scrollbar { 
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+}
+
+/* Dark mode adjustments */
+:host-context(.dark) .club-card {
+  background-color: #1E293B !important;
+  border-color: #334155 !important;
+}
+
+
+
+
+

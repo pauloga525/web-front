@@ -1,0 +1,121 @@
+.student-gallery-container {
+  --primary-color: #003366;
+  --secondary-color: #D4AF37;
+}
+
+.student-gallery-container {
+  color: var(--primary-color);
+}
+
+.student-gallery-container h1,
+.student-gallery-container h2,
+.student-gallery-container h3 {
+  color: var(--primary-color) !important;
+}
+
+.student-gallery-container .text-primary {
+  color: var(--primary-color) !important;
+}
+
+.student-gallery-container button[style*="background-color: #003366"] {
+  background-color: var(--primary-color) !important;
+}
+
+.student-gallery-container button:not(.whitespace-nowrap) {
+  background-color: #D4AF37 !important;
+  color: #003366 !important;
+}
+
+.student-gallery-container button:not(.whitespace-nowrap):hover {
+  background-color: #c19b1a !important;
+}
+
+.student-gallery-container .photo-card {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
+.student-gallery-container .overlay {
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.student-gallery-container .photo-card:hover .overlay {
+  opacity: 1;
+}
+
+.student-gallery-container .no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.student-gallery-container .no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.student-gallery-container ::placeholder {
+  color: #9CA3AF;
+}
+
+.student-gallery-container .muted-light {
+  color: #6B7280 !important;
+}
+
+.student-gallery-container .dark .muted-dark {
+  color: #9CA3AF !important;
+}
+
+/* Estilos para el modal de visualización tipo Amazon */
+:host ::ng-deep .photo-viewer-modal {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Estilos para las miniaturas en el modal */
+:host ::ng-deep .thumbnail-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #D4AF37 #f3f4f6;
+}
+
+:host ::ng-deep .thumbnail-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+:host ::ng-deep .thumbnail-scroll::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 10px;
+}
+
+:host ::ng-deep .thumbnail-scroll::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 10px;
+}
+
+:host ::ng-deep .thumbnail-scroll::-webkit-scrollbar-thumb:hover {
+  background: #c19b1a;
+}
+
+/* Estilos responsivos para el modal */
+@media (max-width: 768px) {
+  :host ::ng-deep .photo-viewer-modal .viewer-image-section {
+    min-height: 50vh;
+  }
+  
+  :host ::ng-deep .photo-viewer-modal .viewer-info-section {
+    min-height: auto;
+    max-height: 50vh;
+  }
+}
+
+/* Animación de zoom */
+:host ::ng-deep .photo-zoom-image {
+  transition: transform 0.2s ease-in-out;
+  transform-origin: center center;
+}

@@ -1,0 +1,65 @@
+import { Routes } from '@angular/router';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { AboutPageComponent } from './pages/about-page/about-page.component';
+import { AdmissionsPageComponent } from './pages/admissions-page/admissions-page.component';
+import { ContactPageComponent } from './pages/contact-page/contact-page.component';
+import { EventsPageComponent } from './pages/events-page/events-page.component';
+import { EventDetailComponent } from './pages/event-detail/event-detail.component';
+import { CalendarPageComponent } from './pages/calendar-page/calendar-page.component';
+import { AcademicProgramComponent } from './pages/academic-program/academic-program.component';
+import { BachelorProgramsComponent } from './pages/bachelor-programs/bachelor-programs.component';
+import { BasicaMediaPageComponent } from './pages/basica-media-page/basica-media-page.component';
+import { PreparatoriaPageComponent } from './pages/preparatoria-page/preparatoria-page.component';
+import { BasicaElementalPageComponent } from './pages/basica-elemental-page/basica-elemental-page.component';
+import { BasicaSuperiorPageComponent } from './pages/basica-superior-page/basica-superior-page.component';
+import { StudentPromotionsPageComponent } from './pages/student-promotions-page/student-promotions-page.component';
+import { SpecialtyDetailComponent } from './pages/specialty-detail/specialty-detail.component';
+import { StudentGalleryPageComponent } from './pages/student-gallery-page/student-gallery-page.component';
+import { StudentAchievementsPageComponent } from './pages/student-achievements-page/student-achievements-page.component';
+import { AchievementDetailComponent } from './pages/achievement-detail/achievement-detail.component';
+import { NewsPageComponent } from './pages/news-page/news-page.component';
+import { NewsDetailComponent } from './pages/news-detail/news-detail.component';
+import { NewsAdminComponent } from './pages/news-admin/news-admin.component';
+import { AuthorityDetailComponent } from './pages/authority-detail/authority-detail.component';
+import { CampusLifePageComponent } from './pages/campus-life-page/campus-life-page.component';
+import { StudentCouncilPageComponent } from './pages/student-council-page/student-council-page.component';
+import { BibliotecaPageComponent } from './pages/biblioteca-page/biblioteca-page.component';
+import { RepositoryPageComponent } from './pages/repository-page/repository-page.component';
+import { InstructivosPageComponent } from './pages/instructivos-page/instructivos-page.component';
+import { UniformsPageComponent } from './pages/uniforms-page/uniforms-page.component';
+
+export const routes: Routes = [
+  { path: '', component: HomePageComponent },
+  { path: 'about', component: AboutPageComponent },
+  { path: 'admissions', component: AdmissionsPageComponent },
+  { path: 'contact', component: ContactPageComponent },
+  { path: 'events', component: EventsPageComponent },
+  { path: 'events/:id', component: EventDetailComponent },
+  { path: 'calendar', component: CalendarPageComponent },
+  { path: 'logro/:id', component: AchievementDetailComponent },
+  { path: 'estudiantes/logros', component: StudentAchievementsPageComponent },
+  { path: 'estudiantes/alumnos', component: StudentPromotionsPageComponent },
+  { path: 'estudiantes/uniformes', component: UniformsPageComponent },
+  { path: 'gallery', component: StudentGalleryPageComponent },
+  { path: 'gallery/:year', component: StudentGalleryPageComponent },
+  { path: 'noticias', component: NewsPageComponent },
+  { path: 'noticias/:id', component: NewsDetailComponent },
+  { path: 'admin/noticias', component: NewsAdminComponent },
+  { path: 'authority/:id', component: AuthorityDetailComponent },
+  { path: 'vida-estudiantil', component: CampusLifePageComponent },
+  { path: 'consejo-estudiantil', component: StudentCouncilPageComponent },
+  { path: 'servicios/biblioteca', component: BibliotecaPageComponent },
+  { path: 'servicios/instructivos', component: InstructivosPageComponent },
+  { path: 'servicios/repositorio', component: RepositoryPageComponent },
+  { path: 'programa/preparatoria', component: PreparatoriaPageComponent },
+  { path: 'programa/basica-elemental', component: BasicaElementalPageComponent },
+  { path: 'programa/basica-superior', component: BasicaSuperiorPageComponent },
+  { path: 'programa/basica-media', component: BasicaMediaPageComponent },
+  { path: 'programa/bachillerato', component: BachelorProgramsComponent },
+  { path: 'programa/especialidad/:slug', component: SpecialtyDetailComponent },
+  { path: 'programa/:level', component: AcademicProgramComponent },
+  { path: '**', redirectTo: '' }
+];
+
+
+

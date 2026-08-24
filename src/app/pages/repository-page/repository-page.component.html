@@ -1,0 +1,255 @@
+<!-- Top Navbar & Breadcrumb -->
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+<!-- Main Content -->
+<div class="repository-page-container">
+  <main class="flex-grow">
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="hero-pattern-overlay"></div>
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="material-symbols-outlined badge-icon">school</span>
+            <span class="badge-text">Archivo Institucional</span>
+          </div>
+          <h1 class="hero-title">Repositorio Digital</h1>
+          <p class="hero-subtitle">
+            Preservando y difundiendo la producción intelectual, científica y académica de nuestra comunidad universitaria. Acceso abierto al conocimiento.
+          </p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="stat-number">1,240+</div>
+            <div class="stat-label">Documentos Digitalizados</div>
+            <div class="stat-divider"></div>
+            <div class="stat-number">850+</div>
+            <div class="stat-label">Tesis de Grado</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search & Filter Section -->
+    <div class="search-section">
+      <div class="search-container-wrapper">
+        <div class="search-box">
+          <div class="search-input-wrapper">
+            <span class="material-symbols-outlined search-icon">search</span>
+            <input 
+              type="text" 
+              class="search-input"
+              [(ngModel)]="searchQuery"
+              placeholder="Buscar por título, autor, palabra clave o DOI...">
+            <button class="search-button" (click)="onSearch()">Buscar</button>
+          </div>
+          
+          <div class="filter-controls">
+            <span class="filter-label">Filtrar por:</span>
+            <select class="filter-select" [(ngModel)]="selectedFaculty">
+              <option value="">Todas las Facultades</option>
+              <option value="salud">Ciencias de la Salud</option>
+              <option value="ingenieria">Ingeniería</option>
+              <option value="sociales">Ciencias Sociales</option>
+              <option value="artes">Artes y Humanidades</option>
+            </select>
+            <select class="filter-select" [(ngModel)]="selectedYear">
+              <option value="">Año de Publicación</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+              <option value="anterior">Anterior</option>
+            </select>
+            <select class="filter-select" [(ngModel)]="selectedDocType">
+              <option value="">Tipo de Documento</option>
+              <option value="tesis">Tesis</option>
+              <option value="articulo">Artículo</option>
+              <option value="libro">Libro</option>
+              <option value="informe">Informe Técnico</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="main-grid-section">
+      <div class="main-grid">
+        <!-- Left Column - Collections & Publications -->
+        <div class="left-column">
+          <!-- Collections -->
+          <section class="collections-section">
+            <h2 class="section-title">
+              <span class="material-symbols-outlined">library_books</span>
+              Colecciones
+            </h2>
+            <div class="collections-grid">
+              <div *ngFor="let collection of collections" class="collection-card">
+                <div class="collection-header">
+                  <div class="collection-icon" [attr.data-icon]="collection.icon">
+                    <span class="material-symbols-outlined">{{ collection.icon }}</span>
+                  </div>
+                  <span class="collection-badge">{{ collection.count }} items</span>
+                </div>
+                <h3 class="collection-title">{{ collection.title }}</h3>
+                <p class="collection-description">{{ collection.description }}</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Recent Publications -->
+          <section class="publications-section">
+            <div class="publications-header">
+              <h2 class="section-title">
+                <span class="material-symbols-outlined">schedule</span>
+                Últimas Publicaciones
+              </h2>
+              <a href="#" class="view-all-link">Ver todo</a>
+            </div>
+            <div class="publications-list">
+              <div *ngFor="let pub of recentPublications" class="publication-item">
+                <div class="publication-icon">
+                  <span class="material-symbols-outlined">description</span>
+                </div>
+                <div class="publication-content">
+                  <p class="publication-type">{{ pub.type }}</p>
+                  <h4 class="publication-title">{{ pub.title }}</h4>
+                  <p class="publication-meta">
+                    <span class="meta-item">
+                      <span class="material-symbols-outlined">person</span>
+                      {{ pub.authors }}
+                    </span>
+                    <span class="meta-divider">•</span>
+                    <span class="meta-item">
+                      <span class="material-symbols-outlined">calendar_today</span>
+                      {{ pub.date }}
+                    </span>
+                  </p>
+                </div>
+                <span [ngClass]="['access-badge', pub.access === 'open' ? 'access-open' : 'access-restricted']">
+                  {{ pub.access === 'open' ? 'Acceso Abierto' : 'Restringido' }}
+                </span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Right Column - Sidebar -->
+        <aside class="right-sidebar">
+          <!-- Upload Guide -->
+          <div class="upload-guide-card">
+            <h3 class="sidebar-card-title">
+              <span class="material-symbols-outlined">upload_file</span>
+              Guía de Autoarchivo
+            </h3>
+            <p class="sidebar-card-text">
+              ¿Deseas publicar tu tesis o investigación en el repositorio? Consulta nuestra guía paso a paso para estudiantes y docentes.
+            </p>
+            <a href="#" class="guide-button">Ver Guía de Envío</a>
+          </div>
+
+          <!-- Navigation Links -->
+          <div class="navigation-card">
+            <h3 class="sidebar-card-title">Navegar por</h3>
+            <ul class="navigation-list">
+              <li *ngFor="let link of navigationLinks">
+                <a href="#" class="nav-link">
+                  <span class="nav-link-content">
+                    <span class="material-symbols-outlined">{{ link.icon }}</span>
+                    {{ link.label }}
+                  </span>
+                  <span class="material-symbols-outlined nav-arrow">chevron_right</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Support -->
+          <div class="support-card">
+            <div class="support-icon">
+              <span class="material-symbols-outlined">support_agent</span>
+            </div>
+            <h4 class="support-title">Soporte Bibliotecario</h4>
+            <p class="support-hours">Lunes a Viernes 8:00 - 17:00</p>
+            <a href="mailto:biblioteca@uets.edu.ec" class="support-email">biblioteca@uets.edu.ec</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Interest Links Section -->
+    <section class="py-16 bg-white border-t border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-2xl font-bold text-secondary mb-8">Enlaces de Interés</h2>
+        
+        <div class="flex flex-wrap justify-center gap-8 md:gap-12">
+          <a 
+            class="hover:opacity-80 transition-opacity" 
+            href="#"
+            title="Esemtia"
+          >
+            <img 
+              src="/Icons/esemtia.png" 
+              alt="Esemtia"
+              class="h-16 md:h-20 w-auto object-contain"
+              appSuppressImageWarning
+            />
+          </a>
+          <a 
+            class="hover:opacity-80 transition-opacity" 
+            href="#"
+            title="Edebe On +"
+          >
+            <img 
+              src="/Icons/edebeon.png" 
+              alt="Edebe On +"
+              class="h-16 md:h-20 w-auto object-contain"
+              appSuppressImageWarning
+            />
+          </a>
+          <a 
+            class="hover:opacity-80 transition-opacity" 
+            href="#"
+            title="Moodle"
+          >
+            <img 
+              src="/Icons/moodle.png" 
+              alt="Moodle"
+              class="h-16 md:h-20 w-auto object-contain"
+              appSuppressImageWarning
+            />
+          </a>
+          <a 
+            class="hover:opacity-80 transition-opacity" 
+            href="#"
+            title="Richmond"
+          >
+            <img 
+              src="/Icons/richmond_solution.png" 
+              alt="Richmond"
+              class="h-16 md:h-20 w-auto object-contain"
+              appSuppressImageWarning
+            />
+          </a>
+          <a 
+            class="hover:opacity-80 transition-opacity" 
+            href="#"
+            title="Zoom"
+          >
+            <img 
+              src="/Icons/zoom.png" 
+              alt="Zoom"
+              class="h-16 md:h-20 w-auto object-contain"
+              appSuppressImageWarning
+            />
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Footer -->
+<app-footer></app-footer>

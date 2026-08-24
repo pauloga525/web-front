@@ -1,0 +1,68 @@
+/* Student Council Page Styles - Isolated Namespace */
+
+/* Smooth transitions */
+.group {
+  transition: all 0.3s ease;
+}
+
+.group:hover {
+  transform: translateY(-4px);
+}
+
+/* Aspect ratio for images */
+.aspect-\[4\/3\] {
+  aspect-ratio: 4/3;
+}
+
+/* Dark mode support */
+:host ::ng-deep {
+  --background-dark: #0F172A;
+}
+
+/* Print styles */
+@media print {
+  app-header,
+  app-footer,
+  app-breadcrumb {
+    display: none;
+  }
+  
+  .py-20 {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .text-3xl {
+    font-size: 1.875rem;
+  }
+  
+  .gap-8 {
+    gap: 1.5rem;
+  }
+}
+
+/* Animation for card entrance */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.group {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.group:nth-child(1) { animation-delay: 0.1s; }
+.group:nth-child(2) { animation-delay: 0.2s; }
+.group:nth-child(3) { animation-delay: 0.3s; }
+.group:nth-child(4) { animation-delay: 0.4s; }
+.group:nth-child(5) { animation-delay: 0.5s; }
+.group:nth-child(6) { animation-delay: 0.6s; }

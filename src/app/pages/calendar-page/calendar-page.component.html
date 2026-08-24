@@ -1,0 +1,76 @@
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+<!-- Hero Banner -->
+<div class="relative bg-secondary overflow-hidden h-64 lg:h-80">
+  <div class="absolute inset-0">
+    <img alt="Estudiantes estudiando calendario" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHVzmkiSD0N0_TEi55Q6_5yHsy7bVgTGIiWqDv2gDW5UZrsb7-3_UtzoyguNg0mLtYQ6ANqH2zCw3yNarHY24lKiau3ZazE--dYJV4u2vgg5CZkjRHH_dw2UbclsS-ZTCFOIw27Ta9tXz39vqD8weBDfoS7CcFs9Cq8m-2oIfGWI5_5KAm0oQeJT14DrqCxd8yHlVlqgx0h2cxyfJwodx7rAW3hhRWLvWe7b9tQ33Siob4qxiEwHKqJP8c7Uqn1_vu2XiVmM4fxFk" />
+    <div class="absolute inset-0 bg-secondary/80 mix-blend-multiply"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-transparent"></div>
+  </div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+    <div>
+      <span class="inline-block bg-primary text-secondary font-bold text-xs px-3 py-1 rounded-full mb-4 tracking-wide uppercase shadow-lg">Año Lectivo 2024-2025</span>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
+        Calendario de <br/>
+        <span class="text-primary">Actividades</span>
+      </h1>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<main class="py-12 bg-gray-50 dark:bg-background-dark min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Controls -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+      <div class="flex items-center bg-white dark:bg-surface-dark rounded-lg shadow-sm p-1">
+        <button (click)="onMonthChanged({month: currentMonth-1 || 12, year: currentMonth === 1 ? currentYear-1 : currentYear})" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors text-gray-600 dark:text-gray-300">
+          <span class="material-icons">chevron_left</span>
+        </button>
+        <h2 class="px-6 py-1 text-xl font-bold text-secondary dark:text-white">
+          {{ currentMonth === 1 ? 'Enero' : currentMonth === 2 ? 'Febrero' : currentMonth === 3 ? 'Marzo' : currentMonth === 4 ? 'Abril' : currentMonth === 5 ? 'Mayo' : currentMonth === 6 ? 'Junio' : currentMonth === 7 ? 'Julio' : currentMonth === 8 ? 'Agosto' : currentMonth === 9 ? 'Septiembre' : currentMonth === 10 ? 'Octubre' : currentMonth === 11 ? 'Noviembre' : 'Diciembre' }} {{ currentYear }}
+        </h2>
+        <button (click)="onMonthChanged({month: currentMonth+1 === 13 ? 1 : currentMonth+1, year: currentMonth === 12 ? currentYear+1 : currentYear})" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors text-gray-600 dark:text-gray-300">
+          <span class="material-icons">chevron_right</span>
+        </button>
+      </div>
+
+      <div class="flex gap-4">
+        <button class="hidden md:flex items-center gap-2 px-4 py-2 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm font-medium text-sm">
+          <span class="material-icons text-gray-500 text-sm">filter_list</span>
+          Filtrar
+        </button>
+        <button (click)="downloadPDF()" class="flex items-center gap-2 px-6 py-2.5 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-all shadow-md font-bold text-sm">
+          <span class="material-icons text-sm">picture_as_pdf</span>
+          Descargar Calendario PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+        <app-calendar-view 
+          [currentMonth]="currentMonth" 
+          [currentYear]="currentYear"
+          [selectedDay]="selectedDay"
+          [events]="events"
+          (daySelected)="onDaySelected($event)"
+          (monthChanged)="onMonthChanged($event)"
+        ></app-calendar-view>
+      </div>
+
+      <div class="lg:col-span-1">
+        <app-calendar-day-details 
+          [selectedDay]="selectedDay"
+          [selectedMonth]="currentMonth"
+          [selectedYear]="currentYear"
+          [events]="events"
+        ></app-calendar-day-details>
+      </div>
+    </div>
+  </div>
+</main>
+
+<app-footer></app-footer>

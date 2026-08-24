@@ -1,0 +1,30 @@
+<section class="py-12 sm:py-16 bg-white border-t border-gray-100">
+  <div class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 text-center">
+    <h2 class="text-xl sm:text-2xl font-bold text-secondary mb-6 sm:mb-8">Enlaces de Interés</h2>
+    
+    <div class="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-12">
+      @for (link of links; track link.name) {
+        <a 
+          class="hover:opacity-80 transition-opacity" 
+          [href]="link.href"
+          [title]="link.name"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          @if (link.image) {
+            <img 
+              [src]="link.image" 
+              [alt]="link.name"
+              class="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain"
+              appSuppressImageWarning
+            />
+          } @else {
+            <span class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-primary hover:text-white text-secondary font-semibold rounded-lg border border-gray-200 transition-all text-sm sm:text-base">
+              {{ link.name }}
+            </span>
+          }
+        </a>
+      }
+    </div>
+  </div>
+</section>

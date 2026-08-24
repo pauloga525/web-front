@@ -1,0 +1,126 @@
+<div class="image-gallery-container bg-surface-light dark:bg-surface-dark rounded-lg overflow-hidden shadow-lg">
+  <!-- Title Section (optional) -->
+  <div class="gallery-header px-4 md:px-6 py-4 border-b border-gray-200 dark:border-gray-700" *ngIf="title">
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+      {{ title }}
+    </h2>
+    <p class="text-gray-600 dark:text-gray-300 text-sm md:text-base" *ngIf="description">
+      {{ description }}
+    </p>
+  </div>
+
+  <!-- Main Gallery Area -->
+  <div class="gallery-content p-4 md:p-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+      <!-- Main Image Section -->
+      <div class="lg:col-span-2">
+        <div
+          class="main-image-container relative w-full bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden cursor-zoom-in transition-all"
+          [class.cursor-zoom-out]="isZoomed"
+          (mouseenter)="handleMouseEnter()"
+          (mouseleave)="handleMouseLeave()"
+          (mousemove)="handleMouseMove($event)"
+          (click)="toggleZoom()"
+        >
+          <!-- Main Image -->
+          <div
+            class="relative w-full aspect-square overflow-hidden"
+            [class.scale-150]="isZoomed"
+            [style.transform-origin]="isZoomed ? zoomX + '% ' + zoomY + '%' : 'center'"
+            style="transition: transform 0.3s ease"
+          >
+            <img
+              [src]="selectedImage.url"
+              [alt]="selectedImage.alt"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Zoom Indicator -->
+          <div
+            class="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded text-xs font-semibold transition-opacity"
+            [class.opacity-0]="!isZoomed"
+          >
+            {{ isZoomed ? 'ZOOM ACTIVO' : 'CLICK PARA ZOOM' }}
+          </div>
+
+          <!-- Navigation Arrows -->
+          <button
+            class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white dark:bg-gray-700/80 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-full p-2 transition-all hover:scale-110 shadow-md"
+            (click)="previousImage()"
+            [disabled]="!canGoPrevious"
+            [class.opacity-30]="!canGoPrevious"
+          >
+            <span class="material-icons text-xl">chevron_left</span>
+          </button>
+
+          <button
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white dark:bg-gray-700/80 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-full p-2 transition-all hover:scale-110 shadow-md"
+            (click)="nextImage()"
+            [disabled]="!canGoNext"
+            [class.opacity-30]="!canGoNext"
+          >
+            <span class="material-icons text-xl">chevron_right</span>
+          </button>
+
+          <!-- Image Counter -->
+          <div class="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded text-xs font-semibold">
+            {{ selectedImageIndex + 1 }} / {{ images.length }}
+          </div>
+        </div>
+
+        <!-- Image Info -->
+        <div class="mt-4" *ngIf="selectedImage.title || selectedImage.description">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white" *ngIf="selectedImage.title">
+            {{ selectedImage.title }}
+          </h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm mt-2" *ngIf="selectedImage.description">
+            {{ selectedImage.description }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Thumbnails Section -->
+      <div class="lg:col-span-1">
+        <div class="thumbnails-container flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto max-h-96 pb-2 lg:pb-0">
+          <button
+            *ngFor="let image of images; let i = index"
+            [attr.data-index]="i"
+            class="thumbnail-item flex-shrink-0 w-20 h-20 lg:w-full lg:h-24 rounded-lg overflow-hidden border-2 transition-all hover:border-primary"
+            [class.border-primary]="selectedImageIndex === i"
+            [class.border-gray-300]="selectedImageIndex !== i"
+            [class.dark:border-gray-600]="selectedImageIndex !== i"
+            (click)="selectImage(i)"
+            [attr.aria-label]="'Ir a imagen ' + (i + 1)"
+          >
+            <img
+              [src]="image.url"
+              [alt]="image.alt"
+              class="w-full h-full object-cover hover:scale-110 transition-transform cursor-pointer"
+              loading="lazy"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Info -->
+  <div class="gallery-features bg-gray-50 dark:bg-gray-900 px-4 md:px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+    <div class="flex flex-wrap gap-4 text-xs md:text-sm text-gray-600 dark:text-gray-400">
+      <div class="flex items-center gap-1">
+        <span class="material-icons text-sm text-primary">zoom_in</span>
+        <span>Hacer zoom con click</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <span class="material-icons text-sm text-primary">touch_app</span>
+        <span>Navegar con flechas</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <span class="material-icons text-sm text-primary">image</span>
+        <span>{{ images.length }} imágenes disponibles</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+.image-gallery-container {
+  background: var(--color-surface-light, #ffffff);
+}
+
+:host-context(.dark) .image-gallery-container {
+  background: var(--color-surface-dark, #1f2937);
+}
+
+.gallery-header {
+  background: var(--color-surface-light, #ffffff);
+}
+
+:host-context(.dark) .gallery-header {
+  background: var(--color-surface-dark, #1f2937);
+}
+
+.main-image-container {
+  position: relative;
+  overflow: hidden;
+  cursor: zoom-in;
+  touch-action: none;
+}
+
+.main-image-container.cursor-zoom-out {
+  cursor: zoom-out;
+}
+
+.main-image-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.thumbnails-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary, #0066cc) transparent;
+}
+
+.thumbnails-container::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.thumbnails-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.thumbnails-container::-webkit-scrollbar-thumb {
+  background: var(--color-primary, #0066cc);
+  border-radius: 3px;
+}
+
+.thumbnails-container::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-hover, #0052a3);
+}
+
+.thumbnail-item {
+  position: relative;
+  cursor: pointer;
+  background: var(--color-surface-light, #ffffff);
+}
+
+:host-context(.dark) .thumbnail-item {
+  background: var(--color-surface-dark, #1f2937);
+}
+
+.thumbnail-item img {
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.thumbnail-item:focus-visible {
+  outline: 2px solid var(--color-primary, #0066cc);
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .thumbnails-container {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+/* Animation for zoom */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.image-gallery-container {
+  animation: zoomIn 0.3s ease-out;
+}
+
+/* Touch support */
+@media (hover: none) and (pointer: coarse) {
+  .main-image-container {
+    cursor: pointer;
+  }
+
+  .thumbnails-container {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Print styles */
+@media print {
+  .thumbnails-container,
+  button,
+  .zoom-indicator,
+  .gallery-features {
+    display: none;
+  }
+
+  .main-image-container {
+    break-inside: avoid;
+  }
+}

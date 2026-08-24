@@ -1,0 +1,117 @@
+<app-header></app-header>
+
+<div class="biblioteca-hero relative overflow-hidden h-[380px] flex items-center shadow-inner">
+  <div class="absolute inset-0 biblioteca-gradient"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+    <div class="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-6 backdrop-blur-sm">
+      <span class="material-symbols-outlined biblioteca-text-secondary text-4xl">local_library</span>
+    </div>
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight drop-shadow-sm">Biblioteca UETS</h1>
+    <p class="text-blue-50 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+      Centro de recursos para el aprendizaje y la investigación. Accede a nuestro catálogo global, reserva espacios de estudio y descubre las últimas novedades editoriales.
+    </p>
+  </div>
+</div>
+
+<div class="max-w-4xl mx-auto px-4 -mt-10 relative z-20 mb-16">
+  <div class="bg-white rounded-xl shadow-xl p-6 border border-gray-100 flex flex-col md:flex-row gap-4 items-center">
+    <div class="flex-grow w-full relative">
+      <span class="material-symbols-outlined absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">search</span>
+      <input
+        [(ngModel)]="searchTerm"
+        (keyup.enter)="onSearch()"
+        class="w-full pl-12 pr-4 py-4 rounded-lg bg-gray-50 border-gray-200 focus:ring-2 biblioteca-focus-ring focus:border-gray-200 text-gray-900 placeholder-gray-500 transition-shadow"
+        placeholder="Buscar libros, revistas, artículos..."
+        type="text"
+      />
+    </div>
+    <div class="w-full md:w-auto flex flex-col sm:flex-row gap-3">
+      <select
+        [(ngModel)]="filterCategory"
+        (change)="onFilterChange()"
+        class="py-4 px-4 rounded-lg bg-gray-50 border-gray-200 focus:ring-2 biblioteca-focus-ring focus:border-gray-200 text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors"
+      >
+        <option>Todo el catálogo</option>
+        <option>Libros físicos</option>
+        <option>E-books</option>
+        <option>Tesis</option>
+      </select>
+      <button (click)="onSearch()" class="bg-secondary text-white font-bold py-4 px-8 rounded-lg hover:bg-opacity-90 transition-colors shadow-sm w-full sm:w-auto flex justify-center items-center">
+        <span class="material-symbols-outlined mr-2">search</span>
+        Buscar
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 mb-20 flex-grow">
+  <div class="w-full">
+    <section>
+      <div class="flex items-center justify-between border-b border-gray-100 pb-4 mb-8">
+        <h2 class="text-2xl font-bold text-secondary flex items-center">
+          <span class="w-1.5 h-8 biblioteca-accent-bar rounded-full mr-3"></span>
+          Catálogo de Libros
+        </h2>
+        <div class="flex items-center gap-2 text-sm text-gray-600">
+          <span class="font-medium">Ordenar por:</span>
+          <select
+            [(ngModel)]="sortBy"
+            (change)="onSortChange()"
+            class="border-none bg-transparent font-bold text-secondary focus:ring-0 cursor-pointer py-0 pl-2 pr-8"
+          >
+            <option>Más recientes</option>
+            <option>Título (A-Z)</option>
+            <option>Autor (A-Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <div *ngFor="let book of books" class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+          <div class="aspect-[2/3] bg-gray-100 w-full relative">
+            <img
+              *ngIf="book.image"
+              alt="{{ book.title }}"
+              class="object-cover w-full h-full mix-blend-multiply"
+              [src]="book.image"
+            />
+            <div *ngIf="!book.image" class="w-full h-full flex items-center justify-center text-gray-300">
+              <span class="material-symbols-outlined text-6xl">book</span>
+            </div>
+            <div *ngIf="book.isNew" class="absolute top-2 right-2 biblioteca-badge-new text-black text-[10px] uppercase font-bold px-2 py-1 rounded shadow-sm">
+              Nuevo
+            </div>
+          </div>
+          <div class="p-4 bg-white">
+            <h4 class="font-bold text-sm text-gray-900 truncate mb-1">{{ book.title }}</h4>
+            <p class="text-xs text-gray-500 font-medium">{{ book.author }}</p>
+            <div class="mt-3 flex justify-between items-center">
+              <span *ngIf="book.available" class="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded-full border border-green-100 font-semibold">Disponible</span>
+              <span *ngIf="!book.available" class="text-[10px] bg-red-50 text-red-700 px-2 py-0.5 rounded-full border border-red-100 font-semibold">Prestado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 flex justify-center">
+        <nav aria-label="Pagination" class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+          <a class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" href="#">
+            <span class="sr-only">Anterior</span>
+            <span class="material-symbols-outlined text-sm">chevron_left</span>
+          </a>
+          <a (click)="goToPage(1)" [ngClass]="{'bg-secondary text-white border-secondary': currentPage === 1, 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50': currentPage !== 1}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold z-10 focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer" href="#">1</a>
+          <a (click)="goToPage(2)" [ngClass]="{'bg-secondary text-white border-secondary': currentPage === 2, 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50': currentPage !== 2}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-pointer" href="#">2</a>
+          <a (click)="goToPage(3)" [ngClass]="{'bg-secondary text-white border-secondary': currentPage === 3, 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50': currentPage !== 3}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-pointer" href="#">3</a>
+          <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
+          <a (click)="goToPage(10)" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-pointer" href="#">10</a>
+          <a class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" href="#">
+            <span class="sr-only">Siguiente</span>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+          </a>
+        </nav>
+      </div>
+    </section>
+  </div>
+</div>
+
+<app-footer></app-footer>

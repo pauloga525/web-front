@@ -1,0 +1,176 @@
+<app-header></app-header>
+
+<app-breadcrumb></app-breadcrumb>
+
+<div class="w-full">
+  <!-- Hero Section -->
+  <div class="flex flex-col relative min-h-[560px] justify-center items-center text-center p-8 bg-cover bg-center" 
+    style='background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBVFv6mFqDqhJEGPMts8Hi1KfbG7ue2Xu7J3g8TboQCwqLonpop8JrhIrjAmiM-t4rAiJzAqPGsRxnTdpv2CM_IO-DfKtSwFhJwQuixyUvvHyI7qICNwK3BeqILmI0kikXmhOkiyI5oN3glfRaLfxijQr30RxA7c1nHdipMA10BWXGB0ZCWWrlmInE78FUwohnZ10dmeRaiLcJXfcg49l2gdxM0lM0_3i2uAWQ7kkPs-rdW9qI7hgdKmtC5fgUNSFjy32UQqC0lcD4")'>
+    <div class="max-w-[800px] flex flex-col gap-6 z-10">
+      <h1 class="text-white text-5xl md:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-sm">
+        Noticias 
+      </h1>
+      <p class="text-white/90 text-lg md:text-xl font-normal leading-relaxed max-w-2xl mx-auto">
+        Mantente actualizado con las últimas novedades, logros y eventos de nuestra institución educativa.
+      </p>
+    </div>
+  </div>
+
+  <main class="flex flex-1 flex-col bg-white dark:bg-slate-900">
+    <div class="flex flex-1 justify-center py-16 px-4 md:px-10">
+      <div class="layout-content-container flex flex-col max-w-[1200px] flex-1 gap-16 w-full">
+        
+        <!-- Featured News Horizontal Section -->
+        <section class="featured-section">
+          <div class="section-header">
+            <div>
+              <h2 class="text-white text-3xl font-bold">Noticias Destacadas</h2>
+              <p class="text-white/80 text-sm mt-2">Lo más relevante de nuestro campus</p>
+            </div>
+            <div class="scroll-indicators">
+              <button class="scroll-btn scroll-btn-left" (click)="scrollLeft()" aria-label="Desplazar izquierda" title="Anterior">
+                <span class="material-icons">chevron_left</span>
+              </button>
+              <button class="scroll-btn scroll-btn-right" (click)="scrollRight()" aria-label="Desplazar derecha" title="Siguiente">
+                <span class="material-icons">chevron_right</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="featured-scroll-container">
+            <div class="featured-cards-wrapper" #scrollContainer>
+              @for (item of featuredNews; track $index) {
+                <article class="featured-card" (click)="navigateToNewsDetail(item._id)" role="button" tabindex="0">
+                  <div class="featured-card-image-wrapper">
+                    <img 
+                      [src]="item.image" 
+                      [alt]="item.title"
+                      class="featured-card-image"
+                    />
+                    <div class="featured-card-overlay"></div>
+                  </div>
+                  <div class="featured-card-content">
+                    <span class="featured-card-badge">Destacado</span>
+                    <h3 class="featured-card-title">{{ item.title }}</h3>
+                    <p class="featured-card-date">{{ item.date }}</p>
+                  </div>
+                </article>
+              }
+            </div>
+          </div>
+        </section>
+
+        <!-- Main News Section -->
+        <section class="news-main-section">
+          <div class="section-header-dark">
+            <h2 class="text-gray-900 text-3xl font-bold">Noticias UETS</h2>
+            <p class="text-gray-600 text-sm mt-1">Artículos actualizados diariamente</p>
+          </div>
+          
+          <div class="news-grid">
+              @for (article of paginatedNews; track article.title; let i = $index) {
+              <article class="news-card" [class.news-featured]="i < 2" (click)="navigateToNewsDetail(article._id)" role="button" tabindex="0">
+                <!-- Image Container -->
+                <div class="news-image-wrapper">
+                  <img 
+                    [src]="article.image" 
+                    [alt]="article.title"
+                    class="news-image"
+                  />
+                  <!-- Tag Badge -->
+                  <div class="news-tag">
+                    {{ article.tag }}
+                  </div>
+                </div>
+                
+                <!-- Content -->
+                <div class="news-body">
+                  <h3 class="news-title">
+                    {{ article.title }}
+                  </h3>
+                  <p class="news-description">
+                    {{ article.description }}
+                  </p>
+                  <a class="news-link">
+                    Leer más
+                    <span class="material-icons">arrow_forward</span>
+                  </a>
+                </div>
+              </article>
+            }
+          </div>
+        </section>
+
+        <!-- Pagination -->
+        @if (totalPages > 1) {
+          <div class="flex justify-center py-8">
+            <nav aria-label="Pagination" class="inline-flex rounded-lg shadow-sm isolate gap-1">
+              <!-- Previous Button -->
+              <button 
+                (click)="previousPage()" 
+                [disabled]="currentPage === 1"
+                class="relative inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Página anterior">
+                <span class="material-icons text-sm">chevron_left</span>
+              </button>
+              
+              <!-- Page Numbers - Show first 3 pages -->
+              @for (page of [1, 2, 3]; track page) {
+                @if (page <= totalPages) {
+                  @if (page === currentPage) {
+                    <button 
+                      (click)="goToPage(page)"
+                      class="relative inline-flex items-center justify-center w-10 h-10 rounded-lg text-white font-semibold transition-colors" 
+                      style="background: linear-gradient(135deg, #0B2C5F 0%, #1a3f7f 100%);">
+                      {{ page }}
+                    </button>
+                  } @else {
+                    <button 
+                      (click)="goToPage(page)"
+                      class="relative inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors font-medium">
+                      {{ page }}
+                    </button>
+                  }
+                }
+              }
+              
+              <!-- Ellipsis - Show if there are more than 4 pages -->
+              @if (totalPages > 4) {
+                <span class="flex items-center px-2 text-slate-400">...</span>
+              }
+              
+              <!-- Last Page - Show if not already visible -->
+              @if (totalPages > 3) {
+                @if (currentPage === totalPages) {
+                  <button 
+                    (click)="goToPage(totalPages)"
+                    class="relative inline-flex items-center justify-center w-10 h-10 rounded-lg text-white font-semibold transition-colors" 
+                    style="background: linear-gradient(135deg, #0B2C5F 0%, #1a3f7f 100%);">
+                    {{ totalPages }}
+                  </button>
+                } @else {
+                  <button 
+                    (click)="goToPage(totalPages)"
+                    class="relative inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                    {{ totalPages }}
+                  </button>
+                }
+              }
+              
+              <!-- Next Button -->
+              <button 
+                (click)="nextPage()" 
+                [disabled]="currentPage === totalPages"
+                class="relative inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Página siguiente">
+                <span class="material-icons text-sm">chevron_right</span>
+              </button>
+            </nav>
+          </div>
+        }
+      </div>
+    </div>
+  </main>
+</div>
+
+<app-footer></app-footer>

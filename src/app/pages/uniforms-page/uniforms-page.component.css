@@ -1,0 +1,144 @@
+/* Variables de color personalizadas para esta página */
+:host {
+  --primary-color: #0066CC;
+  --primary-hover: #0052A3;
+  display: block;
+}
+
+/* Sobrescribir clases de Tailwind para colores primarios */
+:host ::ng-deep .text-primary {
+  color: var(--primary-color) !important;
+}
+
+:host ::ng-deep .bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+:host ::ng-deep .border-primary {
+  border-color: var(--primary-color) !important;
+}
+
+:host ::ng-deep .hover\:bg-primary:hover {
+  background-color: var(--primary-color) !important;
+}
+
+:host ::ng-deep .ring-primary {
+  --tw-ring-color: var(--primary-color) !important;
+}
+
+/* Hero Banner Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Info Cards - Hover Effects */
+.border-l-4 {
+  transition: all 0.3s ease;
+}
+
+.border-l-4:hover {
+  transform: translateX(4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Sticky Sidebar */
+@media (min-width: 1024px) {
+  .sticky {
+    top: 100px;
+  }
+}
+
+/* Button Styles */
+button {
+  transition: all 0.3s ease;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :host-context(.dark) .bg-surface-light {
+    background-color: #1f2937;
+  }
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  .grid {
+    gap: 1.5rem;
+  }
+}
+
+/* Animation for content load */
+.lg\:col-span-3 {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Badge Styles */
+.rounded-full {
+  transition: all 0.3s ease;
+}
+
+/* Price Display */
+.text-primary {
+  transition: color 0.3s ease;
+}
+
+/* Link Styles */
+a {
+  transition: all 0.3s ease;
+}
+
+a:hover:not(.no-hover) {
+  text-decoration: none;
+}
+
+/* Print Styles */
+@media print {
+  .sticky,
+  button,
+  a[href="/contact"],
+  a[href="/eventos"] {
+    display: none;
+  }
+
+  .bg-gradient-to-r {
+    background: none !important;
+    border: 1px solid #000;
+  }
+}
+
+/* Accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+  .text-4xl {
+    font-size: 1.875rem;
+  }
+
+  .gap-8 {
+    gap: 1.5rem;
+  }
+
+  .p-6 {
+    padding: 1rem;
+  }
+}
