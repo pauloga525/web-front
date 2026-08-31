@@ -1,17 +1,31 @@
 <app-header></app-header>
 <app-breadcrumb></app-breadcrumb>
 
+<!-- Loading State -->
+<div *ngIf="loading" class="flex items-center justify-center py-32">
+  <div class="text-center">
+    <span class="material-icons animate-spin text-4xl text-primary">progress_activity</span>
+    <p class="text-gray-600 dark:text-gray-400 mt-4">Cargando información...</p>
+  </div>
+</div>
+
+<!-- Not Found State -->
+<div *ngIf="!loading && !news" class="text-center py-32">
+  <span class="material-icons text-6xl text-gray-300 dark:text-gray-600 mb-4 block">article</span>
+  <p class="text-gray-600 dark:text-gray-400 text-lg">La noticia no fue encontrada.</p>
+  <a routerLink="/noticias" class="text-primary hover:underline mt-4 inline-block">Ver todas las noticias</a>
+</div>
+
 <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-paper dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-body transition-colors duration-200" *ngIf="news">
   <!-- Masthead -->
   <header class="border-b-4 border-double border-secondary dark:border-slate-800 mx-auto w-full max-w-7xl px-4 py-8 flex flex-col items-center">
     <div class="flex items-center gap-3 mb-4">
       <span class="material-symbols-outlined text-4xl text-secondary dark:text-white">school</span>
-      <h1 class="font-display text-4xl md:text-6xl font-black uppercase tracking-tighter text-secondary dark:text-white">University Gazette</h1>
+      <h1 class="font-display text-4xl md:text-6xl font-black uppercase tracking-tighter text-secondary dark:text-white">UETS Noticias</h1>
     </div>
     <div class="w-full flex justify-between items-center py-2 border-y border-slate-300 dark:border-slate-700 font-sans text-xs font-bold uppercase tracking-widest text-slate-600 dark:text-slate-400">
-      
-      <span class="hidden md:block">Technology &amp; Innovation Edition</span>
-      <span>Monday, October 16, 2023</span>
+      <span class="hidden md:block" *ngIf="news.category">{{ news.category }}</span>
+      <span>{{ news.createdAt | date:'EEEE, d MMMM y' }}</span>
     </div>
   </header>
 
@@ -24,9 +38,7 @@
           {{ news.title }}
         </h2>
         <div class="w-full max-w-2xl border-t border-slate-300 dark:border-slate-700 pt-4 flex flex-col md:flex-row justify-center items-center gap-4 text-sm font-sans uppercase font-bold tracking-tight text-slate-500 dark:text-slate-400">
-          <span class="text-secondary dark:text-white">By {{ news.author }}</span>
-          <span class="hidden md:block text-slate-300">|</span>
-          <span>North Campus Bureau</span>
+          <span class="text-secondary dark:text-white" *ngIf="news.author">Por {{ news.author }}</span>
         </div>
       </div>
     </section>
@@ -37,8 +49,8 @@
         <!-- Main Image -->
         <figure class="mb-10">
           <img [alt]="news.title" class="w-full h-auto grayscale-[30%] hover:grayscale-0 transition-all duration-700 border border-slate-200" [src]="news.featuredImage" />
-          <figcaption class="mt-3 text-sm text-slate-500 italic border-l-2 border-slate-300 pl-4 py-1">
-            {{ news.description || 'Futuristic visualization' }} (Photo: Gazette/Archive)
+          <figcaption class="mt-3 text-sm text-slate-500 italic border-l-2 border-slate-300 pl-4 py-1" *ngIf="news.description">
+            {{ news.description }}
           </figcaption>
         </figure>
 
@@ -61,14 +73,14 @@
 
           <!-- Tags and Footer -->
           <p class="mt-8 border-t border-slate-200 pt-4 italic text-sm text-slate-500" *ngIf="news.tags && news.tags.length > 0">
-            Reporting contributed by the Gazette Science Desk. Tags: <span *ngFor="let tag of news.tags; let last = last">{{ tag }}<span *ngIf="!last">, </span></span>
+            Etiquetas: <span *ngFor="let tag of news.tags; let last = last">{{ tag }}<span *ngIf="!last">, </span></span>
           </p>
         </div>
       </div>
 
       <!-- Sidebar / Related Columns -->
       <aside class="lg:col-span-3 border-l-0 lg:border-l border-slate-300 dark:border-slate-700 pl-0 lg:pl-8">
-        <h4 class="font-display text-xl font-black uppercase border-b-2 border-secondary dark:border-slate-700 pb-1 mb-6 text-secondary dark:text-white">More Headlines</h4>
+        <h4 class="font-display text-xl font-black uppercase border-b-2 border-secondary dark:border-slate-700 pb-1 mb-6 text-secondary dark:text-white">Más Noticias</h4>
         <div class="space-y-8">
           <article class="group" *ngFor="let relatedItem of relatedNews" [routerLink]="['/noticias', relatedItem._id]">
             <span class="text-[10px] font-sans font-black uppercase text-slate-600 dark:text-slate-400 mb-1 block tracking-widest">{{ relatedItem.category }}</span>
@@ -76,13 +88,6 @@
             <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">{{ relatedItem.description }}</p>
             <div class="border-b border-slate-200 dark:border-slate-800 pt-4"></div>
           </article>
-
-          <!-- Ad Space placeholder -->
-          <div class="bg-slate-100 dark:bg-slate-900 p-6 text-center border border-dashed border-slate-400">
-            <span class="text-[10px] uppercase font-sans font-bold text-slate-400 block mb-2">Advertisement</span>
-            <p class="font-display font-bold text-secondary dark:text-white italic text-xl">The Alumni Association</p>
-            <p class="text-xs mt-2 text-slate-500">Connecting graduates since 1899.</p>
-          </div>
         </div>
       </aside>
     </div>
@@ -94,18 +99,16 @@
       <div class="text-center md:text-left">
         <div class="flex items-center gap-2 text-secondary dark:text-white mb-2">
           <span class="material-symbols-outlined font-black">school</span>
-          <span class="font-display font-black text-2xl uppercase tracking-tighter">University Gazette</span>
+          <span class="font-display font-black text-2xl uppercase tracking-tighter">UETS Noticias</span>
         </div>
-        <p class="text-xs font-sans font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Est. 1899 • Excellence in Academic Journalism</p>
+        <p class="text-xs font-sans font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Unidad Educativa Técnica Salesiana</p>
       </div>
       <div class="flex flex-col items-center md:items-end gap-2 text-slate-500 dark:text-slate-400 text-xs font-sans uppercase font-bold">
         <div class="flex gap-6 mb-2">
-          <a class="hover:text-secondary dark:hover:text-white transition-colors" href="#">Submissions</a>
-          <a class="hover:text-secondary dark:hover:text-white transition-colors" routerLink="/noticias">Archives</a>
-          <a class="hover:text-secondary dark:hover:text-white transition-colors" href="#">Contact</a>
-          <a class="hover:text-secondary dark:hover:text-white transition-colors" href="#">Privacy</a>
+          <a class="hover:text-secondary dark:hover:text-white transition-colors" routerLink="/noticias">Archivo</a>
+          <a class="hover:text-secondary dark:hover:text-white transition-colors" routerLink="/contact">Contacto</a>
         </div>
-        <span>© 2023 University Press. All rights reserved.</span>
+        <span>© {{ currentYear }} UETS. Todos los derechos reservados.</span>
       </div>
     </div>
   </footer>

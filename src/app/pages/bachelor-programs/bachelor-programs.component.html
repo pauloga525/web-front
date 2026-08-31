@@ -2,7 +2,8 @@
 <app-breadcrumb></app-breadcrumb>
 
 <!-- Hero Section -->
-<div class="hero-wrapper" [style.backgroundImage]="heroImagenFondo ? 'url(' + heroImagenFondo + ')' : ''">
+<div class="hero-wrapper">
+  <img *ngIf="heroImagenFondo" [src]="heroImagenFondo" alt="" class="hero-bg-img" />
   <div class="hero-overlay"></div>
   <div class="hero-container">
     <div class="hero-box">

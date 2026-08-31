@@ -1,12 +1,12 @@
 /**
  * @file recursos-api.service.ts
  * @description Consume el endpoint público de recursos del backend UETS.
- * Usado por biblioteca, instructivos, repositorio y uniformes.
+ * Usado por biblioteca e instructivos (distinguidos por el campo `tipo`).
  */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface RecursoApi {
@@ -14,8 +14,10 @@ export interface RecursoApi {
   titulo: string;
   descripcion: string;
   url: string;
+  imagen: string;
   tipo: string;
   categoria: string;
+  tags: string[];
   publicado: boolean;
   orden: number;
   createdAt: string;
@@ -28,16 +30,16 @@ export class RecursosApiService {
 
   constructor(private http: HttpClient) {}
 
-  getByCategoria(categoria: string): Observable<RecursoApi[]> {
-    const params = new HttpParams().set('categoria', categoria);
-    return this.http.get<RecursoApi[]>(`${this.url}/publicos`, { params }).pipe(
+  getAll(): Observable<RecursoApi[]> {
+    return this.http.get<RecursoApi[]>(`${this.url}/publicos`).pipe(
       catchError(() => of([] as RecursoApi[]))
     );
   }
 
-  getAll(): Observable<RecursoApi[]> {
-    return this.http.get<RecursoApi[]>(`${this.url}/publicos`).pipe(
-      catchError(() => of([] as RecursoApi[]))
+  /** Solo los recursos publicados de los tipos indicados, ordenados por `orden`. */
+  getByTipo(...tipos: string[]): Observable<RecursoApi[]> {
+    return this.getAll().pipe(
+      map(list => list.filter(r => tipos.includes(r.tipo)).sort((a, b) => a.orden - b.orden))
     );
   }
 }

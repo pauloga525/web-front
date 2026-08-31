@@ -4,12 +4,13 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { gridfsUrlInterceptor } from './interceptors/gridfs-url.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor, gridfsUrlInterceptor])),
   ]
 };

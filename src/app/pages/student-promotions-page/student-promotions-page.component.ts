@@ -7,11 +7,11 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
 import { WebsocketService } from '../../services/websocket.service';
+import { LogrosApiService, LogroApi } from '../../services/logros-api.service';
 
 interface GaleriaImagen { id: number; url: string; alt: string; caption: string; }
 interface Club { id: number; icon: string; title: string; description: string; }
 interface Promocion { id: number; classOf: string; cursos?: { id: number; name: string; image: string; url?: string }[]; url?: string; }
-interface Logro { id: number; badge: string; date: string; title: string; description: string; image: string; }
 interface Instalacion { id: number; title: string; description: string; image: string; }
 
 interface EstudiantesPageConfig {
@@ -32,7 +32,6 @@ interface EstudiantesPageConfig {
   promociones: Promocion[];
   logrosTitulo: string;
   logrosUrl: string;
-  logros: Logro[];
   instalacionesTitulo: string;
   instalaciones: Instalacion[];
 }
@@ -55,7 +54,6 @@ const DEFAULT_CONFIG: EstudiantesPageConfig = {
   promociones: [],
   logrosTitulo: 'Logros Estudiantiles',
   logrosUrl: '/estudiantes/logros',
-  logros: [],
   instalacionesTitulo: 'Instalaciones',
   instalaciones: [],
 };
@@ -70,6 +68,7 @@ const DEFAULT_CONFIG: EstudiantesPageConfig = {
 })
 export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
   config: EstudiantesPageConfig = DEFAULT_CONFIG;
+  achievements: LogroApi[] = [];
   private destroy$ = new Subject<void>();
 
   // ── Gallery carousel ────────────────────────────────────────────────────────
@@ -91,11 +90,13 @@ export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
   constructor(
     private configService: ConfiguracionPublicaService,
     private websocket: WebsocketService,
+    private logrosApi: LogrosApiService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadConfig();
+    this.logrosApi.getFeatured().pipe(takeUntil(this.destroy$)).subscribe(list => this.achievements = list);
 
     this.websocket.on('configuracion:estudiantes_page:actualizada')
       .pipe(takeUntil(this.destroy$))
@@ -124,10 +125,6 @@ export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
     return this.config.clubes.filter(item => item.title || item.description);
   }
 
-  get achievements(): Logro[] {
-    return this.config.logros.filter(item => item.title || item.description);
-  }
-
   loadConfig(): void {
     this.configService.get<Partial<EstudiantesPageConfig>>('estudiantes_page', DEFAULT_CONFIG)
       .pipe(takeUntil(this.destroy$))
@@ -151,7 +148,6 @@ export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
       galeria: config?.galeria ?? DEFAULT_CONFIG.galeria,
       clubes: config?.clubes ?? DEFAULT_CONFIG.clubes,
       promociones: config?.promociones ?? DEFAULT_CONFIG.promociones,
-      logros: config?.logros ?? DEFAULT_CONFIG.logros,
       instalaciones: config?.instalaciones ?? DEFAULT_CONFIG.instalaciones,
     };
     this.galleryIndex = 0;

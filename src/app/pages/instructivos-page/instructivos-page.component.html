@@ -20,9 +20,9 @@
           <span class="material-icons text-xs text-gray-400">chevron_right</span>
           <span class="text-primary font-bold">Instructivos</span>
         </div>
-        <h1 class="text-3xl md:text-5xl font-bold text-secondary mb-4 tracking-tight">Instructivos y Tutoriales</h1>
+        <h1 class="text-3xl md:text-5xl font-bold text-secondary mb-4 tracking-tight">{{ config.heroTitulo }}</h1>
         <p class="text-gray-600 max-w-2xl text-lg">
-          Encuentra guías paso a paso, manuales en PDF y videotutoriales para dominar todas nuestras plataformas institucionales.
+          {{ config.heroDescripcion }}
         </p>
       </div>
       <div class="w-full md:w-auto">
@@ -53,7 +53,7 @@
         </div>
         <nav class="p-2 space-y-1">
           <button
-            *ngFor="let category of categories"
+            *ngFor="let category of categoriesWithCount"
             (click)="selectCategory(category.name)"
             [ngClass]="selectedCategory === category.name ? 'bg-blue-50 text-secondary border border-blue-200' : 'text-gray-600 hover:bg-gray-50 hover:text-secondary'"
             class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-md transition-colors"
@@ -77,7 +77,7 @@
             <div>
               <h4 class="text-sm font-bold text-secondary">¿Necesitas ayuda extra?</h4>
               <p class="text-xs text-gray-500 mt-1 mb-2">Nuestro equipo de soporte está listo para asistirte.</p>
-              <a class="text-xs font-bold text-secondary hover:underline" href="#">Contactar Soporte →</a>
+              <a class="text-xs font-bold text-secondary hover:underline" [href]="config.soporteUrl || '#'">Contactar Soporte →</a>
             </div>
           </div>
         </div>
@@ -96,14 +96,13 @@
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
-          *ngFor="let instructivo of instructivos"
-          [ngClass]="instructivo.hoverColor"
-          class="bg-white rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-300 group flex flex-col"
+          *ngFor="let instructivo of filteredInstructivos"
+          class="bg-white rounded-xl border border-gray-200 hover:shadow-lg hover:border-blue-300 transition-all duration-300 group flex flex-col"
         >
           <!-- Header con icono -->
-          <div [ngClass]="instructivo.colorClass" class="h-40 rounded-t-xl flex items-center justify-center relative overflow-hidden">
+          <div class="h-40 rounded-t-xl bg-blue-50 flex items-center justify-center relative overflow-hidden">
             <span class="material-symbols-outlined text-6xl absolute -bottom-4 -right-4 transform rotate-12" [ngClass]="instructivo.type === 'pdf' ? 'text-yellow-200' : 'text-blue-200'">
-              {{ instructivo.icon }}
+              {{ instructivo.type === 'pdf' ? 'picture_as_pdf' : 'play_circle' }}
             </span>
             <div class="bg-white p-3 rounded-full shadow-sm z-10 border border-gray-100">
               <span class="material-icons text-2xl" [ngClass]="getIconColor(instructivo.type)">
@@ -118,9 +117,8 @@
               <span [ngClass]="getTagColor(instructivo.type)" class="px-2 py-1 text-xs rounded font-medium">
                 {{ getTagText(instructivo.type) }}
               </span>
-              <span class="text-xs text-gray-500">{{ getDisplayDate(instructivo) }}</span>
             </div>
-            <h3 [ngClass]="getHoverTextColor(instructivo.type)" class="font-bold text-lg text-gray-800 mb-2 transition-colors">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 transition-colors group-hover:text-secondary">
               {{ instructivo.title }}
             </h3>
             <p class="text-sm text-gray-600 line-clamp-2">{{ instructivo.description }}</p>
@@ -128,17 +126,19 @@
 
           <!-- Botón -->
           <div class="px-5 pb-5 pt-0">
-            <button
+            <a
+              [href]="instructivo.url || null" target="_blank" rel="noopener"
               [ngClass]="getButtonColor(instructivo.type)"
               class="w-full flex items-center justify-center space-x-2 py-2 rounded-lg text-sm font-medium transition-colors"
             >
               <span class="material-icons text-sm">
                 {{ instructivo.type === 'video' ? 'play_arrow' : 'download' }}
               </span>
-              <span>{{ instructivo.buttonText }}</span>
-            </button>
+              <span>{{ getButtonText(instructivo.type) }}</span>
+            </a>
           </div>
         </div>
+        <p *ngIf="!filteredInstructivos.length" class="text-gray-400 col-span-full text-center py-16">No hay instructivos en esta categoría todavía.</p>
       </div>
 
       <div class="mt-12 text-center">

@@ -25,28 +25,11 @@ export class ConfiguracionPublicaService {
         params: { _t: Date.now().toString() },
       })
       .pipe(
-        map(res => this.normalizeGridfsUrls(res.datos)),
+        map(res => res.datos),
         catchError(err => {
           console.warn(`[ConfigPublica] Error al obtener '${clave}':`, err?.status, err?.message);
           return of(defaultValue as T);
         })
       );
-  }
-
-  private normalizeGridfsUrls<T>(obj: T): T {
-    if (typeof obj === 'string') {
-      if (obj.includes('/api/v1/imagenes/gridfs/')) {
-        const id = obj.split('/api/v1/imagenes/gridfs/').pop();
-        return `${environment.apiUrl}/imagenes/gridfs/${id}` as unknown as T;
-      }
-      return obj;
-    }
-    if (Array.isArray(obj)) return obj.map(i => this.normalizeGridfsUrls(i)) as unknown as T;
-    if (obj && typeof obj === 'object') {
-      const result: Record<string, unknown> = {};
-      for (const k in obj) result[k] = this.normalizeGridfsUrls((obj as Record<string, unknown>)[k]);
-      return result as T;
-    }
-    return obj;
   }
 }

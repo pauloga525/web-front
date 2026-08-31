@@ -3,21 +3,33 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
+import { RecursosApiService } from '../../services/recursos-api.service';
 
 interface InstructivoCard {
-  id: number;
+  id: string;
   title: string;
   description: string;
   type: 'pdf' | 'video';
-  icon: string;
-  colorClass: string;
   category: string;
-  duration?: string;
-  fileSize?: string;
-  updatedDate: string;
-  buttonText: string;
-  hoverColor: string;
+  url: string;
 }
+
+interface InstructivoCategoria { id: number; icon: string; name: string; }
+
+interface InstructivosPageConfig {
+  heroTitulo:      string;
+  heroDescripcion: string;
+  soporteUrl:      string;
+  categorias:      InstructivoCategoria[];
+}
+
+const DEFAULT_CONFIG: InstructivosPageConfig = {
+  heroTitulo:      'Instructivos y Tutoriales',
+  heroDescripcion: 'Encuentra guías paso a paso, manuales en PDF y videotutoriales para dominar todas nuestras plataformas institucionales.',
+  soporteUrl:      '/contacto',
+  categorias:      [],
+};
 
 @Component({
   selector: 'app-instructivos-page',
@@ -27,123 +39,57 @@ interface InstructivoCard {
   styleUrls: ['./instructivos-page.component.css']
 })
 export class InstructivosPageComponent implements OnInit {
+  config: InstructivosPageConfig = DEFAULT_CONFIG;
   searchTerm: string = '';
-  selectedCategory: string = 'Esemtia';
+  selectedCategory: string = '';
   sortBy: string = 'Recientes';
-
-  categories = [
-    { name: 'Esemtia', count: 12, icon: 'school' },
-    { name: 'Moodle', count: 8, icon: 'class' },
-    { name: 'Zoom', count: 5, icon: 'videocam' },
-    { name: 'Procesos Admin.', count: 4, icon: 'assignment' }
-  ];
 
   instructivos: InstructivoCard[] = [];
 
-  constructor() {}
+  constructor(
+    private configPublica: ConfiguracionPublicaService,
+    private recursosApi: RecursosApiService,
+  ) {}
 
   ngOnInit(): void {
-    this.initializeInstructivos();
+    this.configPublica.get<InstructivosPageConfig>('instructivos_page', DEFAULT_CONFIG).subscribe(cfg => {
+      this.config = { ...DEFAULT_CONFIG, ...cfg };
+      if (!this.selectedCategory) this.selectedCategory = this.config.categorias[0]?.name ?? '';
+    });
+    this.recursosApi.getByTipo('pdf', 'video').subscribe(list => {
+      this.instructivos = list.map(r => ({
+        id: r._id,
+        title: r.titulo,
+        description: r.descripcion,
+        type: r.tipo === 'video' ? 'video' : 'pdf',
+        category: r.categoria,
+        url: r.url,
+      }));
+    });
   }
 
-  initializeInstructivos(): void {
-    this.instructivos = [
-      {
-        id: 1,
-        title: 'Acceso a Notas - Padres',
-        description: 'Guía completa para consultar el reporte de calificaciones y observaciones conductuales.',
-        type: 'pdf',
-        icon: 'picture_as_pdf',
-        colorClass: 'bg-blue-50',
-        category: 'Esemtia',
-        fileSize: '2.4 MB',
-        updatedDate: 'Actualizado hace 2 días',
-        buttonText: 'Descargar (2.4 MB)',
-        hoverColor: 'hover:border-blue-300'
-      },
-      {
-        id: 2,
-        title: 'Justificación de Faltas',
-        description: 'Tutorial paso a paso para justificar inasistencias desde la aplicación móvil.',
-        type: 'video',
-        icon: 'play_circle',
-        colorClass: 'bg-blue-50',
-        category: 'Esemtia',
-        duration: '5:32 min',
-        updatedDate: '5:32 min',
-        buttonText: 'Ver Tutorial',
-        hoverColor: 'hover:border-blue-300'
-      },
-      {
-        id: 3,
-        title: 'Actualización de Datos',
-        description: 'Instructivo para mantener actualizada la información de contacto y médica del estudiante.',
-        type: 'pdf',
-        icon: 'picture_as_pdf',
-        colorClass: 'bg-blue-50',
-        category: 'Esemtia',
-        fileSize: '1.1 MB',
-        updatedDate: 'Actualizado hace 1 semana',
-        buttonText: 'Descargar (1.1 MB)',
-        hoverColor: 'hover:border-blue-300'
-      },
-      {
-        id: 4,
-        title: 'Mensajería Interna',
-        description: 'Cómo enviar y recibir comunicados oficiales con docentes y autoridades.',
-        type: 'pdf',
-        icon: 'picture_as_pdf',
-        colorClass: 'bg-blue-50',
-        category: 'Esemtia',
-        fileSize: '1.8 MB',
-        updatedDate: 'Actualizado hace 2 semanas',
-        buttonText: 'Descargar (1.8 MB)',
-        hoverColor: 'hover:border-blue-300'
-      },
-      {
-        id: 5,
-        title: 'Recuperar Contraseña',
-        description: 'Pasos para restablecer tu acceso a la plataforma en caso de olvido.',
-        type: 'video',
-        icon: 'play_circle',
-        colorClass: 'bg-blue-50',
-        category: 'Esemtia',
-        duration: '3:15 min',
-        updatedDate: '3:15 min',
-        buttonText: 'Ver Tutorial',
-        hoverColor: 'hover:border-blue-300'
-      },
-      {
-        id: 6,
-        title: 'Manual Completo de Esemtia',
-        description: 'Documento integral con todas las funcionalidades de la plataforma.',
-        type: 'pdf',
-        icon: 'picture_as_pdf',
-        colorClass: 'bg-blue-50',
-        category: 'Esemtia',
-        fileSize: '5.2 MB',
-        updatedDate: 'Versión 2023',
-        buttonText: 'Descargar (5.2 MB)',
-        hoverColor: 'hover:border-blue-300'
-      }
-    ];
+  get categoriesWithCount(): { name: string; icon: string; count: number }[] {
+    return this.config.categorias.map(c => ({
+      name: c.name,
+      icon: c.icon,
+      count: this.instructivos.filter(i => i.category === c.name).length,
+    }));
+  }
+
+  get filteredInstructivos(): InstructivoCard[] {
+    let list = this.instructivos.filter(i => i.category === this.selectedCategory);
+    const term = this.searchTerm.trim().toLowerCase();
+    if (term) {
+      list = list.filter(i => i.title.toLowerCase().includes(term) || i.description.toLowerCase().includes(term));
+    }
+    return list;
   }
 
   selectCategory(categoryName: string): void {
     this.selectedCategory = categoryName;
   }
 
-  onSearch(): void {
-    // Implementar lógica de búsqueda
-    console.log('Buscando:', this.searchTerm);
-  }
-
-  getDisplayDate(instructivo: InstructivoCard): string {
-    if (instructivo.type === 'video') {
-      return instructivo.duration || '';
-    }
-    return instructivo.updatedDate;
-  }
+  onSearch(): void {}
 
   getTagColor(type: string): string {
     return type === 'pdf' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700';
@@ -157,20 +103,12 @@ export class InstructivosPageComponent implements OnInit {
     return type === 'pdf' ? 'text-red-500' : 'text-secondary';
   }
 
-  getBackgroundColor(type: string): string {
-    return type === 'pdf' ? 'bg-blue-50' : 'bg-blue-50';
-  }
-
-  getSymbolColor(type: string): string {
-    return type === 'pdf' ? 'text-yellow-200' : 'text-blue-200';
-  }
-
   getButtonColor(type: string): string {
     return type === 'pdf' ? 'border border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-secondary hover:border-secondary'
       : 'bg-secondary text-white hover:bg-secondary/80';
   }
 
-  getHoverTextColor(type: string): string {
-    return type === 'pdf' ? 'group-hover:text-secondary' : 'group-hover:text-secondary';
+  getButtonText(type: string): string {
+    return type === 'pdf' ? 'Descargar' : 'Ver Tutorial';
   }
 }

@@ -19,6 +19,7 @@ export class NewsDetailComponent implements OnInit {
   news: NoticiaApi | null = null;
   relatedNews: NoticiaApi[] = [];
   loading = true;
+  readonly currentYear = new Date().getFullYear();
 
   constructor(private route: ActivatedRoute, private noticiasApi: NoticiasApiService) {}
 

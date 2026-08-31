@@ -6,7 +6,6 @@ import { ContactPageComponent } from './pages/contact-page/contact-page.componen
 import { EventsPageComponent } from './pages/events-page/events-page.component';
 import { EventDetailComponent } from './pages/event-detail/event-detail.component';
 import { CalendarPageComponent } from './pages/calendar-page/calendar-page.component';
-import { AcademicProgramComponent } from './pages/academic-program/academic-program.component';
 import { BachelorProgramsComponent } from './pages/bachelor-programs/bachelor-programs.component';
 import { BasicaMediaPageComponent } from './pages/basica-media-page/basica-media-page.component';
 import { PreparatoriaPageComponent } from './pages/preparatoria-page/preparatoria-page.component';
@@ -57,7 +56,6 @@ export const routes: Routes = [
   { path: 'programa/basica-media', component: BasicaMediaPageComponent },
   { path: 'programa/bachillerato', component: BachelorProgramsComponent },
   { path: 'programa/especialidad/:slug', component: SpecialtyDetailComponent },
-  { path: 'programa/:level', component: AcademicProgramComponent },
   { path: '**', redirectTo: '' }
 ];
 

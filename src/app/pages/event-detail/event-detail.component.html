@@ -1,6 +1,21 @@
 <app-header></app-header>
 <app-breadcrumb></app-breadcrumb>
 
+<!-- Loading State -->
+<div *ngIf="loading" class="flex items-center justify-center py-32">
+  <div class="text-center">
+    <span class="material-icons animate-spin text-4xl text-primary">progress_activity</span>
+    <p class="text-gray-600 dark:text-gray-400 mt-4">Cargando información...</p>
+  </div>
+</div>
+
+<!-- Not Found State -->
+<div *ngIf="!loading && !event" class="text-center py-32">
+  <span class="material-icons text-6xl text-gray-300 dark:text-gray-600 mb-4 block">event_busy</span>
+  <p class="text-gray-600 dark:text-gray-400 text-lg">El evento no fue encontrado.</p>
+  <a routerLink="/calendar" class="text-primary hover:underline mt-4 inline-block">Ver calendario</a>
+</div>
+
 <!-- Hero Banner -->
 <div class="relative h-[400px] md:h-[500px] overflow-hidden" *ngIf="event">
   <div class="absolute inset-0">

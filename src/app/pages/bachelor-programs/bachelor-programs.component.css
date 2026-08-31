@@ -36,14 +36,17 @@
 .hero-wrapper {
   position: relative;
   width: 100%;
-  background-size: cover;
-  background-position: center;
   background-color: #0b2c5f;
-  min-height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-height: 380px; /* piso solo cuando no hay imagen cargada */
   overflow: hidden;
+}
+
+/* La imagen define su propia altura según su proporción real —
+   así nunca se recorta ni deja espacios vacíos. */
+.hero-bg-img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .hero-overlay {
@@ -55,13 +58,13 @@
 
 @media (min-width: 640px) {
   .hero-wrapper {
-    min-height: 400px;
+    min-height: 480px;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-wrapper {
-    min-height: 450px;
+    min-height: 620px;
   }
 }
 
@@ -83,9 +86,16 @@
 }
 
 .hero-container {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 2;
-  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
   max-width: 80rem;
   padding: 2rem 1rem;
   width: 100%;

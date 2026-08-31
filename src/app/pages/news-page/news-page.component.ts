@@ -1,15 +1,36 @@
-import { Component, ViewEncapsulation, OnInit, OnDestroy, NgZone, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 import { NoticiasApiService, NoticiaApi } from '../../services/noticias-api.service';
+import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
 import { Subscription } from 'rxjs';
+
+interface NoticiasPageConfig {
+  heroTitulo:       string;
+  heroDescripcion:  string;
+  heroImagenFondo:  string;
+  destacadasTitulo: string;
+  listadoTitulo:    string;
+  categorias:       string[];
+}
+
+const DEFAULT_CONFIG: NoticiasPageConfig = {
+  heroTitulo:       'Noticias',
+  heroDescripcion:  'Mantente informado sobre lo que ocurre en nuestra institución.',
+  heroImagenFondo:  '',
+  destacadasTitulo: 'Noticias Destacadas',
+  listadoTitulo:    'Todas las Noticias',
+  categorias:       ['Académico', 'Deportes', 'Cultural', 'Institucional'],
+};
 
 interface FeaturedNews {
   _id: string;
   title: string;
+  description: string;
+  category: string;
   date: string;
   image: string;
 }
@@ -32,8 +53,7 @@ interface NewsArticle {
   encapsulation: ViewEncapsulation.Emulated
 })
 export class NewsPageComponent implements OnInit, OnDestroy {
-  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
-
+  config: NoticiasPageConfig = DEFAULT_CONFIG;
   featuredNews: FeaturedNews[] = [];
   allNews: NewsArticle[] = [];
   paginatedNews: NewsArticle[] = [];
@@ -45,17 +65,31 @@ export class NewsPageComponent implements OnInit, OnDestroy {
   private sub?: Subscription;
 
   constructor(
-    private ngZone: NgZone,
     private noticiasApi: NoticiasApiService,
+    private configService: ConfiguracionPublicaService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.configService.get<Partial<NoticiasPageConfig>>('noticias_page', DEFAULT_CONFIG)
+      .subscribe(config => this.config = {
+        ...DEFAULT_CONFIG,
+        ...config,
+        categorias: config?.categorias ?? DEFAULT_CONFIG.categorias,
+      });
+
     this.sub = this.noticiasApi.noticias$.subscribe(lista => {
       this.featuredNews = lista
         .filter(n => n.destacada)
-        .slice(0, 4)
-        .map(n => ({ _id: n._id, title: n.title, date: n.date, image: n.featuredImage || n.image }));
+        .slice(0, 5)
+        .map(n => ({
+          _id: n._id,
+          title: n.title,
+          description: n.description,
+          category: (n.category || n.tag || '').toUpperCase(),
+          date: n.date,
+          image: n.featuredImage || n.image,
+        }));
 
       this.allNews = lista.map(n => ({
         _id: n._id,
@@ -95,11 +129,18 @@ export class NewsPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['/noticias', id]);
   }
 
-  scrollLeft(): void {
-    this.scrollContainer?.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });
+  get heroBackgroundStyle(): string {
+    const overlay = 'linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6))';
+    return this.config.heroImagenFondo
+      ? `${overlay}, url("${this.config.heroImagenFondo}")`
+      : overlay;
   }
 
-  scrollRight(): void {
-    this.scrollContainer?.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
+  get mainFeatured(): FeaturedNews | undefined {
+    return this.featuredNews[0];
+  }
+
+  get otherFeatured(): FeaturedNews[] {
+    return this.featuredNews.slice(1);
   }
 }

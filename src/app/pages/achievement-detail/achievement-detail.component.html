@@ -134,7 +134,13 @@
         </article>
 
         <!-- Loading State -->
-        <div *ngIf="!achievement" class="text-center py-16">
+        <div *ngIf="loading" class="text-center py-16">
+          <span class="material-icons animate-spin text-4xl text-primary block mb-4">progress_activity</span>
+          <p class="text-slate-600 dark:text-slate-400">Cargando información...</p>
+        </div>
+
+        <!-- Not Found State -->
+        <div *ngIf="!loading && !achievement" class="text-center py-16">
           <span class="material-icons text-6xl text-slate-300 dark:text-slate-600 mb-4 block">info</span>
           <p class="text-slate-600 dark:text-slate-400 text-lg">El logro no fue encontrado.</p>
           <a routerLink="/estudiantes/logros" class="text-blue-600 hover:underline mt-4 inline-block">

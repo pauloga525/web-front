@@ -8,48 +8,51 @@
   <!-- Hero Section -->
   <div class="admissions-hero w-full overflow-hidden bg-slate-900">
     <div class="absolute inset-0 z-0">
-      <img 
-        alt="Students walking on university campus" 
-        class="h-full w-full object-cover opacity-60" 
-        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZiSYHlwL2eMFS8LwboMn9x35bwQZhFD0ncUqfVvMQCMBVeCnGMl4WzzSV3CQGfsyhsx0K0EtYeGfVzQAIssV_5MMPoLLR4rnvzCm9EGwXul2Ik8NqM509nGmZlp4h3LZz3sB6QunWB-ZBxrai3UGpNJ-8C_K5rpvtGsN0u0HvXevuOqN47j2Sqvhgogsn3bUCLJyFs66wIEUdXhkZ9haUxPmZo0TUMYCEBOFjykmNGPdkJTpwdBMQABnhHdznvZGvcrj8mA639K4">
+      <img
+        alt="UETS"
+        class="h-full w-full object-cover opacity-60"
+        [src]="config.heroImagenFondo">
     </div>
     <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/60 to-transparent"></div>
-  
+
     <div class="relative z-10 max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col justify-center py-20 md:py-32">
       <div class="max-w-2xl">
+        @if (config.heroBadge) {
         <span class="mb-4 inline-flex w-fit items-center rounded-full bg-accent-yellow/20 px-3 py-1 text-sm font-medium text-accent-yellow backdrop-blur-sm border border-accent-yellow/30">
-          Spring & Fall 2024
+          {{ config.heroBadge }}
         </span>
+        }
         <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white mb-6 leading-tight">
-          Admisiones 2024
+          {{ config.heroTitulo }}
         </h1>
         <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed font-light">
-          Tu futuro comienza aquí. Únete a una comunidad de innovadores, líderes y pensadores. Las solicitudes están abiertas para todos los programas de pregrado.
+          {{ config.heroDescripcion }}
         </p>
         <div class="flex flex-wrap gap-4">
-          <button class="flex items-center justify-center rounded-xl bg-accent-yellow hover:bg-accent-yellow-dark transition-colors text-slate-900 px-8 py-4 text-base font-bold shadow-lg shadow-accent-yellow/20">
-            Inicia tu Solicitud
-          </button>
-          <button class="flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-4 text-base font-bold transition-all">
-            Descargar Guía
-          </button>
+          <a [href]="config.heroBoton1Url || null" class="flex items-center justify-center rounded-xl bg-accent-yellow hover:bg-accent-yellow-dark transition-colors text-slate-900 px-8 py-4 text-base font-bold shadow-lg shadow-accent-yellow/20">
+            {{ config.heroBoton1Label }}
+          </a>
+          <a [href]="config.heroBoton2Url || null" class="flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-4 text-base font-bold transition-all">
+            {{ config.heroBoton2Label }}
+          </a>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Admissions Process Steps -->
+  @if (config.steps.length) {
   <section class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">Proceso de Admisión</h2>
-      <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Sigue estos cuatro sencillos pasos para convertirte en parte de nuestra comunidad académica.</p>
+      <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">{{ config.procesoTitulo }}</h2>
+      <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">{{ config.procesoDescripcion }}</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
       <!-- Connecting Line (Desktop) -->
       <div class="hidden lg:block absolute top-12 left-[12%] right-[12%] h-0.5 bg-slate-200 dark:bg-slate-700 -z-10"></div>
-      
+
       <!-- Steps -->
-      <ng-container *ngFor="let step of applicationSteps">
+      <ng-container *ngFor="let step of config.steps">
         <div class="group flex flex-col items-center text-center p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 dark:border-slate-700">
           <div class="size-24 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors flex items-center justify-center mb-6">
             <span class="material-symbols-outlined !text-4xl">{{ step.icon }}</span>
@@ -61,18 +64,21 @@
       </ng-container>
     </div>
   </section>
+  }
 
   <!-- Split Section: Requirements & Dates -->
+  @if (config.requisitos.length || config.descargas.length || config.fechas.length) {
   <section class="w-full bg-white dark:bg-slate-900 py-16 border-y border-slate-100 dark:border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16">
       <!-- Requirements Column -->
       <div>
+        @if (config.requisitos.length) {
         <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3">
           <span class="material-symbols-outlined text-primary">checklist</span>
-          Requisitos
+          {{ config.requisitosTitulo }}
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
-          <ng-container *ngFor="let req of requirements">
+          <ng-container *ngFor="let req of config.requisitos">
             <div class="flex items-start gap-3">
               <span class="material-symbols-outlined text-blue-600 mt-0.5">{{ req.icon }}</span>
               <div>
@@ -82,29 +88,33 @@
             </div>
           </ng-container>
         </div>
-        
+        }
+
         <!-- Downloads Grid -->
+        @if (config.descargas.length) {
         <div class="mt-10">
-          <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">Descargas Esenciales</h3>
+          <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">{{ config.descargasTitulo }}</h3>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <ng-container *ngFor="let download of downloads">
-              <a class="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:bg-primary/5 transition-all group" href="#">
+            <ng-container *ngFor="let download of config.descargas">
+              <a class="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:bg-primary/5 transition-all group" [href]="download.url || null" target="_blank" rel="noopener">
                 <span class="material-symbols-outlined text-slate-400 group-hover:text-primary mb-2 !text-3xl">{{ download.icon }}</span>
                 <span class="text-xs font-semibold text-center text-slate-700 dark:text-slate-300">{{ download.label }}</span>
               </a>
             </ng-container>
           </div>
         </div>
+        }
       </div>
 
       <!-- Important Dates Column -->
+      @if (config.fechas.length) {
       <div class="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-6 sm:p-8 border border-slate-100 dark:border-slate-700">
         <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
           <span class="material-symbols-outlined text-primary">calendar_month</span>
-          Fechas Importantes
+          {{ config.fechasTitulo }}
         </h2>
         <div class="space-y-4">
-          <ng-container *ngFor="let date of importantDates">
+          <ng-container *ngFor="let date of config.fechas">
             <div [ngClass]="{'flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm border-l-4': true, 'border-primary': date.isPrimary, 'border-slate-200 dark:border-slate-600': !date.isPrimary}">
               <div>
                 <h4 class="font-bold text-slate-900 dark:text-white">{{ date.title }}</h4>
@@ -124,16 +134,18 @@
           </a>
         </div>
       </div>
+      }
     </div>
   </section>
+  }
 
   <!-- Final CTA -->
   <section class="w-full bg-slate-900 py-20 text-center px-4">
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">¿Listo para dar forma a tu futuro?</h2>
-    <p class="text-slate-400 mb-8 text-lg max-w-2xl mx-auto">No pierdas la oportunidad de unirte a una comunidad diversa de estudiantes. La solicitud toma menos de 30 minutos para completar.</p>
-    <button class="bg-accent-yellow hover:bg-accent-yellow-dark text-slate-900 font-bold text-lg px-10 py-4 rounded-xl shadow-lg shadow-accent-yellow/20 transition-all transform hover:scale-105">
-      Inicia tu Solicitud
-    </button>
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">{{ config.ctaTitulo }}</h2>
+    <p class="text-slate-400 mb-8 text-lg max-w-2xl mx-auto">{{ config.ctaDescripcion }}</p>
+    <a [href]="config.ctaBotonUrl || null" class="inline-block bg-accent-yellow hover:bg-accent-yellow-dark text-slate-900 font-bold text-lg px-10 py-4 rounded-xl shadow-lg shadow-accent-yellow/20 transition-all transform hover:scale-105">
+      {{ config.ctaBotonLabel }}
+    </a>
   </section>
 </main>
 </div>

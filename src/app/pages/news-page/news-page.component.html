@@ -4,14 +4,16 @@
 
 <div class="w-full">
   <!-- Hero Section -->
-  <div class="flex flex-col relative min-h-[560px] justify-center items-center text-center p-8 bg-cover bg-center" 
-    style='background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBVFv6mFqDqhJEGPMts8Hi1KfbG7ue2Xu7J3g8TboQCwqLonpop8JrhIrjAmiM-t4rAiJzAqPGsRxnTdpv2CM_IO-DfKtSwFhJwQuixyUvvHyI7qICNwK3BeqILmI0kikXmhOkiyI5oN3glfRaLfxijQr30RxA7c1nHdipMA10BWXGB0ZCWWrlmInE78FUwohnZ10dmeRaiLcJXfcg49l2gdxM0lM0_3i2uAWQ7kkPs-rdW9qI7hgdKmtC5fgUNSFjy32UQqC0lcD4")'>
+  <div
+    class="flex flex-col relative min-h-[560px] justify-center items-center text-center p-8 bg-cover bg-center bg-secondary"
+    [style.backgroundImage]="heroBackgroundStyle"
+  >
     <div class="max-w-[800px] flex flex-col gap-6 z-10">
       <h1 class="text-white text-5xl md:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-sm">
-        Noticias 
+        {{ config.heroTitulo }}
       </h1>
       <p class="text-white/90 text-lg md:text-xl font-normal leading-relaxed max-w-2xl mx-auto">
-        Mantente actualizado con las últimas novedades, logros y eventos de nuestra institución educativa.
+        {{ config.heroDescripcion }}
       </p>
     </div>
   </div>
@@ -20,39 +22,53 @@
     <div class="flex flex-1 justify-center py-16 px-4 md:px-10">
       <div class="layout-content-container flex flex-col max-w-[1200px] flex-1 gap-16 w-full">
         
-        <!-- Featured News Horizontal Section -->
-        <section class="featured-section">
+        <!-- Featured News Section -->
+        <section class="featured-section" *ngIf="featuredNews.length">
           <div class="section-header">
             <div>
-              <h2 class="text-white text-3xl font-bold">Noticias Destacadas</h2>
+              <h2 class="text-white text-3xl font-bold">{{ config.destacadasTitulo }}</h2>
               <p class="text-white/80 text-sm mt-2">Lo más relevante de nuestro campus</p>
             </div>
-            <div class="scroll-indicators">
-              <button class="scroll-btn scroll-btn-left" (click)="scrollLeft()" aria-label="Desplazar izquierda" title="Anterior">
-                <span class="material-icons">chevron_left</span>
-              </button>
-              <button class="scroll-btn scroll-btn-right" (click)="scrollRight()" aria-label="Desplazar derecha" title="Siguiente">
-                <span class="material-icons">chevron_right</span>
-              </button>
-            </div>
           </div>
-          
-          <div class="featured-scroll-container">
-            <div class="featured-cards-wrapper" #scrollContainer>
-              @for (item of featuredNews; track $index) {
-                <article class="featured-card" (click)="navigateToNewsDetail(item._id)" role="button" tabindex="0">
-                  <div class="featured-card-image-wrapper">
-                    <img 
-                      [src]="item.image" 
-                      [alt]="item.title"
-                      class="featured-card-image"
-                    />
-                    <div class="featured-card-overlay"></div>
+
+          <div class="featured-layout">
+            <!-- Historia principal -->
+            <article
+              class="featured-main"
+              *ngIf="mainFeatured as main"
+              (click)="navigateToNewsDetail(main._id)"
+              role="button"
+              tabindex="0"
+            >
+              <div class="featured-main-image-wrapper">
+                <img [src]="main.image" [alt]="main.title" class="featured-main-image" />
+                <div class="featured-main-overlay"></div>
+              </div>
+              <div class="featured-main-content">
+                <span class="featured-card-badge">{{ main.category || 'Destacado' }}</span>
+                <h3 class="featured-main-title">{{ main.title }}</h3>
+                <p class="featured-main-description" *ngIf="main.description">{{ main.description }}</p>
+                <div class="featured-main-meta">
+                  <span class="featured-card-date" *ngIf="main.date">{{ main.date }}</span>
+                  <span class="featured-main-cta">
+                    Leer noticia
+                    <span class="material-icons">arrow_forward</span>
+                  </span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Lista lateral -->
+            <div class="featured-side-list" *ngIf="otherFeatured.length">
+              @for (item of otherFeatured; track item._id) {
+                <article class="featured-side-item" (click)="navigateToNewsDetail(item._id)" role="button" tabindex="0">
+                  <div class="featured-side-thumb">
+                    <img [src]="item.image" [alt]="item.title" />
                   </div>
-                  <div class="featured-card-content">
-                    <span class="featured-card-badge">Destacado</span>
-                    <h3 class="featured-card-title">{{ item.title }}</h3>
-                    <p class="featured-card-date">{{ item.date }}</p>
+                  <div class="featured-side-content">
+                    <span class="featured-side-category" *ngIf="item.category">{{ item.category }}</span>
+                    <h4 class="featured-side-title">{{ item.title }}</h4>
+                    <span class="featured-card-date" *ngIf="item.date">{{ item.date }}</span>
                   </div>
                 </article>
               }
@@ -63,7 +79,7 @@
         <!-- Main News Section -->
         <section class="news-main-section">
           <div class="section-header-dark">
-            <h2 class="text-gray-900 text-3xl font-bold">Noticias UETS</h2>
+            <h2 class="text-gray-900 text-3xl font-bold">{{ config.listadoTitulo }}</h2>
             <p class="text-gray-600 text-sm mt-1">Artículos actualizados diariamente</p>
           </div>
           

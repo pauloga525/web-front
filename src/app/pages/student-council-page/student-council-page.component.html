@@ -16,17 +16,20 @@
         class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
         (click)="openDetail(i)"
       >
-        <div 
-          class="aspect-[4/3] w-full bg-slate-200 dark:bg-slate-700" 
-          [style.background-image]="'url(' + member.image + ')'"
+        <div
+          class="aspect-[4/3] w-full bg-slate-200 dark:bg-slate-700"
+          [style.background-image]="'url(' + member.imagen + ')'"
           style="background-size: cover; background-position: center top;"
         ></div>
         <div class="p-6">
-          <p class="text-primary font-bold text-sm uppercase tracking-wide mb-1">{{ member.title }}</p>
-          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">{{ member.name }}</h3>
-          <p class="text-slate-500 dark:text-slate-400 text-sm">{{ member.description }}</p>
+          <p class="text-primary font-bold text-sm uppercase tracking-wide mb-1">{{ member.titulo }}</p>
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">{{ member.nombre }}</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm">{{ member.descripcion }}</p>
         </div>
       </div>
+      <p *ngIf="!councilMembers.length" class="text-center text-slate-400 dark:text-slate-500 italic py-12 col-span-full">
+        Próximamente conocerás a los miembros del Consejo Estudiantil.
+      </p>
     </div>
   </div>
 </section>

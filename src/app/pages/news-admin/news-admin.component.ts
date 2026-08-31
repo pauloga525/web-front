@@ -6,6 +6,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 import { NoticiasApiService, NoticiaApi } from '../../services/noticias-api.service';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-news-admin',
@@ -38,6 +39,6 @@ export class NewsAdminComponent implements OnInit, OnDestroy {
   }
 
   goToDashboard(): void {
-    window.open('http://localhost:4201', '_blank');
+    window.open(environment.adminUrl, '_blank');
   }
 }

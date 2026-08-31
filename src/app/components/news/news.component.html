@@ -10,7 +10,10 @@
 
         <div class="space-y-6 sm:space-y-8">
           @for (news of newsItems; track $index) {
-            <div class="flex flex-col sm:flex-row gap-4 sm:gap-5 group cursor-pointer border-b border-gray-100 pb-6 sm:pb-8 last:border-b-0">
+            <div
+              class="flex flex-col sm:flex-row gap-4 sm:gap-5 group cursor-pointer border-b border-gray-100 pb-6 sm:pb-8 last:border-b-0"
+              [routerLink]="['/noticias', news._id]"
+            >
               <div class="flex-shrink-0 w-full sm:w-28 md:w-32 h-28 md:h-32 rounded-xl overflow-hidden bg-gray-200">
                 <img 
                   [alt]="news.title"
