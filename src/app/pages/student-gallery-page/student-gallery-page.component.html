@@ -5,27 +5,28 @@
   <section class="bg-gray-100 dark:bg-gray-800 py-12 border-b border-gray-200 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <app-breadcrumb></app-breadcrumb>
-      <h1 class="text-4xl md:text-5xl font-display font-bold mb-4" style="color: #003366;">Nuestros Graduados</h1>
+      <h1 class="text-4xl md:text-5xl font-display font-bold mb-4" style="color: #003366;">{{ heroTitulo }}</h1>
       <p class="text-lg text-muted-light dark:text-muted-dark max-w-2xl">
-        Explora la historia visual de nuestra universidad a través de momentos capturados en eventos, vida estudiantil y logros académicos.
+        {{ heroDescripcion }}
       </p>
     </div>
   </section>
 
   <!-- Featured Section -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-    <div class="relative rounded-2xl overflow-hidden shadow-2xl mb-12 group h-[400px] md:h-[500px]">
-      <img 
-        alt="Recent Graduation Ceremony Featured" 
-        class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
-        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaVqv2opHK3lOxWTVTaZ0D2Eu1tvFSb0xfS-lriT1b99izOlcssa6IC4QSns5yVG0_cOkHWB4T5eLYYv_fYmzKJCEmpSPA1mG7SebUgUWL33cogpcNexmseEYiE8bnxwPeDZCsfS5ZOWDzqlw3z0bBt5E7Orr6Pp6fbAa_N3jP4Ht7FPuKkYvxzOOaSwcwJ274vqt2rv2TYdhfwDw6ls5FQL7N7KxMFYwRjQdSnqwaK1b6cOvWneKPuEoWEtqEfir5tpKziCh02wY"/>
+    <div class="relative rounded-2xl overflow-hidden shadow-2xl mb-12 group h-[400px] md:h-[500px] bg-blue-900">
+      <img
+        *ngIf="destacadoImagen"
+        [alt]="destacadoTitulo"
+        class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+        [src]="destacadoImagen"/>
       <div class="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/40 to-transparent flex flex-col justify-end p-8 md:p-12">
-        <div class="inline-flex items-center px-3 py-1 rounded-full bg-yellow-500 text-blue-900 text-xs font-bold mb-4 uppercase tracking-wider">
-          Destacado
+        <div class="inline-flex items-center px-3 py-1 rounded-full bg-yellow-500 text-blue-900 text-xs font-bold mb-4 uppercase tracking-wider" *ngIf="destacadoBadge">
+          {{ destacadoBadge }}
         </div>
-        <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-4">Homenaje a Graduados</h2>
+        <h2 class="featured-banner-title text-3xl md:text-5xl font-display font-bold text-white mb-4">{{ destacadoTitulo }}</h2>
         <p class="text-lg text-gray-100 max-w-xl mb-6">
-          Celebrando el esfuerzo, la dedicación y el éxito de nuestra Promoción 2024. Un nuevo capítulo comienza para nuestros líderes del mañana.
+          {{ destacadoDescripcion }}
         </p>
       </div>
     </div>
@@ -92,7 +93,7 @@
                     
                     <!-- Overlay con información -->
                     <div class="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                      <h3 class="text-white font-bold text-lg mb-1">{{ photo.title }}</h3>
+                      <h3 class="photo-overlay-title text-white font-bold text-lg mb-1">{{ photo.title }}</h3>
                       <p class="text-gray-200 text-sm mb-3">{{ photo.date }}</p>
                       <div class="flex items-center gap-2 text-yellow-400">
                         <span class="material-icons text-sm">zoom_in</span>

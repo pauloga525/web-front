@@ -30,7 +30,22 @@ interface PromocionItem {
 
 interface EstudiantesPageConfig {
   promociones?: PromocionItem[];
+  graduadosHeroTitulo?: string;
+  graduadosHeroDescripcion?: string;
+  graduadosDestacadoBadge?: string;
+  graduadosDestacadoTitulo?: string;
+  graduadosDestacadoDescripcion?: string;
+  graduadosDestacadoImagen?: string;
 }
+
+const DEFAULT_HERO = {
+  heroTitulo: 'Nuestros Graduados',
+  heroDescripcion: 'Explora la historia visual de nuestra institución a través de momentos capturados en eventos, vida estudiantil y logros académicos.',
+  destacadoBadge: 'Destacado',
+  destacadoTitulo: 'Homenaje a Graduados',
+  destacadoDescripcion: 'Celebrando el esfuerzo, la dedicación y el éxito de nuestros graduados. Un nuevo capítulo comienza para nuestros líderes del mañana.',
+  destacadoImagen: '',
+};
 
 @Component({
   selector: 'app-student-gallery-page',
@@ -43,6 +58,13 @@ interface EstudiantesPageConfig {
 export class StudentGalleryPageComponent implements OnInit, OnDestroy {
   searchQuery = '';
   selectedYear = 'todos';
+
+  heroTitulo = DEFAULT_HERO.heroTitulo;
+  heroDescripcion = DEFAULT_HERO.heroDescripcion;
+  destacadoBadge = DEFAULT_HERO.destacadoBadge;
+  destacadoTitulo = DEFAULT_HERO.destacadoTitulo;
+  destacadoDescripcion = DEFAULT_HERO.destacadoDescripcion;
+  destacadoImagen = DEFAULT_HERO.destacadoImagen;
   
   years = ['todos'];
   categories = [
@@ -136,6 +158,13 @@ export class StudentGalleryPageComponent implements OnInit, OnDestroy {
     const promotions = config?.promociones ?? [];
     this.promotionGroups = this.buildPromotionGroups(promotions);
     this.years = ['todos', ...Array.from(new Set(this.promotionGroups.map(group => group.year)))];
+
+    this.heroTitulo = config?.graduadosHeroTitulo || DEFAULT_HERO.heroTitulo;
+    this.heroDescripcion = config?.graduadosHeroDescripcion || DEFAULT_HERO.heroDescripcion;
+    this.destacadoBadge = config?.graduadosDestacadoBadge || DEFAULT_HERO.destacadoBadge;
+    this.destacadoTitulo = config?.graduadosDestacadoTitulo || DEFAULT_HERO.destacadoTitulo;
+    this.destacadoDescripcion = config?.graduadosDestacadoDescripcion || DEFAULT_HERO.destacadoDescripcion;
+    this.destacadoImagen = config?.graduadosDestacadoImagen || DEFAULT_HERO.destacadoImagen;
   }
 
   private buildPromotionGroups(promotions: PromocionItem[]): PromotionGroup[] {

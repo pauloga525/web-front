@@ -69,6 +69,10 @@ const DEFAULT_CONFIG: EstudiantesPageConfig = {
 export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
   config: EstudiantesPageConfig = DEFAULT_CONFIG;
   achievements: LogroApi[] = [];
+  achievementsLoading = true;
+  achievementsError = false;
+  selectedAchievement: LogroApi | null = null;
+  selectedClub: Club | null = null;
   private destroy$ = new Subject<void>();
 
   // ── Gallery carousel ────────────────────────────────────────────────────────
@@ -96,11 +100,34 @@ export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadConfig();
-    this.logrosApi.getFeatured().pipe(takeUntil(this.destroy$)).subscribe(list => this.achievements = list);
+    this.logrosApi.getFeatured().pipe(takeUntil(this.destroy$)).subscribe({
+      next: list => { this.achievements = list; this.achievementsLoading = false; },
+      error: () => { this.achievementsLoading = false; this.achievementsError = true; },
+    });
 
     this.websocket.on('configuracion:estudiantes_page:actualizada')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => this.applyConfig(data?.datos ?? data));
+  }
+
+  openAchievementModal(achievement: LogroApi): void {
+    this.selectedAchievement = achievement;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeAchievementModal(): void {
+    this.selectedAchievement = null;
+    document.body.style.overflow = 'auto';
+  }
+
+  openClubModal(club: Club): void {
+    this.selectedClub = club;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeClubModal(): void {
+    this.selectedClub = null;
+    document.body.style.overflow = 'auto';
   }
 
   ngOnDestroy(): void {
@@ -271,6 +298,8 @@ export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
 
   @HostListener('document:keydown', ['$event'])
   onKeydown(e: KeyboardEvent): void {
+    if (e.key === 'Escape' && this.selectedAchievement) { this.closeAchievementModal(); return; }
+    if (e.key === 'Escape' && this.selectedClub) { this.closeClubModal(); return; }
     if (!this.lightboxOpen) return;
     if (e.key === 'Escape')     this.closeLightbox();
     if (e.key === 'ArrowLeft')  this.prevLightbox();

@@ -13,6 +13,20 @@
   color: var(--primary-color) !important;
 }
 
+/* Excepción: el título del banner destacado va sobre una foto con degradado
+   oscuro, no sobre fondo blanco — necesita texto claro para verse bien. */
+.student-gallery-container h2.featured-banner-title {
+  color: #ffffff !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* Excepción: el título que aparece al pasar el mouse sobre cada foto de
+   promoción va sobre la miniatura con degradado oscuro, mismo caso. */
+.student-gallery-container h3.photo-overlay-title {
+  color: #ffffff !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
 .student-gallery-container .text-primary {
   color: var(--primary-color) !important;
 }

@@ -91,12 +91,16 @@
           <h2 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight mb-8">{{ config.clubesTitulo }}</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @for (club of clubs; track club.id) {
-              <div class="club-card bg-white dark:bg-slate-800 rounded-xl p-6 transition-all hover:shadow-lg group cursor-pointer">
+              <div
+                (click)="openClubModal(club)"
+                role="button"
+                tabindex="0"
+                class="club-card bg-white dark:bg-slate-800 rounded-xl p-6 transition-all hover:shadow-lg group cursor-pointer">
                 <div class="club-icon h-12 w-12 rounded-lg flex items-center justify-center mb-4 group-hover:text-white transition-colors">
                   <span class="material-icons text-xl">{{ club.icon }}</span>
                 </div>
                 <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">{{ club.title }}</h3>
-                <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">{{ club.description }}</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">{{ club.description }}</p>
                 <span class="club-text text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
                   Mas informacion <span class="material-icons text-sm">arrow_forward</span>
                 </span>
@@ -158,12 +162,43 @@
             </a>
           </div>
 
+          <!-- Estado: cargando -->
+          @if (achievementsLoading) {
+            <div class="flex items-center justify-center py-16">
+              <span class="material-icons animate-spin text-4xl text-primary">progress_activity</span>
+            </div>
+          }
+
+          <!-- Estado: error -->
+          @if (!achievementsLoading && achievementsError) {
+            <div class="text-center py-12 text-slate-500 dark:text-slate-400">
+              No se pudieron cargar los logros. Intenta recargar la página.
+            </div>
+          }
+
+          <!-- Estado: vacío -->
+          @if (!achievementsLoading && !achievementsError && !achievements.length) {
+            <div class="rounded-xl border border-slate-200 dark:border-slate-700 p-10 text-center text-slate-500 dark:text-slate-400">
+              Aún no hay logros destacados.
+            </div>
+          }
+
+          <!-- Estado: datos -->
+          @if (!achievementsLoading && !achievementsError && achievements.length) {
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @for (achievement of achievements; track achievement._id) {
-              <article class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg transition-all group block">
+              <article
+                (click)="openAchievementModal(achievement)"
+                role="button"
+                tabindex="0"
+                class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg transition-all group block cursor-pointer">
                 <div class="h-48 w-full overflow-hidden relative bg-slate-100 dark:bg-slate-700">
                   @if (achievement.image) {
                     <img [alt]="achievement.title" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" [src]="achievement.image" />
+                  } @else {
+                    <div class="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-600">
+                      <span class="material-icons text-4xl">image</span>
+                    </div>
                   }
                   @if (achievement.badge) {
                     <div class="achievement-badge bg-primary text-white">
@@ -174,11 +209,12 @@
                 <div class="p-6">
                   <div class="text-slate-500 dark:text-slate-400 text-xs font-medium mb-2 uppercase tracking-wide">{{ achievement.date }}</div>
                   <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{{ achievement.title }}</h3>
-                  <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">{{ achievement.description }}</p>
+                  <p class="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">{{ achievement.description }}</p>
                 </div>
               </article>
             }
           </div>
+          }
         </section>
 
       </div>
@@ -269,6 +305,74 @@
         }
       </div>
     }
+  </div>
+}
+
+<!-- Pop-up de logro seleccionado -->
+@if (selectedAchievement) {
+  <div class="fixed inset-0 z-[300] flex items-center justify-center bg-black/80 p-4"
+       (click)="closeAchievementModal()">
+    <div class="w-full max-w-3xl max-h-[90vh] bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-2xl relative flex flex-col"
+         (click)="$event.stopPropagation()">
+
+      <!-- Botón cerrar -->
+      <button (click)="closeAchievementModal()"
+              class="absolute top-4 right-4 z-10 p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-700 rounded-full shadow transition-colors">
+        <span class="material-icons text-2xl text-slate-700 dark:text-slate-200">close</span>
+      </button>
+
+      <div class="overflow-y-auto">
+        <!-- Imagen completa -->
+        <div class="relative w-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center max-h-[50vh] overflow-hidden">
+          @if (selectedAchievement.image) {
+            <img [src]="selectedAchievement.image" [alt]="selectedAchievement.title" class="w-full h-full object-contain" />
+          } @else {
+            <div class="w-full h-64 flex items-center justify-center text-slate-300 dark:text-slate-600">
+              <span class="material-icons text-6xl">image</span>
+            </div>
+          }
+          @if (selectedAchievement.badge) {
+            <div class="achievement-badge bg-primary text-white">
+              {{ selectedAchievement.badge }}
+            </div>
+          }
+        </div>
+
+        <!-- Título y descripción completa -->
+        <div class="p-6 md:p-8 flex flex-col gap-4">
+          <div>
+            <p class="text-primary font-semibold text-sm uppercase tracking-wide" *ngIf="selectedAchievement.category">{{ selectedAchievement.category }}</p>
+            <h2 class="text-slate-900 dark:text-white text-2xl md:text-3xl font-bold mt-2">{{ selectedAchievement.title }}</h2>
+          </div>
+          <p class="text-slate-600 dark:text-slate-400 text-base leading-relaxed">{{ selectedAchievement.description }}</p>
+          <span class="text-slate-500 dark:text-slate-500 text-sm">{{ selectedAchievement.date }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Pop-up de club seleccionado -->
+@if (selectedClub) {
+  <div class="fixed inset-0 z-[300] flex items-center justify-center bg-black/80 p-4"
+       (click)="closeClubModal()">
+    <div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-2xl relative"
+         (click)="$event.stopPropagation()">
+
+      <!-- Botón cerrar -->
+      <button (click)="closeClubModal()"
+              class="absolute top-4 right-4 z-10 p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-700 rounded-full shadow transition-colors">
+        <span class="material-icons text-2xl text-slate-700 dark:text-slate-200">close</span>
+      </button>
+
+      <div class="p-6 md:p-8 flex flex-col gap-4">
+        <div class="club-icon h-16 w-16 rounded-xl flex items-center justify-center">
+          <span class="material-icons text-3xl">{{ selectedClub.icon }}</span>
+        </div>
+        <h2 class="text-slate-900 dark:text-white text-2xl md:text-3xl font-bold">{{ selectedClub.title }}</h2>
+        <p class="text-slate-600 dark:text-slate-400 text-base leading-relaxed">{{ selectedClub.description }}</p>
+      </div>
+    </div>
   </div>
 }
 

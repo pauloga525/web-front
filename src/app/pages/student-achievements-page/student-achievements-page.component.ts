@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
@@ -18,6 +18,7 @@ export class StudentAchievementsPageComponent implements OnInit {
   achievements: LogroApi[] = [];
   categories: string[] = [];
   selectedCategory = 'Todos';
+  selectedAchievement: LogroApi | null = null;
 
   constructor(private logrosApi: LogrosApiService) {}
 
@@ -36,5 +37,20 @@ export class StudentAchievementsPageComponent implements OnInit {
 
   selectCategory(category: string): void {
     this.selectedCategory = category;
+  }
+
+  openModal(achievement: LogroApi): void {
+    this.selectedAchievement = achievement;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeModal(): void {
+    this.selectedAchievement = null;
+    document.body.style.overflow = 'auto';
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.selectedAchievement) this.closeModal();
   }
 }
