@@ -9,6 +9,35 @@ import { FeaturedEventComponent } from '../../components/featured-event/featured
 import { EventCardComponent, EventItem } from '../../components/event-card/event-card.component';
 import { EventsPaginationComponent } from '../../components/events-pagination/events-pagination.component';
 import { EventosApiService, EventoApi } from '../../services/eventos-api.service';
+import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
+
+interface HeroEventosApi {
+  etiqueta: string;
+  titulo: string;
+  subtitulo: string;
+  imagenFondo: string;
+}
+
+interface CategoriaEventoApi {
+  id: number;
+  nombre: string;
+  color: string;
+}
+
+const HERO_DEFAULT: HeroEventosApi = {
+  etiqueta: '',
+  titulo: 'Eventos Institucionales',
+  subtitulo: 'Descubre las actividades académicas, culturales y deportivas que dan vida a nuestra comunidad educativa.',
+  imagenFondo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAHVzmkiSD0N0_TEi55Q6_5yHsy7bVgTGIiWqDv2gDW5UZrsb7-3_UtzoyguNg0mLtYQ6ANqH2zCw3yNarHY24lKiau3ZazE--dYJV4u2vgg5CZkjRHH_dw2UbclsS-ZTCFOIw27Ta9tXz39vqD8weBDfoS7CcFs9Cq8m-2oIfGWI5_5KAm0oQeJT14DrqCxd8yHlVlqgx0h2cxyfJwodx7rAW3hhRWLvWe7b9tQ33Siob4qxiEwHKqJP8c7Uqn1_vu2XiVmM4fxFk',
+};
+
+const CATEGORIAS_DEFAULT: CategoriaEventoApi[] = [
+  { id: 1, nombre: 'Académico', color: 'blue' },
+  { id: 2, nombre: 'Cultural', color: 'yellow' },
+  { id: 3, nombre: 'Pastoral', color: 'green' },
+  { id: 4, nombre: 'Deportes', color: 'red' },
+  { id: 5, nombre: 'Comunidad', color: 'purple' },
+];
 
 /** Convierte un EventoApi del backend al formato EventItem que usan los componentes del template */
 function toEventItem(e: EventoApi): EventItem {
@@ -64,13 +93,44 @@ export class EventsPageComponent implements OnInit {
     year: String(new Date().getFullYear())
   };
 
-  constructor(private eventosApi: EventosApiService) {}
+  // Hero banner — editable desde el panel administrativo (Eventos > Config. Hero)
+  heroEtiqueta    = HERO_DEFAULT.etiqueta;
+  heroTitulo      = HERO_DEFAULT.titulo;
+  heroSubtitulo   = HERO_DEFAULT.subtitulo;
+  heroImagenFondo = HERO_DEFAULT.imagenFondo;
+
+  // Categorías del filtro — editables desde el panel (Eventos > Categorías)
+  categoriasFiltro: { value: string; label: string }[] = [
+    { value: '', label: 'Todas las Categorías' },
+    ...CATEGORIAS_DEFAULT.map(c => ({ value: c.nombre, label: c.nombre })),
+  ];
+
+  constructor(
+    private eventosApi: EventosApiService,
+    private configPublica: ConfiguracionPublicaService,
+  ) {}
 
   ngOnInit() {
     this.eventosApi.getDestacado().subscribe(ev => {
       this.featuredEvent = ev ? toEventItem(ev) : null;
     });
     this.loadPage(1);
+
+    this.configPublica.get<HeroEventosApi>('eventos_hero', HERO_DEFAULT).subscribe(hero => {
+      if (!hero) return;
+      this.heroEtiqueta    = hero.etiqueta    || '';
+      this.heroTitulo      = hero.titulo      || HERO_DEFAULT.titulo;
+      this.heroSubtitulo   = hero.subtitulo   || HERO_DEFAULT.subtitulo;
+      this.heroImagenFondo = hero.imagenFondo || HERO_DEFAULT.imagenFondo;
+    });
+
+    this.configPublica.get<CategoriaEventoApi[]>('eventos_categorias', CATEGORIAS_DEFAULT).subscribe(cats => {
+      const lista = Array.isArray(cats) && cats.length ? cats : CATEGORIAS_DEFAULT;
+      this.categoriasFiltro = [
+        { value: '', label: 'Todas las Categorías' },
+        ...lista.map(c => ({ value: c.nombre, label: c.nombre })),
+      ];
+    });
   }
 
   loadPage(pagina: number): void {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -19,20 +19,24 @@ export interface EventFilter {
 export class EventsFilterComponent {
   @Output() filterChange = new EventEmitter<EventFilter>();
 
+  /**
+   * Categorías disponibles para el select. Las provee el componente padre
+   * (events-page) a partir de la lista real gestionada en el panel
+   * administrativo (Eventos > Categorías) — antes venían fijas aquí con
+   * valores en inglés ('academic', 'sports'...) que nunca coincidían con
+   * la categoría real guardada en cada evento, por lo que el filtro nunca
+   * devolvía resultados. Se deja un fallback por si aún no ha cargado.
+   */
+  @Input() categories: { value: string; label: string }[] = [
+    { value: '', label: 'Todas las Categorías' },
+  ];
+
   filter: EventFilter = {
     searchTerm: '',
     category: '',
     month: 'oct',
     year: '2024'
   };
-
-  categories = [
-    { value: '', label: 'Todas las Categorías' },
-    { value: 'academic', label: 'Académico' },
-    { value: 'sports', label: 'Deportes' },
-    { value: 'cultural', label: 'Cultural' },
-    { value: 'pastoral', label: 'Pastoral' }
-  ];
 
   months = [
     { value: 'oct', label: 'Octubre' },
