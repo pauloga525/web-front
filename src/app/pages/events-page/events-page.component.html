@@ -35,7 +35,7 @@
 <!-- Sticky Filter Section -->
 <div class="sticky top-20 z-40 bg-white dark:bg-gray-800 shadow-md border-b border-gray-200 dark:border-gray-700">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-    <app-events-filter [categories]="categoriasFiltro" (filterChange)="applyFilter($event)"></app-events-filter>
+    <app-events-filter [categories]="categoriasFiltro" [years]="aniosFiltro" (filterChange)="applyFilter($event)"></app-events-filter>
   </div>
 </div>
 

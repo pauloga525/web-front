@@ -31,22 +31,44 @@ export class EventsFilterComponent {
     { value: '', label: 'Todas las Categorías' },
   ];
 
+  /**
+   * Años disponibles para el select. Los calcula el padre (events-page) a
+   * partir de los eventos reales que existen, en vez de venir fijos aquí
+   * (antes eran solo '2024'/'2025' y no incluían el año en el que
+   * realmente estaban cargados los eventos, así que filtrar por año
+   * siempre devolvía una lista vacía).
+   */
+  @Input() years: { value: string; label: string }[] = [
+    { value: '', label: 'Todos los años' },
+  ];
+
   filter: EventFilter = {
     searchTerm: '',
     category: '',
-    month: 'oct',
-    year: '2024'
+    month: '',
+    year: ''
   };
 
+  /**
+   * Antes solo había 3 meses (oct/nov/dic) con valores de texto ('oct') que
+   * el backend nunca podía interpretar como número de mes (1-12), por lo
+   * que el filtro de mes no hacía absolutamente nada. Ahora son los 12
+   * meses reales con su número correspondiente.
+   */
   months = [
-    { value: 'oct', label: 'Octubre' },
-    { value: 'nov', label: 'Noviembre' },
-    { value: 'dic', label: 'Diciembre' }
-  ];
-
-  years = [
-    { value: '2024', label: '2024' },
-    { value: '2025', label: '2025' }
+    { value: '',   label: 'Todos los meses' },
+    { value: '1',  label: 'Enero' },
+    { value: '2',  label: 'Febrero' },
+    { value: '3',  label: 'Marzo' },
+    { value: '4',  label: 'Abril' },
+    { value: '5',  label: 'Mayo' },
+    { value: '6',  label: 'Junio' },
+    { value: '7',  label: 'Julio' },
+    { value: '8',  label: 'Agosto' },
+    { value: '9',  label: 'Septiembre' },
+    { value: '10', label: 'Octubre' },
+    { value: '11', label: 'Noviembre' },
+    { value: '12', label: 'Diciembre' },
   ];
 
   onFilterChange() {

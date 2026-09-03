@@ -86,12 +86,23 @@ export class EventsPageComponent implements OnInit {
   featuredEvent: EventItem | null = null;
   filteredEvents: EventItem[] = [];
 
+  // Sin año por defecto: antes se forzaba el año actual desde el primer
+  // render, así que los eventos de otros años quedaban ocultos sin que
+  // nada en la pantalla lo indicara. Ahora se muestran todos hasta que el
+  // usuario elija un año puntual.
   currentFilter: EventFilter = {
     searchTerm: '',
     category: '',
     month: '',
-    year: String(new Date().getFullYear())
+    year: ''
   };
+
+  // Años disponibles para el filtro — se calculan a partir de los eventos
+  // publicados que realmente existen (no una lista fija), para que el
+  // desplegable siempre incluya los años con datos reales.
+  aniosFiltro: { value: string; label: string }[] = [
+    { value: '', label: 'Todos los años' },
+  ];
 
   // Hero banner — editable desde el panel administrativo (Eventos > Config. Hero)
   heroEtiqueta    = HERO_DEFAULT.etiqueta;
@@ -129,6 +140,18 @@ export class EventsPageComponent implements OnInit {
       this.categoriasFiltro = [
         { value: '', label: 'Todas las Categorías' },
         ...lista.map(c => ({ value: c.nombre, label: c.nombre })),
+      ];
+    });
+
+    this.eventosApi.eventos$.subscribe(eventos => {
+      const anios = new Set<string>();
+      for (const ev of eventos) {
+        const anio = (ev.fecha ?? '').slice(0, 4);
+        if (/^\d{4}$/.test(anio)) anios.add(anio);
+      }
+      this.aniosFiltro = [
+        { value: '', label: 'Todos los años' },
+        ...Array.from(anios).sort((a, b) => Number(b) - Number(a)).map(a => ({ value: a, label: a })),
       ];
     });
   }
