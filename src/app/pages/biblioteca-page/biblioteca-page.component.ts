@@ -18,6 +18,7 @@ interface Book {
 }
 
 interface LibroCategoria { id: number; nombre: string; }
+interface Plataforma { id: number; name: string; image: string; url: string; }
 
 interface BibliotecaPageConfig {
   heroTitulo:      string;
@@ -45,6 +46,8 @@ const DEFAULT_CONFIG: BibliotecaPageConfig = {
 export class BibliotecaPageComponent implements OnInit {
   config: BibliotecaPageConfig = DEFAULT_CONFIG;
   books: Book[] = [];
+  // Plataformas digitales — misma lista compartida con Campus y el Repositorio.
+  plataformas: Plataforma[] = [];
 
   searchTerm: string = '';
   filterCategory: string = TODAS;
@@ -72,6 +75,9 @@ export class BibliotecaPageComponent implements OnInit {
         available: (r.tags ?? []).includes('disponible'),
         isNew: (r.tags ?? []).includes('nuevo'),
       }));
+    });
+    this.configPublica.get<Plataforma[]>('plataformas', []).subscribe(list => {
+      this.plataformas = Array.isArray(list) ? list.filter(p => p.image) : [];
     });
   }
 

@@ -4,7 +4,7 @@ import { SuppressImageWarningDirective } from '../../directives/suppress-image-w
 import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
 import { WebsocketService } from '../../services/websocket.service';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 interface Link {
   name: string;
@@ -12,6 +12,21 @@ interface Link {
   image?: string;
 }
 
+interface Plataforma {
+  id: number;
+  name: string;
+  image: string;
+  url: string;
+}
+
+/**
+ * Antes esta sección leía 'home.enlacesInteres', una lista propia y
+ * completamente separada de la de Campus/Repositorio (distinto esquema:
+ * nombre/url/imagen en vez de name/url/image). Eran dos listas de logos
+ * que un admin tenía que mantener sincronizadas a mano. Ahora usa la
+ * misma lista compartida 'plataformas' que Campus y el Repositorio, para
+ * que un solo lugar de edición (Campus → Plataformas) alimente los tres.
+ */
 @Component({
   selector: 'app-interest-links',
   standalone: true,
@@ -30,33 +45,21 @@ export class InterestLinksComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.configService.get<any>('home', {})
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(config => {
-        if (config?.enlacesInteres?.length) {
-          this.links = this.mapEnlaces(config.enlacesInteres);
-        }
-      });
+    this.cargar();
 
-    this.websocket.on('configuracion:home:actualizada')
+    this.websocket.on('configuracion:plataformas:actualizada')
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.configService.get<any>('home', {})
-          .pipe(take(1))
-          .subscribe(config => {
-            if (config?.enlacesInteres?.length) {
-              this.links = this.mapEnlaces(config.enlacesInteres);
-            }
-          });
-      });
+      .subscribe(() => this.cargar());
   }
 
-  private mapEnlaces(items: any[]): Link[] {
-    return items.map((l: any) => ({
-      name:  l.nombre,
-      href:  l.url || '#',
-      image: l.imagen || '',
-    }));
+  private cargar(): void {
+    this.configService.get<Plataforma[]>('plataformas', [])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(list => {
+        if (Array.isArray(list)) {
+          this.links = list.filter(p => p.image).map(p => ({ name: p.name, href: p.url || '#', image: p.image }));
+        }
+      });
   }
 
   ngOnDestroy(): void {

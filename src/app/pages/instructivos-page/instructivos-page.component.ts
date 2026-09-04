@@ -16,6 +16,7 @@ interface InstructivoCard {
 }
 
 interface InstructivoCategoria { id: number; icon: string; name: string; }
+interface Plataforma { id: number; name: string; image: string; url: string; }
 
 interface InstructivosPageConfig {
   heroTitulo:      string;
@@ -45,6 +46,8 @@ export class InstructivosPageComponent implements OnInit {
   sortBy: string = 'Recientes';
 
   instructivos: InstructivoCard[] = [];
+  // Plataformas digitales — misma lista compartida con Campus y el Repositorio.
+  plataformas: Plataforma[] = [];
 
   constructor(
     private configPublica: ConfiguracionPublicaService,
@@ -65,6 +68,9 @@ export class InstructivosPageComponent implements OnInit {
         category: r.categoria,
         url: r.url,
       }));
+    });
+    this.configPublica.get<Plataforma[]>('plataformas', []).subscribe(list => {
+      this.plataformas = Array.isArray(list) ? list.filter(p => p.image) : [];
     });
   }
 
