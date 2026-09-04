@@ -1,6 +1,9 @@
 <section class="py-12 sm:py-16 bg-white border-t border-gray-100">
   <div class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 text-center">
-    <h2 class="text-xl sm:text-2xl font-bold text-secondary mb-6 sm:mb-8">{{ titulo }}</h2>
+    <h2 class="text-xl sm:text-2xl font-bold text-secondary mb-4">{{ titulo }}</h2>
+    @if (descripcion) {
+      <p class="text-gray-600 mb-6 sm:mb-8">{{ descripcion }}</p>
+    }
     
     <div class="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-12">
       @for (link of links; track link.name) {

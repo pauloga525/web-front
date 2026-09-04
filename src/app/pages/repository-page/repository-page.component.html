@@ -183,7 +183,10 @@
     @if (plataformas.length > 0) {
       <section class="py-16 bg-white border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 class="text-2xl font-bold text-secondary mb-8">{{ enlacesTitulo }}</h2>
+          <h2 class="text-2xl font-bold text-secondary mb-4">{{ enlacesTitulo }}</h2>
+          @if (plataformasDescripcion) {
+            <p class="text-gray-600 mb-8">{{ plataformasDescripcion }}</p>
+          }
 
           <div class="flex flex-wrap justify-center gap-8 md:gap-12">
             @for (p of plataformas; track p.id) {

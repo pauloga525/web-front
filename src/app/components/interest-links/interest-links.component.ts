@@ -42,6 +42,7 @@ export class InterestLinksComponent implements OnInit, OnDestroy {
   // viene de la config 'campus' (plataformasTitulo), el único lugar
   // donde se edita.
   titulo = 'Enlaces de Interés';
+  descripcion = '';
 
   constructor(
     private configService: ConfiguracionPublicaService,
@@ -57,10 +58,11 @@ export class InterestLinksComponent implements OnInit, OnDestroy {
   }
 
   private cargar(): void {
-    this.configService.get<{ plataformasTitulo?: string }>('campus', {})
+    this.configService.get<{ plataformasTitulo?: string; plataformasDescripcion?: string }>('campus', {})
       .pipe(takeUntil(this.destroy$))
       .subscribe(cfg => {
         if (cfg?.plataformasTitulo) this.titulo = cfg.plataformasTitulo;
+        if (cfg?.plataformasDescripcion) this.descripcion = cfg.plataformasDescripcion;
       });
 
     this.configService.get<Plataforma[]>('plataformas', [])

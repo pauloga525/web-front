@@ -50,6 +50,7 @@ export class BibliotecaPageComponent implements OnInit {
   // Inicio e Instructivos (config 'campus').
   plataformas: Plataforma[] = [];
   plataformasTitulo = 'Plataformas Digitales';
+  plataformasDescripcion = '';
 
   searchTerm: string = '';
   filterCategory: string = TODAS;
@@ -81,8 +82,9 @@ export class BibliotecaPageComponent implements OnInit {
     this.configPublica.get<Plataforma[]>('plataformas', []).subscribe(list => {
       this.plataformas = Array.isArray(list) ? list.filter(p => p.image) : [];
     });
-    this.configPublica.get<{ plataformasTitulo?: string }>('campus', {}).subscribe(cfg => {
+    this.configPublica.get<{ plataformasTitulo?: string; plataformasDescripcion?: string }>('campus', {}).subscribe(cfg => {
       if (cfg?.plataformasTitulo) this.plataformasTitulo = cfg.plataformasTitulo;
+      if (cfg?.plataformasDescripcion) this.plataformasDescripcion = cfg.plataformasDescripcion;
     });
   }
 

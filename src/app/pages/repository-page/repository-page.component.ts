@@ -29,6 +29,7 @@ export class RepositoryPageComponent implements OnInit {
   // Campus, Inicio, Biblioteca e Instructivos, para que las 5 páginas
   // muestren siempre el mismo título.
   enlacesTitulo = 'Enlaces de Interés';
+  plataformasDescripcion = '';
   plataformas: Plataforma[] = [];
 
   constructor(private configService: ConfiguracionPublicaService) {}
@@ -72,8 +73,9 @@ export class RepositoryPageComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.configService.get<{ plataformasTitulo?: string }>('campus', {}).subscribe(cfg => {
+    this.configService.get<{ plataformasTitulo?: string; plataformasDescripcion?: string }>('campus', {}).subscribe(cfg => {
       if (cfg?.plataformasTitulo) this.enlacesTitulo = cfg.plataformasTitulo;
+      if (cfg?.plataformasDescripcion) this.plataformasDescripcion = cfg.plataformasDescripcion;
     });
 
     this.configService.get<Plataforma[]>('plataformas', []).subscribe(list => {
