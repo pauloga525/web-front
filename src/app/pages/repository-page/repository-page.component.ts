@@ -4,11 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../components/header/header.component';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { SuppressImageWarningDirective } from '../../directives/suppress-image-warning.directive';
+import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
+
+interface Plataforma { id: number; name: string; image: string; url: string; }
 
 @Component({
   selector: 'app-repository-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, BreadcrumbComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, BreadcrumbComponent, FooterComponent, SuppressImageWarningDirective],
   templateUrl: './repository-page.component.html',
   styleUrl: './repository-page.component.css'
 })
@@ -17,6 +21,15 @@ export class RepositoryPageComponent implements OnInit {
   selectedFaculty: string = '';
   selectedYear: string = '';
   selectedDocType: string = '';
+
+  // "Enlaces de Interés" — antes esta sección estaba fija en el HTML con
+  // logos locales que ni el admin de Repositorios ni el de Campus podían
+  // tocar. Ahora usa el mismo título/lista de plataformas que Campus, ya
+  // que son los mismos logos en toda la web.
+  enlacesTitulo = 'Enlaces de Interés';
+  plataformas: Plataforma[] = [];
+
+  constructor(private configService: ConfiguracionPublicaService) {}
 
   collections = [
     { id: 1, icon: 'school', title: 'Tesis de Grado', count: 850, description: 'Trabajos de titulación de pregrado y posgrado de todas las facultades.' },
@@ -56,10 +69,14 @@ export class RepositoryPageComponent implements OnInit {
     { icon: 'key', label: 'Palabras Clave' }
   ];
 
-  constructor() {}
-
   ngOnInit(): void {
-    // Initialize component data
+    this.configService.get<{ enlacesTitulo?: string }>('repositorios', {}).subscribe(cfg => {
+      if (cfg?.enlacesTitulo) this.enlacesTitulo = cfg.enlacesTitulo;
+    });
+
+    this.configService.get<Plataforma[]>('plataformas', []).subscribe(list => {
+      this.plataformas = Array.isArray(list) ? list.filter(p => p.image) : [];
+    });
   }
 
   onSearch(): void {
