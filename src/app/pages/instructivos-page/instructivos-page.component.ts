@@ -46,8 +46,10 @@ export class InstructivosPageComponent implements OnInit {
   sortBy: string = 'Recientes';
 
   instructivos: InstructivoCard[] = [];
-  // Plataformas digitales — misma lista compartida con Campus y el Repositorio.
+  // Plataformas digitales — mismo título y lista que Campus, Repositorio,
+  // Inicio y Biblioteca (config 'campus').
   plataformas: Plataforma[] = [];
+  plataformasTitulo = 'Plataformas Digitales';
 
   constructor(
     private configPublica: ConfiguracionPublicaService,
@@ -71,6 +73,9 @@ export class InstructivosPageComponent implements OnInit {
     });
     this.configPublica.get<Plataforma[]>('plataformas', []).subscribe(list => {
       this.plataformas = Array.isArray(list) ? list.filter(p => p.image) : [];
+    });
+    this.configPublica.get<{ plataformasTitulo?: string }>('campus', {}).subscribe(cfg => {
+      if (cfg?.plataformasTitulo) this.plataformasTitulo = cfg.plataformasTitulo;
     });
   }
 

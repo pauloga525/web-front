@@ -154,7 +154,7 @@
 <!-- Plataformas / recursos digitales — misma lista compartida con Campus y el Repositorio -->
 <div *ngIf="plataformas.length > 0" class="bg-white border-t border-gray-100 py-16">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h2 class="text-2xl font-bold text-secondary mb-8">Plataformas Digitales</h2>
+    <h2 class="text-2xl font-bold text-secondary mb-8">{{ plataformasTitulo }}</h2>
     <div class="flex flex-wrap justify-center gap-8 md:gap-12">
       <a *ngFor="let p of plataformas" [href]="p.url || '#'" target="_blank" rel="noopener" class="hover:opacity-80 transition-opacity" [title]="p.name">
         <img [src]="p.image" [alt]="p.name" class="h-16 md:h-20 w-auto object-contain" />

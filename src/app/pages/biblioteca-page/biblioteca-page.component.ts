@@ -46,8 +46,10 @@ const DEFAULT_CONFIG: BibliotecaPageConfig = {
 export class BibliotecaPageComponent implements OnInit {
   config: BibliotecaPageConfig = DEFAULT_CONFIG;
   books: Book[] = [];
-  // Plataformas digitales — misma lista compartida con Campus y el Repositorio.
+  // Plataformas digitales — mismo título y lista que Campus, Repositorio,
+  // Inicio e Instructivos (config 'campus').
   plataformas: Plataforma[] = [];
+  plataformasTitulo = 'Plataformas Digitales';
 
   searchTerm: string = '';
   filterCategory: string = TODAS;
@@ -78,6 +80,9 @@ export class BibliotecaPageComponent implements OnInit {
     });
     this.configPublica.get<Plataforma[]>('plataformas', []).subscribe(list => {
       this.plataformas = Array.isArray(list) ? list.filter(p => p.image) : [];
+    });
+    this.configPublica.get<{ plataformasTitulo?: string }>('campus', {}).subscribe(cfg => {
+      if (cfg?.plataformasTitulo) this.plataformasTitulo = cfg.plataformasTitulo;
     });
   }
 

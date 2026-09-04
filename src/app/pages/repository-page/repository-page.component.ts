@@ -24,8 +24,10 @@ export class RepositoryPageComponent implements OnInit {
 
   // "Enlaces de Interés" — antes esta sección estaba fija en el HTML con
   // logos locales que ni el admin de Repositorios ni el de Campus podían
-  // tocar. Ahora usa el mismo título/lista de plataformas que Campus, ya
-  // que son los mismos logos en toda la web.
+  // tocar. El título y la lista de logos ahora vienen de la config
+  // 'campus' (plataformasTitulo/plataformas), la misma que alimenta
+  // Campus, Inicio, Biblioteca e Instructivos, para que las 5 páginas
+  // muestren siempre el mismo título.
   enlacesTitulo = 'Enlaces de Interés';
   plataformas: Plataforma[] = [];
 
@@ -70,8 +72,8 @@ export class RepositoryPageComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.configService.get<{ enlacesTitulo?: string }>('repositorios', {}).subscribe(cfg => {
-      if (cfg?.enlacesTitulo) this.enlacesTitulo = cfg.enlacesTitulo;
+    this.configService.get<{ plataformasTitulo?: string }>('campus', {}).subscribe(cfg => {
+      if (cfg?.plataformasTitulo) this.enlacesTitulo = cfg.plataformasTitulo;
     });
 
     this.configService.get<Plataforma[]>('plataformas', []).subscribe(list => {
