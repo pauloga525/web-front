@@ -21,7 +21,7 @@ interface NivelConfig {
   subjects:             { id: number; name: string }[];
   environmentTitle: string;
   environmentDescription: string;
-  environmentImagen: string;
+  environmentImages: string[];
   ctaDescripcion: string;
 }
 
@@ -53,7 +53,7 @@ const DEFAULT: NivelConfig = {
   ],
   environmentTitle: 'Espacios Diseñados para Explorar',
   environmentDescription: 'Nuestras aulas de Preparatoria están especialmente diseñadas con rincones de aprendizaje interactivos, áreas de juego estructurado y espacios verdes.',
-  environmentImagen: '',
+  environmentImages: [],
   ctaDescripcion: 'Agenda una visita al campus o contáctanos para resolver todas tus dudas sobre este nivel.',
 };
 
@@ -76,7 +76,7 @@ export class PreparatoriaPageComponent implements OnInit {
   get sectionExtra()          { return this.config.sectionExtra; }
   get environmentTitle()      { return this.config.environmentTitle; }
   get environmentDescription(){ return this.config.environmentDescription; }
-  get environmentImagen()     { return this.config.environmentImagen; }
+  get environmentImages()     { return this.config.environmentImages; }
   get ctaDescripcion()        { return this.config.ctaDescripcion; }
   get keyFacts()              { return this.config.keyFacts; }
   get curriculumHighlights()  { return this.config.curriculumHighlights; }
@@ -86,11 +86,26 @@ export class PreparatoriaPageComponent implements OnInit {
   constructor(private configService: ConfiguracionPublicaService) {}
 
   ngOnInit(): void {
-    this.configService.get<NivelConfig>('nivel_preparatoria', DEFAULT).subscribe(data => {
-      if (data && Object.keys(data).length) {
-        this.config = { ...DEFAULT, ...data };
-      }
+    this.configService.get<any>('nivel_preparatoria', DEFAULT).subscribe(data => {
+      this.config = this.mergeConfig(data);
     });
+  }
+
+  /**
+   * Combina lo guardado con los valores por defecto, y migra el campo
+   * viejo 'environmentImagen' (una sola imagen, string) a
+   * 'environmentImages' (arreglo) si el documento todavía no tiene el
+   * campo nuevo — para no perder de vista una imagen ya cargada.
+   */
+  private mergeConfig(data: any): NivelConfig {
+    if (!data || !Object.keys(data).length) return { ...DEFAULT };
+    const merged: NivelConfig = { ...DEFAULT, ...data };
+    if (!Array.isArray(merged.environmentImages) || !merged.environmentImages.length) {
+      merged.environmentImages = (typeof data.environmentImagen === 'string' && data.environmentImagen)
+        ? [data.environmentImagen]
+        : [...DEFAULT.environmentImages];
+    }
+    return merged;
   }
 
   requestInfo() {

@@ -93,27 +93,19 @@
 <!-- 5. Faculty & Environment -->
 <section class="environment-section">
   <div class="environment-container">
-    <div class="environment-card">
-      <div class="environment-grid">
-        @if (environmentImagen) {
-          <div class="environment-image" [style.backgroundImage]="'url(' + environmentImagen + ')'"></div>
-        }
-        <div class="environment-content" [class.full-width]="!environmentImagen">
-          <h2 class="environment-title">{{ environmentTitle }}</h2>
-          <p class="environment-description">{{ environmentDescription }}</p>
-          <div class="environment-tags">
-            <div class="environment-tag">
-              <span class="material-icons">toys</span>
-              Rincones Interactivos
-            </div>
-            <div class="environment-tag">
-              <span class="material-icons">park</span>
-              Espacios Verdes
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="environment-header">
+      <h2 class="environment-title">{{ environmentTitle }}</h2>
+      <p class="environment-description">{{ environmentDescription }}</p>
     </div>
+    @if (environmentImages.length > 0) {
+      <div class="environment-gallery">
+        @for (img of environmentImages; track $index) {
+          <div class="environment-photo">
+            <img [src]="img" [alt]="environmentTitle" />
+          </div>
+        }
+      </div>
+    }
   </div>
 </section>
 
