@@ -787,12 +787,16 @@
     grid-row: span 1 !important;
   }
 
+  /* !important necesario: más abajo en este mismo archivo hay reglas sin
+     media query para estas mismas clases (240px/300px) que, por orden de
+     cascada, ganaban sobre este override de móvil sin él — las imágenes
+     de noticias nunca se achicaban en pantallas chicas. */
   .news-image-wrapper {
-    height: 200px;
+    height: 200px !important;
   }
 
   .news-featured .news-image-wrapper {
-    height: 200px;
+    height: 200px !important;
   }
 
   .featured-title {

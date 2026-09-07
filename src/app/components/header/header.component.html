@@ -14,7 +14,10 @@
       </a>
 
       <!-- Navigation -->
-      <nav class="hidden lg:flex flex-1 justify-center space-x-6 text-sm font-medium text-gray-600 dark:text-gray-300">
+      <!-- El menú completo (8 opciones + 3 desplegables) recién entra cómodo
+           desde xl: (1280px) — con lg: (1024px) se apretujaba junto al logo
+           y el botón de Aula Virtual en laptops/tablets en ese rango. -->
+      <nav class="hidden xl:flex flex-1 justify-center space-x-6 text-sm font-medium text-gray-600 dark:text-gray-300">
         @for (item of navItems; track item.label; let i = $index) {
           @if (item.hasDropdown) {
             <!-- Dropdown Menu Item -->
@@ -64,7 +67,7 @@
       </nav>
 
       <!-- Virtual Classroom -->
-      <div class="hidden lg:flex items-center space-x-4 animate-in fade-in slide-in-from-right-4 duration-700">
+      <div class="hidden xl:flex items-center space-x-4 animate-in fade-in slide-in-from-right-4 duration-700">
         <a 
           class="bg-secondary hover:bg-secondary/80 text-white px-6 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-110 whitespace-nowrap" 
           [href]="config.aulaVirtualUrl || 'https://edu.esemtia.com/LoginEsemtia.aspx'"
@@ -78,7 +81,7 @@
       <!-- Mobile Menu Button -->
       <button 
         (click)="toggleMobileMenu()"
-        class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-110 transition-all duration-300"
+        class="xl:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-110 transition-all duration-300"
       >
         <span class="material-icons text-gray-600 dark:text-gray-300 transition-transform duration-300" [class.rotate-90]="isMobileMenuOpen">
           {{ isMobileMenuOpen ? 'close' : 'menu' }}
@@ -88,7 +91,7 @@
 
     <!-- Mobile Menu -->
     @if (isMobileMenuOpen) {
-      <nav class="lg:hidden border-t border-gray-200 dark:border-gray-700 py-4 space-y-2 animate-in fade-in slide-in-from-top-4 duration-300">
+      <nav class="xl:hidden border-t border-gray-200 dark:border-gray-700 py-4 space-y-2 animate-in fade-in slide-in-from-top-4 duration-300">
         @for (item of navItems; track item.label; let i = $index) {
           @if (item.hasDropdown) {
             <!-- Mobile Dropdown Item -->

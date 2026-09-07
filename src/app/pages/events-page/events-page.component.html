@@ -2,7 +2,12 @@
 <app-breadcrumb></app-breadcrumb>
 
 <!-- Hero Banner -->
-<div class="relative bg-secondary overflow-hidden h-96">
+<!-- Antes h-96 (384px) fijo en todas las pantallas: con etiqueta + título +
+     descripción + botón, en un celular angosto el contenido no cabía y se
+     recortaba (el contenedor tiene overflow-hidden). Ahora crece con el
+     contenido en móvil (con un piso mínimo) y vuelve a la altura fija desde
+     md: en adelante, donde ya cabía bien. -->
+<div class="relative bg-secondary overflow-hidden min-h-[420px] h-auto md:h-96">
   <div class="absolute inset-0">
     <img
       alt="Eventos institucionales"
