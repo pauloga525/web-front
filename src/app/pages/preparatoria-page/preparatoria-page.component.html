@@ -117,8 +117,7 @@
   </div>
 </section>
 
-<!-- 6. CTA Section — deshabilitada a pedido (llevaba a Admisiones); no se elimina el código -->
-@if (false) {
+<!-- 6. CTA Section — se reaprovecha para Contacto en vez de Admisiones (deshabilitada) -->
 <section class="cta-section">
   <div class="cta-box">
     <div class="cta-background-pattern"></div>
@@ -127,13 +126,12 @@
       <p class="cta-description">{{ ctaDescripcion }}</p>
     </div>
     <div class="cta-button-wrapper">
-      <button (click)="requestInfo()" class="cta-button">
-        Solicitar Información
+      <a routerLink="/contact" class="cta-button">
+        Contáctanos
         <span class="material-icons">arrow_forward</span>
-      </button>
+      </a>
     </div>
   </div>
 </section>
-}
 
 <app-footer></app-footer>

@@ -56,7 +56,7 @@ const DEFAULT: NivelConfig = {
   environmentTitle: 'Un Entorno para Descubrir',
   environmentDescription: 'Nuestros estudiantes de Básica Superior tienen acceso a laboratorios de ciencias totalmente equipados y una biblioteca moderna diseñada para la investigación.',
   environmentImagen: '',
-  ctaDescripcion: 'Agenda una visita al campus o solicita más información sobre nuestro proceso de admisión.',
+  ctaDescripcion: 'Agenda una visita al campus o contáctanos para resolver todas tus dudas sobre este nivel.',
 };
 
 @Component({

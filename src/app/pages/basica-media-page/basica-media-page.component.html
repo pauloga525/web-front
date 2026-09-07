@@ -134,8 +134,7 @@
   </div>
 </section>
 
-<!-- 6. CTA Section — deshabilitada a pedido (llevaba a Admisiones); no se elimina el código -->
-@if (false) {
+<!-- 6. CTA Section — se reaprovecha para Contacto en vez de Admisiones (deshabilitada) -->
 <section class="cta-section">
   <div class="cta-box">
     <!-- Background Pattern (Subtle) -->
@@ -145,17 +144,16 @@
         ¿Interesado en {{ levelName }}?
       </h2>
       <p class="cta-description">
-        Agenda una visita al campus o solicita más información sobre nuestro proceso de admisión.
+        {{ ctaDescripcion }}
       </p>
     </div>
     <div class="cta-button-wrapper">
-      <button (click)="requestInfo()" class="cta-button">
-        Solicitar Información
+      <a routerLink="/contact" class="cta-button">
+        Contáctanos
         <span class="material-icons">arrow_forward</span>
-      </button>
+      </a>
     </div>
   </div>
 </section>
-}
 
 <app-footer></app-footer>

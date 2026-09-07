@@ -98,19 +98,17 @@
   </div>
 </section>
 
-<!-- CTA Section — deshabilitada a pedido (era un CTA de Admisiones); no se elimina el código -->
-@if (false) {
+<!-- CTA Section — se reaprovecha para Contacto en vez de Admisiones (deshabilitada) -->
 <section class="cta-section">
   <div class="cta-container">
     <h2 class="cta-title">{{ ctaTitulo }}</h2>
     <p class="cta-description">{{ ctaDescripcion }}</p>
     <div class="cta-buttons">
-      <a [href]="ctaUrlDescarga" class="cta-button cta-button-primary">
-        Inicia tu Proceso de Admisión
+      <a [routerLink]="ctaUrlDescarga" class="cta-button cta-button-primary">
+        Contáctanos
       </a>
     </div>
   </div>
 </section>
-}
 
 <app-footer></app-footer>

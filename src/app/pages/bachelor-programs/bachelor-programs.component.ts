@@ -23,7 +23,7 @@ const DEFAULT_CONFIG: BachilleratoConfig = {
   heroDescripcion: 'Descubre nuestro amplio rango de especialidades bachiller diseñadas para desarrollar profesionales exitosos.',
   ctaTitulo:       '¿Listo para construir tu futuro?',
   ctaDescripcion:  'Únete a nuestra comunidad educativa y comienza tu camino hacia la excelencia profesional y humana.',
-  ctaUrlDescarga:  '/admisiones',
+  ctaUrlDescarga:  '/contact',
 };
 
 interface ProgramItem {
@@ -59,7 +59,7 @@ export class BachelorProgramsComponent implements OnInit {
   get heroDescripcion() { return this.pageConfig.heroDescripcion; }
   get ctaTitulo()       { return this.pageConfig.ctaTitulo; }
   get ctaDescripcion()  { return this.pageConfig.ctaDescripcion; }
-  get ctaUrlDescarga()  { return this.pageConfig.ctaUrlDescarga || '/admisiones'; }
+  get ctaUrlDescarga()  { return this.pageConfig.ctaUrlDescarga || '/contact'; }
 
   programs: ProgramItem[] = [];
   filteredPrograms: ProgramItem[] = [];

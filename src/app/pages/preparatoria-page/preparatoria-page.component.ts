@@ -54,7 +54,7 @@ const DEFAULT: NivelConfig = {
   environmentTitle: 'Espacios Diseñados para Explorar',
   environmentDescription: 'Nuestras aulas de Preparatoria están especialmente diseñadas con rincones de aprendizaje interactivos, áreas de juego estructurado y espacios verdes.',
   environmentImagen: '',
-  ctaDescripcion: 'Agenda una visita al campus o solicita más información sobre nuestro proceso de admisión.',
+  ctaDescripcion: 'Agenda una visita al campus o contáctanos para resolver todas tus dudas sobre este nivel.',
 };
 
 @Component({

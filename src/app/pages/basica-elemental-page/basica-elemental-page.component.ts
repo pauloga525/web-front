@@ -56,7 +56,7 @@ const DEFAULT: NivelConfig = {
   environmentTitle: 'Aulas de Aprendizaje Activo',
   environmentDescription: 'Nuestras aulas de Básica Elemental están equipadas con recursos didácticos modernos, bibliotecas de aula y espacios para trabajo colaborativo.',
   environmentImagen: '',
-  ctaDescripcion: 'Agenda una visita al campus o solicita más información sobre nuestro proceso de admisión.',
+  ctaDescripcion: 'Agenda una visita al campus o contáctanos para resolver todas tus dudas sobre este nivel.',
 };
 
 @Component({
