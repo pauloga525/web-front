@@ -77,32 +77,40 @@
    1. HERO SECTION
    ============================================ */
 
+/* Alto controlado por aspect-ratio + tope en max-height, en vez de dejar
+   que la imagen decida su propia altura según su proporción real — con
+   fotos muy verticales o casi cuadradas eso hacía que el hero se viera
+   enorme, sobre todo en celular. object-fit: cover recorta lo mínimo
+   necesario para llenar el recuadro sin dejar espacios vacíos. */
 .hero-wrapper {
   position: relative;
   width: 100%;
-  min-height: 380px; /* piso solo cuando no hay imagen cargada */
+  aspect-ratio: 4 / 3;
+  max-height: 420px;
   overflow: hidden;
   background-color: #0b2c5f;
 }
 
 @media (min-width: 640px) {
   .hero-wrapper {
-    min-height: 480px;
+    aspect-ratio: 16 / 9;
+    max-height: 480px;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-wrapper {
-    min-height: 620px;
+    aspect-ratio: 21 / 9;
+    max-height: 620px;
   }
 }
 
-/* La imagen define su propia altura según su proporción real —
-   así nunca se recorta ni deja espacios vacíos. */
 .hero-bg-img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hero-wrapper::before {
