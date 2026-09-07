@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,14 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { CalendarViewComponent, CalendarEvent } from '../../components/calendar-view/calendar-view.component';
 import { CalendarDayDetailsComponent } from '../../components/calendar-day-details/calendar-day-details.component';
 import { EventosApiService, EventoApi } from '../../services/eventos-api.service';
+
+type Categoria = CalendarEvent['category'];
+
+interface CategoriaFiltro {
+  key: Categoria;
+  label: string;
+  dot: string;
+}
 
 @Component({
   selector: 'app-calendar-page',
@@ -32,6 +40,30 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
 
   events: CalendarEvent[] = [];
   private eventosSub?: Subscription;
+
+  // ── Filtro por categoría ─────────────────────────────────────────────────
+  // Antes el botón "Filtrar" no tenía ningún manejador — no hacía nada al
+  // hacer clic. Ahora abre un panel con las 4 categorías (todas activas por
+  // defecto) y tanto el calendario como el panel de detalles del día solo
+  // muestran los eventos de las categorías activas.
+  readonly categorias: CategoriaFiltro[] = [
+    { key: 'academic', label: 'Académico', dot: 'bg-blue-500' },
+    { key: 'cultural', label: 'Cultural',  dot: 'bg-yellow-500' },
+    { key: 'pastoral', label: 'Pastoral',  dot: 'bg-green-500' },
+    { key: 'sports',   label: 'Deportes',  dot: 'bg-red-500' },
+  ];
+  activeCategories = new Set<Categoria>(this.categorias.map(c => c.key));
+  filtroAbierto = false;
+
+  get filteredEvents(): CalendarEvent[] {
+    return this.events.filter(e => this.activeCategories.has(e.category));
+  }
+
+  get hayFiltrosActivos(): boolean {
+    return this.activeCategories.size < this.categorias.length;
+  }
+
+  @ViewChild('filtroWrapper') filtroWrapper?: ElementRef<HTMLElement>;
 
   constructor(private eventosApi: EventosApiService) {}
 
@@ -131,5 +163,30 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
 
   downloadPDF(): void {
     alert('Descargando calendario en PDF...');
+  }
+
+  toggleFiltro(): void {
+    this.filtroAbierto = !this.filtroAbierto;
+  }
+
+  toggleCategoria(cat: Categoria): void {
+    if (this.activeCategories.has(cat)) {
+      this.activeCategories.delete(cat);
+    } else {
+      this.activeCategories.add(cat);
+    }
+    // Reasignar para que Angular detecte el cambio (Set es el mismo objeto).
+    this.activeCategories = new Set(this.activeCategories);
+  }
+
+  limpiarFiltros(): void {
+    this.activeCategories = new Set(this.categorias.map(c => c.key));
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (this.filtroAbierto && this.filtroWrapper && !this.filtroWrapper.nativeElement.contains(event.target as Node)) {
+      this.filtroAbierto = false;
+    }
   }
 }

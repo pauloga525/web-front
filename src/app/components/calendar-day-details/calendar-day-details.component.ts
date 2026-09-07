@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { CalendarEvent } from '../calendar-view/calendar-view.component';
 
 @Component({
   selector: 'app-calendar-day-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './calendar-day-details.component.html',
   styleUrl: './calendar-day-details.component.css'
 })
