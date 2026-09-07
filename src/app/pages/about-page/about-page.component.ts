@@ -17,6 +17,7 @@ interface TimelineEvent    { id: number; year: string; title: string; descriptio
 interface NosotrosConfig {
   heroTitulo:              string;
   heroDescripcion:         string;
+  heroImagenFondo:         string;
   misionVision:            MisionVisionItem[];
   valoresTitulo:           string;
   valoresSubtitulo:        string;
@@ -36,6 +37,7 @@ interface NosotrosConfig {
 const DEFAULT_CONFIG: NosotrosConfig = {
   heroTitulo:      'Nuestra Institución',
   heroDescripcion: 'Formando líderes éticos y profesionales de excelencia para transformar el futuro del Ecuador y el mundo desde hace más de tres décadas.',
+  heroImagenFondo: '',
   misionVision: [
     {
       id: 1, icon: 'flag', title: 'Misión',
@@ -142,6 +144,7 @@ export class AboutPageComponent implements OnInit, OnDestroy {
     this.config = {
       heroTitulo:             cfg.heroTitulo             || DEFAULT_CONFIG.heroTitulo,
       heroDescripcion:        cfg.heroDescripcion        || DEFAULT_CONFIG.heroDescripcion,
+      heroImagenFondo:        cfg.heroImagenFondo        || DEFAULT_CONFIG.heroImagenFondo,
       misionVision:           Array.isArray(cfg.misionVision)  && cfg.misionVision.length  ? cfg.misionVision  : DEFAULT_CONFIG.misionVision,
       valoresTitulo:          cfg.valoresTitulo          || DEFAULT_CONFIG.valoresTitulo,
       valoresSubtitulo:       cfg.valoresSubtitulo       || DEFAULT_CONFIG.valoresSubtitulo,

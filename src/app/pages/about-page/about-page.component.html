@@ -6,9 +6,15 @@
 <div class="about-page-container">
 <main class="flex-grow">
   <!-- Internal Hero Section -->
-  <section class="relative bg-primary overflow-hidden">
-    <!-- Geometric Pattern Overlay -->
-    <div class="absolute inset-0 bg-geometric-pattern opacity-30 pointer-events-none"></div>
+  <section class="relative bg-primary overflow-hidden about-hero-section">
+    @if (config.heroImagenFondo) {
+      <img [src]="config.heroImagenFondo" alt="" class="about-hero-bg-img" />
+      <div class="absolute inset-0 bg-primary/80 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/30 to-transparent"></div>
+    } @else {
+      <!-- Geometric Pattern Overlay (solo cuando no hay imagen de fondo) -->
+      <div class="absolute inset-0 bg-geometric-pattern opacity-30 pointer-events-none"></div>
+    }
     <div class="relative max-w-7xl mx-auto px-6 py-20 lg:py-24 flex flex-col gap-6">
       <div class="max-w-3xl">
         <h1 class="text-white text-4xl lg:text-6xl font-black tracking-tight mb-4 leading-[1.1]">

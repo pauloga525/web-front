@@ -18,6 +18,21 @@
   color: #0f58bd !important;
 }
 
+/* Hero: imagen de fondo opcional (administrable desde el panel). Sin
+   imagen cargada se mantiene el patrón geométrico decorativo de siempre. */
+.about-page-container .about-hero-section {
+  min-height: 320px;
+}
+
+.about-page-container .about-hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .about-page-container .border-primary {
   border-color: #0f58bd !important;
 }
