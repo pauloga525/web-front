@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -9,16 +9,35 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './video-modal.component.html',
   styleUrl: './video-modal.component.css'
 })
-export class VideoModalComponent {
+export class VideoModalComponent implements OnChanges {
   @Input() isOpen = false;
   @Input() videoUrl = '';
   @Output() onClose = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
 
+  /**
+   * Antes esto era un getter, recalculado en cada ciclo de detección de
+   * cambios de Angular (que ocurre muy seguido: cualquier evento, timer,
+   * respuesta HTTP...). Cada llamada a bypassSecurityTrustResourceUrl()
+   * devuelve un objeto nuevo aunque la URL sea la misma cadena de texto,
+   * así que Angular, al ver una referencia distinta, volvía a asignar
+   * iframe.src en cada ciclo — reiniciando el video una y otra vez antes
+   * de que pudiera reproducirse ("bucle" que nunca llega a reproducir
+   * nada). Ahora se calcula una sola vez, cuando videoUrl realmente
+   * cambia.
+   */
+  safeVideoUrl: SafeResourceUrl = '';
+
   constructor(private sanitizer: DomSanitizer) {}
 
-  get safeVideoUrl(): SafeResourceUrl {
-    const videoId = this.extractYoutubeId(this.videoUrl);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['videoUrl']) {
+      this.safeVideoUrl = this.computeSafeUrl(this.videoUrl);
+    }
+  }
+
+  private computeSafeUrl(url: string): SafeResourceUrl {
+    const videoId = this.extractYoutubeId(url);
     if (!videoId) {
       return this.sanitizer.bypassSecurityTrustResourceUrl('');
     }
