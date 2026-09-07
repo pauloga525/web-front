@@ -64,11 +64,6 @@
           <span class="text-gray-600 dark:text-gray-300">{{ event.location }}</span>
         </div>
       </div>
-      <button *ngIf="event.registroHabilitado"
-              (click)="onRegister()"
-              class="hidden md:flex bg-primary hover:bg-yellow-400 text-secondary font-bold px-6 py-2 rounded-full text-center transition-colors shadow-md">
-        {{ event.registroLabelBoton || 'Inscribirse' }}
-      </button>
     </div>
   </div>
 </div>
@@ -123,14 +118,20 @@
         </h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           @for (image of galleryPreview; track $index) {
-            <div class="aspect-square rounded-xl overflow-hidden bg-gray-200 cursor-pointer" (click)="openGalleryModal()">
-              <img [alt]="image.alt" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" [src]="image.url" />
+            <div class="group relative aspect-square rounded-xl overflow-hidden bg-gray-200 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer"
+                 (click)="openGalleryModal($index)">
+              <img [alt]="image.alt" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" [src]="image.url" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-1 text-white">
+                <span class="material-icons text-2xl">zoom_in</span>
+                <span class="text-xs font-semibold">Ver imagen</span>
+              </div>
             </div>
           }
           @if (galleryRemainingCount > 0) {
-            <div class="aspect-square rounded-xl overflow-hidden bg-secondary flex items-center justify-center hover:bg-secondary/90 transition-colors cursor-pointer text-white font-bold text-sm text-center px-2"
-                 (click)="openGalleryModal()">
-              +{{ galleryRemainingCount }} fotos más
+            <div class="group relative aspect-square rounded-xl overflow-hidden shadow-md hover:shadow-2xl bg-gradient-to-br from-secondary to-secondary/80 flex flex-col items-center justify-center gap-1 hover:from-secondary/90 hover:to-secondary/70 transition-all duration-300 cursor-pointer text-white text-center px-2"
+                 (click)="openGalleryModal(galleryPreviewLimit)">
+              <span class="material-icons text-2xl">add_photo_alternate</span>
+              <span class="font-bold text-sm">+{{ galleryRemainingCount }} fotos más</span>
             </div>
           }
         </div>
@@ -140,45 +141,8 @@
 
     <!-- Right Column - Sidebar -->
     <div class="lg:col-span-1">
-      <!-- Registration Form -->
-      <div class="sticky top-40 bg-white dark:bg-surface-dark rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 p-8">
-        <h3 class="text-xl font-bold text-secondary dark:text-white mb-2">Registro de Asistencia</h3>
-        <p class="text-gray-500 text-sm mb-6">Completa tus datos para reservar tu cupo y recibir tu certificado digital.</p>
-        <form class="space-y-4" (ngSubmit)="onRegister()">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre Completo</label>
-            <input class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Ej. Juan Pérez" type="text">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico</label>
-            <input class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="ejemplo@correo.com" type="email">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono</label>
-            <input class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="099 123 4567" type="tel">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de Visitante</label>
-            <select class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary">
-              <option>Estudiante Externo</option>
-              <option>Padre de Familia</option>
-              <option>Docente</option>
-              <option>Público General</option>
-            </select>
-          </div>
-          <div class="pt-2">
-            <button type="submit" class="w-full bg-primary hover:bg-yellow-400 text-secondary font-bold py-3 px-4 rounded-xl shadow-lg transition-transform transform active:scale-95 flex justify-center items-center gap-2">
-              Confirmar Registro <span class="material-icons text-sm">check_circle</span>
-            </button>
-          </div>
-          <p class="text-xs text-gray-400 text-center mt-4">
-            Al registrarte aceptas nuestros términos y condiciones de privacidad.
-          </p>
-        </form>
-      </div>
-
       <!-- Important Info -->
-      <div class="mt-8 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-100 dark:border-blue-800">
+      <div class="sticky top-40 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-100 dark:border-blue-800">
         <div class="flex items-start gap-3">
           <span class="material-icons text-secondary dark:text-primary">info</span>
           <div>
@@ -226,30 +190,53 @@
   </div>
 </section>
 
-<!-- Pop-up: galería completa -->
-@if (showGalleryModal) {
-  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80" (click)="closeGalleryModal()">
-    <div class="relative w-full max-w-5xl max-h-[90vh] bg-white dark:bg-surface-dark rounded-2xl overflow-hidden flex flex-col" (click)="$event.stopPropagation()">
-      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 shrink-0">
-        <h3 class="text-lg font-bold text-secondary dark:text-white flex items-center gap-2">
-          <span class="material-icons text-primary">photo_library</span>
-          Galería Edición Anterior
-          <span class="text-sm font-normal text-gray-400">({{ galleryImages.length }})</span>
-        </h3>
-        <button (click)="closeGalleryModal()" class="text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors">
-          <span class="material-icons">close</span>
+<!-- Pop-up: visor de galería, una imagen completa a la vez -->
+@if (showGalleryModal && galleryImages[galleryIndex]) {
+  <div class="fixed inset-0 z-[100] flex flex-col bg-black/95" (click)="closeGalleryModal()">
+    <!-- Encabezado -->
+    <div class="flex items-center justify-between px-4 sm:px-6 py-4 shrink-0 text-white" (click)="$event.stopPropagation()">
+      <h3 class="font-bold flex items-center gap-2 min-w-0">
+        <span class="material-icons text-primary shrink-0">photo_library</span>
+        <span class="truncate">Galería Edición Anterior</span>
+        <span class="text-sm font-normal text-gray-300 shrink-0">{{ galleryIndex + 1 }} / {{ galleryImages.length }}</span>
+      </h3>
+      <button (click)="closeGalleryModal()" class="shrink-0 text-gray-300 hover:text-white transition-colors">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <!-- Imagen completa + navegación -->
+    <div class="flex-1 min-h-0 flex items-center justify-center relative px-2 sm:px-6" (click)="$event.stopPropagation()">
+      @if (galleryIndex > 0) {
+        <button (click)="previousGalleryImage()"
+          class="absolute left-2 sm:left-4 z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
+          <span class="material-icons">chevron_left</span>
         </button>
-      </div>
-      <div class="overflow-y-auto p-6">
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      }
+      <img [src]="galleryImages[galleryIndex].url" [alt]="galleryImages[galleryIndex].alt"
+           class="max-w-full max-h-full object-contain rounded-lg shadow-2xl" />
+      @if (galleryIndex < galleryImages.length - 1) {
+        <button (click)="nextGalleryImage()"
+          class="absolute right-2 sm:right-4 z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
+          <span class="material-icons">chevron_right</span>
+        </button>
+      }
+    </div>
+
+    <!-- Tira de miniaturas -->
+    @if (galleryImages.length > 1) {
+      <div class="shrink-0 overflow-x-auto py-4 px-4" (click)="$event.stopPropagation()">
+        <div class="flex gap-2 justify-center w-max mx-auto">
           @for (image of galleryImages; track $index) {
-            <div class="aspect-square rounded-xl overflow-hidden bg-gray-200">
-              <img [alt]="image.alt" class="w-full h-full object-cover" [src]="image.url" />
-            </div>
+            <button (click)="goToGalleryImage($index)"
+              class="w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden shrink-0 border-2 transition-all"
+              [class]="$index === galleryIndex ? 'border-primary opacity-100' : 'border-transparent opacity-50 hover:opacity-80'">
+              <img [src]="image.url" [alt]="image.alt" class="w-full h-full object-cover" />
+            </button>
           }
         </div>
       </div>
-    </div>
+    }
   </div>
 }
 

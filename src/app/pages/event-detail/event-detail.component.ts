@@ -32,9 +32,6 @@ interface EventView {
   category: string;
   categoriaColor: string;
   direccion: string;
-  registroHabilitado: boolean;
-  registroLabelBoton: string;
-  registroUrl: string;
   slug: string;
   _id: string;
 }
@@ -56,9 +53,6 @@ function toEventView(e: EventoApi): EventView {
     category:            e.categoria,
     categoriaColor:      e.categoriaColor ?? 'blue',
     direccion:           e.direccion ?? '',
-    registroHabilitado:  e.registro?.habilitado ?? false,
-    registroLabelBoton:  e.registro?.labelBoton ?? 'Inscribirse',
-    registroUrl:         e.registro?.url ?? '',
     slug:                e.slug,
     _id:                 e._id,
   };
@@ -148,16 +142,11 @@ export class EventDetailComponent implements OnInit {
     });
   }
 
-  onRegister() {
-    const url = this.event?.registroUrl;
-    if (url && url !== '#') {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    } else {
-      alert('¡Registro confirmado! Te enviamos un correo de confirmación.');
-    }
-  }
+  // Índice de la foto que se está viendo en el pop-up de la galería.
+  galleryIndex = 0;
 
-  openGalleryModal(): void {
+  openGalleryModal(index: number = 0): void {
+    this.galleryIndex = index;
     this.showGalleryModal = true;
     document.body.style.overflow = 'hidden';
   }
@@ -167,8 +156,30 @@ export class EventDetailComponent implements OnInit {
     document.body.style.overflow = 'auto';
   }
 
+  goToGalleryImage(index: number): void {
+    this.galleryIndex = index;
+  }
+
+  nextGalleryImage(): void {
+    if (this.galleryIndex < this.galleryImages.length - 1) this.galleryIndex++;
+  }
+
+  previousGalleryImage(): void {
+    if (this.galleryIndex > 0) this.galleryIndex--;
+  }
+
   @HostListener('document:keydown.escape')
   onEscape(): void {
     if (this.showGalleryModal) this.closeGalleryModal();
+  }
+
+  @HostListener('document:keydown.arrowright')
+  onArrowRight(): void {
+    if (this.showGalleryModal) this.nextGalleryImage();
+  }
+
+  @HostListener('document:keydown.arrowleft')
+  onArrowLeft(): void {
+    if (this.showGalleryModal) this.previousGalleryImage();
   }
 }
