@@ -2,7 +2,8 @@
   <div class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
     <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
       <!-- News List -->
-      <div class="lg:w-7/12">
+      <!-- lg:w-full mientras el "Admissions Box" de al lado está deshabilitado (era lg:w-7/12) -->
+      <div class="lg:w-full">
         <div class="flex items-center gap-2 mb-6 sm:mb-8">
           <span class="material-icons text-secondary dark:text-primary">newspaper</span>
           <h2 class="text-xl sm:text-2xl font-bold text-secondary dark:text-white">Noticias Recientes</h2>
@@ -31,12 +32,13 @@
         </div>
       </div>
 
-      <!-- Admissions Box -->
+      <!-- Admissions Box — deshabilitado a pedido (no se elimina el código, solo no se renderiza) -->
+      @if (false) {
       <div class="lg:w-5/12">
         <div class="bg-secondary dark:bg-surface-dark rounded-2xl md:rounded-3xl p-6 sm:p-8 lg:p-12 relative overflow-hidden shadow-2xl flex flex-col justify-center">
           <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-primary rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
           <div class="absolute -top-20 -left-20 w-64 h-64 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
-          
+
           <div class="relative z-10 text-center">
             <div class="w-12 sm:w-16 h-12 sm:h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 backdrop-blur-sm">
               <span class="material-icons text-primary text-2xl sm:text-3xl">edit_document</span>
@@ -51,6 +53,7 @@
           </div>
         </div>
       </div>
+      }
     </div>
   </div>
 </section>

@@ -308,8 +308,8 @@
             </div>
           }
 
-          <!-- Admisiones -->
-          @if (specialty.admisiones?.texto || specialty.admisiones?.botones?.length || specialty.admisiones?.fechaImportante) {
+          <!-- Admisiones — deshabilitado a pedido (se agrega "false &&" para no renderizarlo, sin tocar el resto de la condición); no se elimina el código -->
+          @if (false && (specialty.admisiones?.texto || specialty.admisiones?.botones?.length || specialty.admisiones?.fechaImportante)) {
             <div class="ts-sidebar-widget">
               <h3 class="ts-sidebar-title">Admisiones</h3>
               @if (specialty.admisiones!.texto) {

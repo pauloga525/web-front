@@ -1,7 +1,10 @@
 import { Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
-import { AdmissionsPageComponent } from './pages/admissions-page/admissions-page.component';
+// Admisiones deshabilitada a pedido (no se elimina el código, solo se quita
+// la ruta para que no sea accesible desde ninguna parte del sitio). Para
+// reactivarla: descomentar este import y la ruta 'admissions' de abajo.
+// import { AdmissionsPageComponent } from './pages/admissions-page/admissions-page.component';
 import { ContactPageComponent } from './pages/contact-page/contact-page.component';
 import { EventsPageComponent } from './pages/events-page/events-page.component';
 import { EventDetailComponent } from './pages/event-detail/event-detail.component';
@@ -30,7 +33,7 @@ import { UniformsPageComponent } from './pages/uniforms-page/uniforms-page.compo
 export const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'about', component: AboutPageComponent },
-  { path: 'admissions', component: AdmissionsPageComponent },
+  // { path: 'admissions', component: AdmissionsPageComponent }, // deshabilitada a pedido — ver comentario del import arriba
   { path: 'contact', component: ContactPageComponent },
   { path: 'events', component: EventsPageComponent },
   { path: 'events/:id', component: EventDetailComponent },

@@ -44,7 +44,7 @@ const DEFAULT_HEADER_CONFIG: SiteHeaderConfig = {
         { label: 'Bachillerato', routerLink: '/programa/bachillerato' },
       ],
     },
-    { label: 'Admisiones', routerLink: '/admissions' },
+    // { label: 'Admisiones', routerLink: '/admissions' }, // deshabilitada a pedido — la ruta '/admissions' ya no existe (ver app.routes.ts)
     { label: 'Eventos', routerLink: '/events' },
     { label: 'Noticias', routerLink: '/noticias' },
     {
