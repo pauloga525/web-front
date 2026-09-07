@@ -9,8 +9,13 @@
   <section class="relative bg-primary overflow-hidden about-hero-section">
     @if (config.heroImagenFondo) {
       <img [src]="config.heroImagenFondo" alt="" class="about-hero-bg-img" />
-      <div class="absolute inset-0 bg-primary/80 mix-blend-multiply"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/30 to-transparent"></div>
+      <!-- Colores explícitos (no bg-primary/from-primary): el "primary" global
+           de Tailwind es el amarillo/dorado del sitio, distinto del azul propio
+           de esta página (--about-primary) — con los modificadores de opacidad
+           y degradado, ese amarillo global no queda cubierto por el override
+           de .bg-primary de este archivo, y la imagen se veía teñida de amarillo. -->
+      <div class="absolute inset-0 bg-[#0f58bd]/80 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0f58bd] via-[#0f58bd]/30 to-transparent"></div>
     } @else {
       <!-- Geometric Pattern Overlay (solo cuando no hay imagen de fondo) -->
       <div class="absolute inset-0 bg-geometric-pattern opacity-30 pointer-events-none"></div>
