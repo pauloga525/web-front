@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
@@ -99,6 +99,19 @@ export class EventDetailComponent implements OnInit {
   agenda: AgendaItem[] = [];
   galleryImages: GalleryImage[] = [];
 
+  // "Ver más fotos" — solo se muestra si hay más imágenes de las que caben
+  // en la vista previa, y abre un pop-up con la galería completa.
+  readonly galleryPreviewLimit = 7;
+  showGalleryModal = false;
+
+  get galleryPreview(): GalleryImage[] {
+    return this.galleryImages.slice(0, this.galleryPreviewLimit);
+  }
+
+  get galleryRemainingCount(): number {
+    return Math.max(0, this.galleryImages.length - this.galleryPreviewLimit);
+  }
+
   constructor(private route: ActivatedRoute, private eventosApi: EventosApiService) {}
 
   ngOnInit() {
@@ -142,5 +155,20 @@ export class EventDetailComponent implements OnInit {
     } else {
       alert('¡Registro confirmado! Te enviamos un correo de confirmación.');
     }
+  }
+
+  openGalleryModal(): void {
+    this.showGalleryModal = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeGalleryModal(): void {
+    this.showGalleryModal = false;
+    document.body.style.overflow = 'auto';
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.showGalleryModal) this.closeGalleryModal();
   }
 }
