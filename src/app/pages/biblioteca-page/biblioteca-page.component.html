@@ -64,7 +64,9 @@
       </div>
 
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        <div *ngFor="let book of filteredBooks" class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+        <a *ngFor="let book of filteredBooks" [href]="book.url || null" target="_blank" rel="noopener noreferrer"
+           class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+           [class.cursor-default]="!book.url" [class.pointer-events-none]="!book.url">
           <div class="aspect-[2/3] bg-gray-100 w-full relative">
             <img
               *ngIf="book.image"
@@ -87,7 +89,7 @@
               <span *ngIf="!book.available" class="text-[10px] bg-red-50 text-red-700 px-2 py-0.5 rounded-full border border-red-100 font-semibold">Prestado</span>
             </div>
           </div>
-        </div>
+        </a>
       </div>
 
       <p *ngIf="!filteredBooks.length" class="text-center text-gray-400 py-16">No se encontraron libros con esos filtros.</p>
