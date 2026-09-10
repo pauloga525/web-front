@@ -9,6 +9,11 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
+export interface EnlaceRecurso {
+  url: string;
+  descripcion: string;
+}
+
 export interface RecursoApi {
   _id: string;
   titulo: string;
@@ -18,6 +23,7 @@ export interface RecursoApi {
   tipo: string;
   categoria: string;
   tags: string[];
+  enlaces: EnlaceRecurso[];
   publicado: boolean;
   orden: number;
   createdAt: string;

@@ -12,8 +12,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class VideoModalComponent implements OnChanges {
   @Input() isOpen = false;
   @Input() videoUrl = '';
+  /** Cuando el instructivo tiene más de un enlace, se muestra un selector arriba del video. */
+  @Input() enlaces: { url: string; descripcion?: string }[] = [];
   @Output() onClose = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
+
+  selectedIndex = 0;
 
   /**
    * Antes esto era un getter, recalculado en cada ciclo de detección de
@@ -31,9 +35,24 @@ export class VideoModalComponent implements OnChanges {
   constructor(private sanitizer: DomSanitizer) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['videoUrl']) {
-      this.safeVideoUrl = this.computeSafeUrl(this.videoUrl);
+    // Al abrir el modal o cambiar la lista de enlaces siempre se vuelve a mostrar
+    // el primero — evita quedarse en el índice de un instructivo anterior.
+    if (changes['enlaces'] || (changes['isOpen'] && this.isOpen)) {
+      this.selectedIndex = 0;
     }
+    if (changes['videoUrl'] || changes['enlaces'] || changes['isOpen']) {
+      this.safeVideoUrl = this.computeSafeUrl(this.activeUrl);
+    }
+  }
+
+  get activeUrl(): string {
+    return this.enlaces.length ? (this.enlaces[this.selectedIndex]?.url ?? '') : this.videoUrl;
+  }
+
+  selectEnlace(index: number): void {
+    if (index === this.selectedIndex) return;
+    this.selectedIndex = index;
+    this.safeVideoUrl = this.computeSafeUrl(this.activeUrl);
   }
 
   private computeSafeUrl(url: string): SafeResourceUrl {

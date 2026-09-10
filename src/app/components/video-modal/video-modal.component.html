@@ -6,9 +6,18 @@
       <button class="video-modal-close" (click)="closeModal()" aria-label="Cerrar">
         <span class="material-icons">close</span>
       </button>
+      @if (enlaces.length > 1) {
+        <div class="video-modal-enlaces">
+          @for (en of enlaces; track $index) {
+            <button type="button" class="video-modal-enlace" [class.active]="$index === selectedIndex" (click)="selectEnlace($index)">
+              {{ en.descripcion || ('Enlace ' + ($index + 1)) }}
+            </button>
+          }
+        </div>
+      }
       <div class="video-wrapper">
         @if (isOpen) {
-          <iframe 
+          <iframe
             [src]="safeVideoUrl"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen

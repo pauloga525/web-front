@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
-import { RecursosApiService } from '../../services/recursos-api.service';
+import { RecursosApiService, EnlaceRecurso } from '../../services/recursos-api.service';
+import { VideoModalComponent } from '../../components/video-modal/video-modal.component';
 
 interface InstructivoCard {
   id: string;
@@ -13,6 +14,7 @@ interface InstructivoCard {
   type: 'pdf' | 'video';
   category: string;
   url: string;
+  enlaces: EnlaceRecurso[];
 }
 
 interface InstructivoCategoria { id: number; icon: string; name: string; }
@@ -35,7 +37,7 @@ const DEFAULT_CONFIG: InstructivosPageConfig = {
 @Component({
   selector: 'app-instructivos-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, VideoModalComponent],
   templateUrl: './instructivos-page.component.html',
   styleUrls: ['./instructivos-page.component.css']
 })
@@ -46,6 +48,10 @@ export class InstructivosPageComponent implements OnInit {
   sortBy: string = 'Recientes';
 
   instructivos: InstructivoCard[] = [];
+
+  // Modal de reproducción de video — se abre al hacer click en "Ver Tutorial".
+  videoModalOpen = false;
+  videoModalEnlaces: EnlaceRecurso[] = [];
   // Plataformas digitales — mismo título y lista que Campus, Repositorio,
   // Inicio y Biblioteca (config 'campus').
   plataformas: Plataforma[] = [];
@@ -70,6 +76,8 @@ export class InstructivosPageComponent implements OnInit {
         type: r.tipo === 'video' ? 'video' : 'pdf',
         category: r.categoria,
         url: r.url,
+        // Compatibilidad con instructivos antiguos guardados solo con `url` (sin `enlaces`).
+        enlaces: r.enlaces?.length ? r.enlaces : (r.url ? [{ url: r.url, descripcion: '' }] : []),
       }));
     });
     this.configPublica.get<Plataforma[]>('plataformas', []).subscribe(list => {
@@ -123,5 +131,15 @@ export class InstructivosPageComponent implements OnInit {
 
   getButtonText(type: string): string {
     return type === 'pdf' ? 'Descargar' : 'Ver Tutorial';
+  }
+
+  abrirTutorial(instructivo: InstructivoCard): void {
+    if (!instructivo.enlaces.length) return;
+    this.videoModalEnlaces = instructivo.enlaces;
+    this.videoModalOpen = true;
+  }
+
+  cerrarVideoModal(): void {
+    this.videoModalOpen = false;
   }
 }

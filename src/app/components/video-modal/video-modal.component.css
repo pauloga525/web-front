@@ -70,6 +70,41 @@
   font-size: 24px;
 }
 
+.video-modal-enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 44px 16px 12px;
+  background-color: #111;
+}
+
+.video-modal-enlace {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #d1d5db;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.video-modal-enlace:hover {
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.video-modal-enlace.active {
+  background-color: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
 .video-wrapper {
   position: relative;
   width: 100%;
