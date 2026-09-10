@@ -40,13 +40,13 @@ export class SpecialtyDetailComponent implements OnInit, OnDestroy {
   private dragStartTX = 0;
   private dragStartTY = 0;
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private especialidadesApi: EspecialidadesApiService,
-    private websocket: WebsocketService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly especialidadesApi: EspecialidadesApiService,
+    private readonly websocket: WebsocketService,
     public iconService: IconService
   ) {}
 

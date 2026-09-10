@@ -5,3 +5,4 @@ dist/
 bun.lock/
 .bun.lock/
 bun.lock
+.vscode/*mcp*.json

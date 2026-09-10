@@ -85,7 +85,8 @@
           
           <div class="news-grid">
               @for (article of paginatedNews; track article.title; let i = $index) {
-              <article class="news-card" [class.news-featured]="i < 2" (click)="navigateToNewsDetail(article._id)" role="button" tabindex="0">
+              <article class="news-card" [class.news-featured]="i < 2">
+                <a [routerLink]="['/noticias', article._id]" class="card-stretched-link" [attr.aria-label]="article.title"></a>
                 <!-- Image Container -->
                 <div class="news-image-wrapper">
                   <img 

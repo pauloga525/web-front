@@ -29,7 +29,7 @@ interface HeroConfig {
   styleUrl: './hero.component.css'
 })
 export class HeroComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   // Valores por defecto (sin imagen fija — se carga desde configuración del admin)
   hero: HeroConfig = {
@@ -45,8 +45,8 @@ export class HeroComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService
   ) {}
 
   private applyHeroData(heroData: any): void {
@@ -73,7 +73,7 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   private normalizeGridfsUrl(url: string): string {
-    if (!url || !url.includes('/api/v1/imagenes/gridfs/')) return url;
+    if (!url?.includes('/api/v1/imagenes/gridfs/')) return url;
     const id = url.split('/api/v1/imagenes/gridfs/').pop();
     return `${environment.apiUrl}/imagenes/gridfs/${id}`;
   }

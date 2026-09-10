@@ -17,7 +17,7 @@
       <!-- El menú completo (8 opciones + 3 desplegables) recién entra cómodo
            desde xl: (1280px) — con lg: (1024px) se apretujaba junto al logo
            y el botón de Aula Virtual en laptops/tablets en ese rango. -->
-      <nav class="hidden xl:flex flex-1 justify-center space-x-6 text-sm font-medium text-gray-600 dark:text-gray-300">
+      <nav aria-label="Navegación principal" class="hidden xl:flex flex-1 justify-center space-x-6 text-sm font-medium text-gray-600 dark:text-gray-300">
         @for (item of navItems; track item.label; let i = $index) {
           @if (item.hasDropdown) {
             <!-- Dropdown Menu Item -->
@@ -91,7 +91,7 @@
 
     <!-- Mobile Menu -->
     @if (isMobileMenuOpen) {
-      <nav class="xl:hidden border-t border-gray-200 dark:border-gray-700 py-4 space-y-2 animate-in fade-in slide-in-from-top-4 duration-300">
+      <nav aria-label="Menú móvil" class="xl:hidden border-t border-gray-200 dark:border-gray-700 py-4 space-y-2 animate-in fade-in slide-in-from-top-4 duration-300">
         @for (item of navItems; track item.label; let i = $index) {
           @if (item.hasDropdown) {
             <!-- Mobile Dropdown Item -->

@@ -10,11 +10,13 @@
   </div>
   <div class="grid grid-cols-7 auto-rows-fr bg-white dark:bg-surface-dark">
     @for (calendarDay of calendarDays; let i = $index; track i) {
-      <div 
-        [class]="'min-h-[100px] border-b border-r border-gray-100 dark:border-gray-700 p-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors relative group cursor-pointer ' + 
+      <button
+        type="button"
+        [class]="'block w-full text-left min-h-[100px] border-b border-r border-gray-100 dark:border-gray-700 p-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors relative group cursor-pointer ' +
         (!calendarDay.isCurrentMonth ? 'bg-gray-50/30 dark:bg-gray-800/20 text-gray-300' : '') +
         (calendarDay.isSelected ? ' ring-2 ring-inset ring-secondary/20 bg-blue-50/50 dark:bg-blue-900/20' : '')"
         (click)="selectDay(calendarDay.day!)"
+        [attr.aria-label]="'Día ' + calendarDay.day"
       >
         <span [class]="'text-sm font-medium ' + (calendarDay.isSelected ? 'text-secondary dark:text-primary font-bold' : 'text-gray-700 dark:text-gray-300')">
           {{ calendarDay.day }}
@@ -26,7 +28,7 @@
             }
           </div>
         }
-      </div>
+      </button>
     }
   </div>
 </div>

@@ -16,7 +16,7 @@ import { ConsejoApiService, MiembroConsejoApi } from '../../services/consejo-api
 export class StudentCouncilPageComponent implements OnInit {
   councilMembers: MiembroConsejoApi[] = [];
 
-  constructor(private consejoApi: ConsejoApiService) {}
+  constructor(private readonly consejoApi: ConsejoApiService) {}
 
   ngOnInit() {
     this.consejoApi.miembros$.subscribe(list => this.councilMembers = list);

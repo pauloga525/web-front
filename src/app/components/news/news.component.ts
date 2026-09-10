@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NoticiasApiService, NoticiaApi } from '../../services/noticias-api.service';
+import { NoticiasApiService } from '../../services/noticias-api.service';
 
 interface NewsItem {
   _id: string;
@@ -21,7 +21,7 @@ interface NewsItem {
 export class NewsComponent implements OnInit {
   newsItems: NewsItem[] = [];
 
-  constructor(private noticiasApi: NoticiasApiService) {}
+  constructor(private readonly noticiasApi: NoticiasApiService) {}
 
   ngOnInit(): void {
     this.noticiasApi.noticias$.subscribe(lista => {

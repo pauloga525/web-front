@@ -26,10 +26,11 @@ const FALLBACK = '<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="c
 
 @Injectable({ providedIn: 'root' })
 export class IconService {
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private readonly sanitizer: DomSanitizer) {}
 
   getIcon(name: string): SafeHtml {
+    // svg always comes from the hardcoded ICONS/FALLBACK map above, never from user input.
     const svg = ICONS[name] ?? FALLBACK;
-    return this.sanitizer.bypassSecurityTrustHtml(svg);
+    return this.sanitizer.bypassSecurityTrustHtml(svg); // NOSONAR: static, developer-authored SVG markup only
   }
 }

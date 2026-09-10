@@ -1,279 +1,137 @@
-/* ============ FEATURED: DESTACADO GRANDE + LISTA LATERAL ============ */
-.featured-layout {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 24px;
-  position: relative;
-  z-index: 1;
-  align-items: stretch;
-}
-
-/* Historia principal */
-.featured-main {
-  position: relative;
-  min-height: 480px;
-  border-radius: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  background: linear-gradient(135deg, #0B2C5F 0%, #1a3f7f 100%);
-  box-shadow: 0 15px 45px rgba(11, 44, 95, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  border: 1.5px solid rgba(244, 180, 0, 0.2);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
-}
-
-.featured-main:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 25px 60px rgba(11, 44, 95, 0.45), 0 0 40px rgba(244, 180, 0, 0.2);
-  border-color: rgba(244, 180, 0, 0.5);
-}
-
-.featured-main-image-wrapper {
-  position: absolute;
-  inset: 0;
-}
-
-.featured-main-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-  filter: brightness(1.05) saturate(1.1);
-}
-
-.featured-main:hover .featured-main-image {
-  transform: scale(1.08);
-}
-
-.featured-main-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg,
-    rgba(11, 44, 95, 0) 0%,
-    rgba(11, 44, 95, 0.15) 35%,
-    rgba(11, 44, 95, 0.85) 85%,
-    rgba(11, 44, 95, 0.95) 100%);
-}
-
-.featured-main-content {
+/* ============ FEATURED HORIZONTAL SECTION ============ */
+.featured-scroll-container {
   position: relative;
   z-index: 2;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 12px;
-  padding: 32px;
-}
-
-.featured-main-title {
-  color: white;
-  font-size: 30px;
-  font-weight: 800;
-  line-height: 1.25;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  transition: color 0.3s ease;
+  border-radius: 16px;
 }
 
-.featured-main:hover .featured-main-title {
-  color: #FFD700;
-}
-
-.featured-main-description {
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 15px;
-  line-height: 1.55;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  max-width: 640px;
-}
-
-.featured-main-meta {
+.featured-cards-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 4px;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 8px;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
-.featured-main-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #FFD700;
-  font-weight: 700;
-  font-size: 14px;
-  white-space: nowrap;
-  transition: gap 0.3s ease;
+.featured-cards-wrapper::-webkit-scrollbar {
+  height: 6px;
 }
 
-.featured-main:hover .featured-main-cta {
-  gap: 10px;
-}
-
-.featured-main-cta .material-icons {
-  font-size: 18px;
-}
-
-/* Lista lateral */
-.featured-side-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  max-height: 480px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.featured-side-list::-webkit-scrollbar {
-  width: 5px;
-}
-
-.featured-side-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.08);
+.featured-cards-wrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
-.featured-side-list::-webkit-scrollbar-thumb {
+.featured-cards-wrapper::-webkit-scrollbar-thumb {
   background: rgba(244, 180, 0, 0.5);
   border-radius: 10px;
 }
 
-.featured-side-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px;
-  border-radius: 16px;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1.5px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s ease;
+.featured-cards-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 180, 0, 0.8);
 }
 
-.featured-side-item:hover {
-  background: rgba(244, 180, 0, 0.12);
-  border-color: rgba(244, 180, 0, 0.4);
-  transform: translateX(4px);
-}
-
-.featured-side-thumb {
-  flex-shrink: 0;
-  width: 76px;
-  height: 76px;
-  border-radius: 12px;
+/* Featured Card */
+.featured-card {
+  flex: 0 0 calc(33.333% - 14px);
+  min-width: 280px;
+  height: 340px;
+  border-radius: 20px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  position: relative;
+  scroll-snap-align: start;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 15px 45px rgba(11, 44, 95, 0.25), 
+              0 0 0 1px rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(244, 180, 0, 0.15);
+  background: white;
 }
 
-.featured-side-thumb img {
+/* Makes the whole card navigable/clickable via a real, keyboard-accessible <a>
+   instead of role="button" on a non-interactive element. */
+.card-stretched-link {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+}
+
+.featured-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #F4B400 0%, #FFD700 50%, #F4B400 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 10;
+}
+
+.featured-card:hover::before {
+  transform: scaleX(1);
+}
+
+.featured-card:hover {
+  transform: translateY(-16px) scale(1.04);
+  box-shadow: 0 25px 60px rgba(11, 44, 95, 0.35), 
+              0 0 40px rgba(244, 180, 0, 0.2);
+  border-color: rgba(244, 180, 0, 0.4);
+}
+
+.featured-card-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0B2C5F 0%, #1a3f7f 100%);
+}
+
+.featured-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: brightness(1.1) saturate(1.1);
 }
 
-.featured-side-item:hover .featured-side-thumb img {
-  transform: scale(1.1);
+.featured-card:hover .featured-card-image {
+  transform: scale(1.15) rotate(3deg);
+  filter: brightness(1.25) saturate(1.2);
 }
 
-.featured-side-content {
+.featured-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, 
+    rgba(0, 0, 0, 0) 0%, 
+    rgba(11, 44, 95, 0.2) 40%,
+    rgba(11, 44, 95, 0.5) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 5;
+}
+
+.featured-card:hover .featured-card-overlay {
+  opacity: 1;
+}
+
+/* Card Content */
+.featured-card-content {
   flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-}
-
-.featured-side-category {
-  color: #F4B400;
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.featured-side-title {
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.35;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  transition: color 0.3s ease;
-}
-
-.featured-side-item:hover .featured-side-title {
-  color: #FFD700;
-}
-
-.featured-side-item .featured-card-date {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.featured-side-item:hover .featured-card-date {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-@media (max-width: 1024px) {
-  .featured-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .featured-main {
-    min-height: 380px;
-  }
-
-  .featured-side-list {
-    max-height: none;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: visible;
-    padding-bottom: 6px;
-  }
-
-  .featured-side-item {
-    flex-direction: column;
-    text-align: center;
-    flex: 0 0 160px;
-  }
-
-  .featured-side-thumb {
-    width: 100%;
-    height: 100px;
-  }
-}
-
-@media (max-width: 640px) {
-  .featured-main {
-    min-height: 320px;
-  }
-
-  .featured-main-content {
-    padding: 20px;
-  }
-
-  .featured-main-title {
-    font-size: 22px;
-  }
-
-  .featured-main-description {
-    display: none;
-  }
-
-  .featured-main-meta {
-    flex-wrap: wrap;
-  }
+  justify-content: space-between;
+  padding: 18px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  gap: 10px;
 }
 
 .featured-card-badge {
@@ -302,6 +160,24 @@
   }
 }
 
+.featured-card-title {
+  color: #0B2C5F;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.featured-card:hover .featured-card-title {
+  color: #F4B400;
+  transform: translateX(4px);
+}
+
 .featured-card-date {
   color: #999;
   font-size: 12px;
@@ -313,9 +189,141 @@
   transition: color 0.3s ease;
 }
 
+.featured-card:hover .featured-card-date {
+  color: #0B2C5F;
+}
+
 .featured-card-date::before {
   content: '📅';
   font-size: 12px;
+}
+
+/* Scroll Indicators */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+  z-index: 1;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.scroll-indicators {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.scroll-btn {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, rgba(15, 22, 38, 0.6), rgba(10, 16, 30, 0.4));
+  border: 2.5px solid rgba(244, 180, 0, 0.6);
+  color: #F4B400;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  backdrop-filter: blur(16px);
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(244, 180, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.scroll-btn:hover {
+  background: linear-gradient(135deg, rgba(244, 180, 0, 0.25), rgba(244, 180, 0, 0.15));
+  border-color: #FFD700;
+  box-shadow: 0 12px 32px rgba(244, 180, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: scale(1.15) translateY(-2px);
+}
+
+.scroll-btn:active {
+  transform: scale(0.98);
+}
+
+.scroll-btn .material-icons {
+  font-size: 26px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.scroll-btn:hover .material-icons {
+  transform: scale(1.1);
+}
+
+@media (max-width: 1024px) {
+  .featured-card {
+    flex: 0 0 calc(50% - 10px);
+    min-width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-card {
+    flex: 0 0 calc(100% - 8px);
+    min-width: 200px;
+    height: 280px;
+  }
+
+  .featured-card-image-wrapper {
+    height: 65%;
+  }
+
+  .featured-card-content {
+    padding: 14px;
+  }
+
+  .featured-card-title {
+    font-size: 15px;
+  }
+
+  .featured-card-badge {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+
+  .scroll-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .scroll-btn .material-icons {
+    font-size: 20px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .scroll-indicators {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-card {
+    flex: 0 0 100%;
+    min-width: 100%;
+    height: 240px;
+  }
+
+  .featured-card-image-wrapper {
+    height: 60%;
+  }
+
+  .featured-card-content {
+    padding: 12px;
+  }
+
+  .featured-card-title {
+    font-size: 14px;
+    -webkit-line-clamp: 2;
+  }
 }
 
 /* ============ FEATURED SECTION ============ */
@@ -389,17 +397,6 @@
   }
 }
 
-.section-header {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
 .section-header h2 {
   font-size: 36px;
   font-weight: 900;
@@ -437,13 +434,13 @@
 
 /* ============ NEWS MAIN SECTION ============ */
 .news-main-section {
-  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-  padding: 48px;
-  border-radius: 24px;
-  margin-bottom: 60px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
+  padding: 40px 20px;
+  border-radius: 16px;
+  margin-bottom: 40px;
   position: relative;
   overflow: hidden;
-  border: 1.5px solid rgba(11, 44, 95, 0.08);
+  border: 1px solid rgba(0, 102, 204, 0.1);
 }
 
 .news-main-section::before {
@@ -451,11 +448,11 @@
   position: absolute;
   top: -50%;
   right: -10%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(244, 180, 0, 0.02) 0%, transparent 70%);
+  width: 400px;
+  height: 400px;
+  background: rgba(0, 102, 204, 0.03);
   border-radius: 50%;
-  filter: blur(50px);
+  filter: blur(40px);
   z-index: 0;
 }
 
@@ -503,8 +500,8 @@
 .news-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 28px;
-  auto-rows: auto;
+  gap: 24px;
+  grid-auto-rows: auto;
   position: relative;
   z-index: 2;
 }
@@ -523,16 +520,25 @@
 }
 
 /* News Card */
+/* Hace toda la tarjeta navegable con un <a> real y accesible por teclado,
+   en vez de un role="button" sobre un elemento no interactivo. */
+.card-stretched-link {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+}
+
 .news-card {
   background: white;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(11, 44, 95, 0.08);
-  transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: flex;
   flex-direction: column;
-  border: 1.5px solid rgba(11, 44, 95, 0.05);
+  border: 1px solid rgba(0, 102, 204, 0.08);
   position: relative;
+  cursor: pointer;
 }
 
 .news-card::before {
@@ -541,11 +547,11 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 5px;
-  background: linear-gradient(90deg, #F4B400 0%, #0B2C5F 100%);
+  height: 4px;
+  background: linear-gradient(90deg, #0066cc 0%, #0052a3 100%);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.4s ease;
   z-index: 10;
 }
 
@@ -554,8 +560,8 @@
 }
 
 .news-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 16px 40px rgba(11, 44, 95, 0.16);
+  transform: translateY(-8px);
+  box-shadow: 0 8px 16px rgba(0, 102, 204, 0.12);
   border-color: rgba(244, 180, 0, 0.2);
 }
 
@@ -578,7 +584,7 @@
   position: relative;
   overflow: hidden;
   height: 240px;
-  background: linear-gradient(135deg, #0B2C5F 0%, #1a3f7f 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .news-featured .news-image-wrapper {
@@ -679,7 +685,6 @@
 
 /* Featured Badge */
 .featured-badge {
-  display: inline-block;
   background: linear-gradient(135deg, #F4B400 0%, #f39c12 100%);
   color: #0B2C5F;
   font-size: 13px;
@@ -787,16 +792,12 @@
     grid-row: span 1 !important;
   }
 
-  /* !important necesario: más abajo en este mismo archivo hay reglas sin
-     media query para estas mismas clases (240px/300px) que, por orden de
-     cascada, ganaban sobre este override de móvil sin él — las imágenes
-     de noticias nunca se achicaban en pantallas chicas. */
   .news-image-wrapper {
-    height: 200px !important;
+    height: 200px;
   }
 
   .news-featured .news-image-wrapper {
-    height: 200px !important;
+    height: 200px;
   }
 
   .featured-title {
@@ -860,106 +861,14 @@
   }
 }
 
-/* ============ NEWS MAIN SECTION ============ */
-.news-main-section {
-  background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
-  padding: 40px 20px;
-  border-radius: 16px;
-  margin-bottom: 40px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(0, 102, 204, 0.1);
-}
-
-.news-main-section::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -10%;
-  width: 400px;
-  height: 400px;
-  background: rgba(0, 102, 204, 0.03);
-  border-radius: 50%;
-  filter: blur(40px);
-  z-index: 0;
-}
-
-.news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  auto-rows: auto;
-  position: relative;
-  z-index: 2;
-}
-
-.news-card {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  position: relative;
-  border: 1px solid rgba(0, 102, 204, 0.08);
-}
-
-.news-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #0066cc 0%, #0052a3 100%);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
-  z-index: 10;
-}
-
-.news-card:hover::before {
-  transform: scaleX(1);
-}
-
-.news-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 16px rgba(0, 102, 204, 0.12);
-}
-
-.news-featured {
-  grid-column: span 1;
-}
-
 @media (min-width: 768px) {
   .news-featured {
     grid-column: span 1;
   }
-  
+
   .news-featured:first-child {
     grid-column: span 1;
   }
 }
-
-.news-image-wrapper {
-  position: relative;
-  overflow: hidden;
-  height: 240px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.news-featured .news-image-wrapper {
-  height: 300px;
-}
-
-.news-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
 
 

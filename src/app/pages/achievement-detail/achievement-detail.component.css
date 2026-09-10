@@ -41,6 +41,6 @@ a {
 }
 
 :host-context(.dark) .badge-blue {
-  background-color: #3b82f6;
+  background-color: #1469f4;
   color: white;
 }

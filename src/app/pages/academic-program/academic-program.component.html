@@ -1,0 +1,117 @@
+<app-header></app-header>
+<app-breadcrumb></app-breadcrumb>
+
+<!-- Hero Section -->
+<div class="hero-wrapper">
+  <div class="hero-container">
+    <div class="hero-box">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Programas Académicos
+        </h1>
+        <p class="hero-description">
+          Explorar nuestra oferta completa de programas diseñados para impulsar tu desarrollo académico y profesional.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filters Section -->
+<div class="filters-section">
+  <div class="filters-container">
+    <div class="filters-wrapper">
+      <div class="filters-controls">
+        <div class="filter-label">
+          <span class="material-icons">filter_list</span>
+          <span class="filter-label-text">Filtros</span>
+        </div>
+        <select
+          [(ngModel)]="currentFilters.grade"
+          (change)="onFilterChange()"
+          aria-label="Filtrar por grado"
+          class="filter-select">
+          <option value="">Todos los Grados</option>
+          <option value="1">Grado 6°</option>
+          <option value="2">Grado 7°</option>
+          <option value="3">Grado 8°</option>
+        </select>
+        <select
+          [(ngModel)]="currentFilters.focus"
+          (change)="onFilterChange()"
+          aria-label="Filtrar por enfoque"
+          class="filter-select">
+          <option value="">Todos los Enfoques</option>
+          <option value="transition">Transición</option>
+          <option value="academic">Académico</option>
+          <option value="advanced">Avanzado</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Programs Section -->
+<section class="programs-section">
+  <div class="programs-container">
+    <div class="programs-header">
+      <h2 class="programs-title">
+        Conoce Nuestros Programas
+      </h2>
+    </div>
+
+    <div class="programs-grid">
+      @for (program of filteredPrograms; track program.id) {
+        <div class="program-card">
+          <div class="program-card-image">
+            <div class="card-image" [style.backgroundImage]="'url(' + program.image + ')'"></div>
+          </div>
+          <div class="program-card-content">
+            <h3 class="program-card-title">
+              {{ program.title }}
+            </h3>
+            <p class="program-card-description">
+              {{ program.description }}
+            </p>
+            <div class="program-card-meta">
+              <div class="program-meta-items">
+                <div class="meta-item">
+                  <span class="material-icons">schedule</span>
+                  <span>{{ program.duration }}</span>
+                </div>
+                <div class="meta-item">
+                  <span class="material-icons">location_on</span>
+                  <span>{{ program.modality }}</span>
+                </div>
+              </div>
+              <button 
+                (click)="navigateToCareer(program.title)"
+                class="program-button">
+                <span>Más Información</span>
+                <span class="material-icons">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="cta-container">
+    <h2 class="cta-title">¿Listo para transformar tu futuro?</h2>
+    <p class="cta-description">Descubre cómo nuestros programas können ayudarte a alcanzar tus metas académicas y profesionales.</p>
+    <div class="cta-buttons">
+      <button class="cta-button cta-button-primary">
+        Solicitar Información
+      </button>
+      <button class="cta-button cta-button-secondary">
+        Descargar Catálogo
+      </button>
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>

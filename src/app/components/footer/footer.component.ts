@@ -30,7 +30,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   quickLinksTitulo = 'Enlaces Rápidos';
   copyright        = '';
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   socialLinks: SocialLink[] = [
     { name: 'Facebook',  href: 'https://www.facebook.com/uetscuenca',                               icon: 'facebook'  },
@@ -65,9 +65,9 @@ export class FooterComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private sanitizer: DomSanitizer,
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService
+    private readonly sanitizer: DomSanitizer,
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService
   ) {
     this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       'https://www.openstreetmap.org/export/embed.html?bbox=-79.0214698,-2.9215462,-79.0114698,-2.9115462&layer=mapnik&marker=-2.9165462,-79.0164698&zoom=17'
@@ -104,18 +104,29 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   private applyConfig(cfg: any): void {
     if (!cfg) return;
+    this.applyTextFields(cfg);
+    this.applyContactFields(cfg);
+    this.applyLinkLists(cfg);
+  }
+
+  private applyTextFields(cfg: any): void {
     if (cfg.logoUrl  !== undefined) this.logoUrl  = cfg.logoUrl;
     if (cfg.logoAlt)                this.logoAlt  = cfg.logoAlt;
     if (cfg.descripcion)            this.descripcion     = cfg.descripcion;
     if (cfg.quickLinksTitulo)       this.quickLinksTitulo = cfg.quickLinksTitulo;
     if (cfg.copyright)              this.copyright       = cfg.copyright;
-    if (cfg.direccion)              this.contact.address = cfg.direccion;
-    if (cfg.telefono1)              this.contact.phone1  = cfg.telefono1;
-    if (cfg.telefono2)              this.contact.phone2  = cfg.telefono2;
-    if (cfg.email)                  this.contact.email   = cfg.email;
-    if (cfg.mapaImagen)             this.contact.map     = cfg.mapaImagen;
-    if (cfg.mapaUrl)                this.contact.mapEmbed = cfg.mapaUrl;
+  }
 
+  private applyContactFields(cfg: any): void {
+    if (cfg.direccion)  this.contact.address  = cfg.direccion;
+    if (cfg.telefono1)  this.contact.phone1   = cfg.telefono1;
+    if (cfg.telefono2)  this.contact.phone2   = cfg.telefono2;
+    if (cfg.email)       this.contact.email    = cfg.email;
+    if (cfg.mapaImagen) this.contact.map      = cfg.mapaImagen;
+    if (cfg.mapaUrl)     this.contact.mapEmbed = cfg.mapaUrl;
+  }
+
+  private applyLinkLists(cfg: any): void {
     if (Array.isArray(cfg.redes) && cfg.redes.length) {
       this.socialLinks = cfg.redes
         .filter((r: any) => r.href)

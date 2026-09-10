@@ -18,9 +18,9 @@ export class AuthorityDetailComponent implements OnInit {
   loading = true;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private autoridadesApi: AutoridadesApiService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly autoridadesApi: AutoridadesApiService
   ) {}
 
   ngOnInit() {

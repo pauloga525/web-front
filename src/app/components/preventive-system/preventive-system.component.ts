@@ -19,7 +19,7 @@ interface Feature {
   styleUrl: './preventive-system.component.css'
 })
 export class PreventiveSystemComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   sectionTitle       = 'Sistema Preventivo Salesiano';
   sectionSubtitle    = '"Razón, Religión y Amor"';
@@ -34,8 +34,8 @@ export class PreventiveSystemComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService
   ) {}
 
   ngOnInit(): void {

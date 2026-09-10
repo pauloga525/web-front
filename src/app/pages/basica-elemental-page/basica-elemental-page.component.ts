@@ -85,7 +85,7 @@ export class BasicaElementalPageComponent implements OnInit {
   get subjects()              { return this.config.subjects; }
   get heroImagenFondo()       { return this.config.heroImagenFondo; }
 
-  constructor(private configService: ConfiguracionPublicaService) {}
+  constructor(private readonly configService: ConfiguracionPublicaService) {}
 
   ngOnInit(): void {
     this.configService.get<any>('nivel_basica-elemental', DEFAULT).subscribe(data => {

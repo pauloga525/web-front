@@ -1,5 +1,5 @@
 /* ============================================
-   BACHELOR PROGRAMS PAGE - Estilos Completos
+   ACADEMIC PROGRAM PAGE - Estilos Completos
    ============================================ */
 
 :host {
@@ -33,46 +33,28 @@
    1. HERO SECTION
    ============================================ */
 
-/* Alto controlado por aspect-ratio + tope en max-height, en vez de dejar
-   que la imagen decida su propia altura según su proporción real — con
-   fotos muy verticales o casi cuadradas eso hacía que el hero se viera
-   enorme, sobre todo en celular. object-fit: cover recorta lo mínimo
-   necesario para llenar el recuadro sin dejar espacios vacíos. */
 .hero-wrapper {
   position: relative;
   width: 100%;
-  background-color: #0b2c5f;
-  aspect-ratio: 4 / 3;
-  max-height: 420px;
+  background-size: cover;
+  background-position: center;
+  background-image: linear-gradient(135deg, rgba(11, 44, 95, 0.6) 0%, rgba(11, 44, 95, 0.8) 100%), url(/image/basicamedia/Maria_auxiliadora.webp);
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   overflow: hidden;
-}
-
-.hero-bg-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(to top, rgba(11, 44, 95, 0.92), rgba(11, 44, 95, 0.45), transparent);
-  z-index: 1;
 }
 
 @media (min-width: 640px) {
   .hero-wrapper {
-    aspect-ratio: 16 / 9;
-    max-height: 480px;
+    min-height: 400px;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-wrapper {
-    aspect-ratio: 21 / 9;
-    max-height: 620px;
+    min-height: 450px;
   }
 }
 
@@ -94,19 +76,13 @@
 }
 
 .hero-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  margin: 0;
   max-width: 80rem;
   padding: 2rem 1rem;
-  width: 100%;
+  padding-left: 2rem;
+  width: auto;
 }
 
 @media (min-width: 640px) {
@@ -140,28 +116,12 @@
   max-width: 42rem;
 }
 
-.hero-badge {
-  display: inline-block;
-  margin: 0 auto 0.5rem;
-  border-radius: var(--radius-lg);
-  background-color: rgba(244, 180, 0, 0.9);
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-secondary);
-  width: fit-content;
-}
-
 .hero-title {
   color: var(--color-white);
   font-size: 1.5rem;
   font-weight: 900;
   line-height: 1.25;
   letter-spacing: -0.02em;
-  position: relative;
-  display: inline-block;
 }
 
 @media (min-width: 640px) {
@@ -176,23 +136,11 @@
   }
 }
 
-.hero-title-accent {
-  display: block;
-  margin-top: 0.5rem;
-  height: 0.5rem;
-  width: 2rem;
-  background-color: var(--color-primary);
-  border-radius: 9999px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .hero-description {
   color: #f3f4f6;
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.625;
-  margin-top: 0.5rem;
 }
 
 /* ============================================
@@ -410,37 +358,10 @@
   overflow: hidden;
   background-size: cover;
   background-position: center;
-  cursor: pointer;
-}
-
-.card-image-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #e2e8f0;
-  color: #54657e;
-}
-
-.card-image-placeholder .material-icons {
-  font-size: 3rem;
-}
-
-.programs-empty {
-  text-align: center;
-  color: #94a3b8;
-  padding: 3rem 0;
-  font-size: 1rem;
 }
 
 .card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
   transition: transform 0.5s ease-out;
-  display: block;
 }
 
 .program-card:hover .card-image {
@@ -602,5 +523,12 @@
   background-color: #fcc34d;
 }
 
+.cta-button-secondary {
+  background-color: transparent;
+  color: var(--color-white);
+  border: 2px solid var(--color-white);
+}
 
-
+.cta-button-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

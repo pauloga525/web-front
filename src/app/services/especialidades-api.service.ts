@@ -60,10 +60,10 @@ export type EspecialidadApi = Especialidad;
 export class EspecialidadesApiService {
   private readonly url = `${environment.apiUrl}/especialidades`;
 
-  private _especialidades = new BehaviorSubject<Especialidad[]>([]);
+  private readonly _especialidades = new BehaviorSubject<Especialidad[]>([]);
   especialidades$ = this._especialidades.asObservable();
 
-  constructor(private http: HttpClient, private websocket: WebsocketService) {
+  constructor(private readonly http: HttpClient, private readonly websocket: WebsocketService) {
     this.cargar();
 
     this.websocket.event$.subscribe(event => {

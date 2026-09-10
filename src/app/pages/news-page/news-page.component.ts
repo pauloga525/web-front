@@ -65,9 +65,9 @@ export class NewsPageComponent implements OnInit, OnDestroy {
   private sub?: Subscription;
 
   constructor(
-    private noticiasApi: NoticiasApiService,
-    private configService: ConfiguracionPublicaService,
-    private router: Router
+    private readonly noticiasApi: NoticiasApiService,
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {

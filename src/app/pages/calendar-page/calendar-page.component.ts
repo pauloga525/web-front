@@ -65,7 +65,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
 
   @ViewChild('filtroWrapper') filtroWrapper?: ElementRef<HTMLElement>;
 
-  constructor(private eventosApi: EventosApiService) {}
+  constructor(private readonly eventosApi: EventosApiService) {}
 
   ngOnInit(): void {
     this.eventosSub = this.eventosApi.eventos$.subscribe(eventos => {
@@ -81,7 +81,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
   private convertApiEventsToCalendarEvents(eventos: EventoApi[]): CalendarEvent[] {
     return eventos
       .map((evento): CalendarEvent | null => {
-        const [year, month, day] = (evento.fecha || '').split('-').map(part => parseInt(part, 10));
+        const [year, month, day] = (evento.fecha || '').split('-').map(part => Number.parseInt(part, 10));
 
         if (!year || !month || !day) {
           return null;

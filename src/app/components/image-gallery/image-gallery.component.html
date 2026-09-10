@@ -20,14 +20,16 @@
           (mouseenter)="handleMouseEnter()"
           (mouseleave)="handleMouseLeave()"
           (mousemove)="handleMouseMove($event)"
-          (click)="toggleZoom()"
         >
           <!-- Main Image -->
-          <div
-            class="relative w-full aspect-square overflow-hidden"
+          <button
+            type="button"
+            class="block w-full relative aspect-square overflow-hidden"
             [class.scale-150]="isZoomed"
             [style.transform-origin]="isZoomed ? zoomX + '% ' + zoomY + '%' : 'center'"
             style="transition: transform 0.3s ease"
+            (click)="toggleZoom()"
+            aria-label="Ampliar o reducir imagen"
           >
             <img
               [src]="selectedImage.url"
@@ -35,7 +37,7 @@
               class="w-full h-full object-cover"
               loading="lazy"
             />
-          </div>
+          </button>
 
           <!-- Zoom Indicator -->
           <div

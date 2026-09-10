@@ -5,7 +5,7 @@ import { Directive, ElementRef, OnInit, NgZone, AfterViewInit } from '@angular/c
   standalone: true
 })
 export class SuppressImageWarningDirective implements OnInit, AfterViewInit {
-  constructor(private el: ElementRef, private ngZone: NgZone) {}
+  constructor(private readonly el: ElementRef, private readonly ngZone: NgZone) {}
 
   ngOnInit(): void {
     // Mark image as processed to skip Angular's size validation

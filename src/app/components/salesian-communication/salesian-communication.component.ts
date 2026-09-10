@@ -20,13 +20,13 @@ interface Resource {
   styleUrl: './salesian-communication.component.css'
 })
 export class SalesianCommunicationComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   resources: Resource[] = [];
 
   constructor(
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService
   ) {}
 
   ngOnInit(): void {

@@ -6,26 +6,20 @@
           <span class="material-icons">filter_list</span>
           <span class="font-medium text-sm uppercase tracking-wide">Filtros</span>
         </div>
-        <select 
-          [(ngModel)]="filters.faculty"
-          (change)="onFilterChange()"
-          class="h-10 px-4 pr-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 text-sm font-medium focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer hover:bg-gray-100 transition-colors">
+        <label for="program-filter-faculty" class="sr-only">Filtrar por facultad</label>
+        <select id="program-filter-faculty" [(ngModel)]="filters.faculty" (change)="onFilterChange()" class="h-10 px-4 pr-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 text-sm font-medium focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer hover:bg-gray-100 transition-colors">
           @for (faculty of faculties; track $index) {
             <option [value]="faculty">{{ faculty }}</option>
           }
         </select>
-        <select 
-          [(ngModel)]="filters.modality"
-          (change)="onFilterChange()"
-          class="h-10 px-4 pr-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 text-sm font-medium focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer hover:bg-gray-100 transition-colors">
+        <label for="program-filter-modality" class="sr-only">Filtrar por modalidad</label>
+        <select id="program-filter-modality" [(ngModel)]="filters.modality" (change)="onFilterChange()" class="h-10 px-4 pr-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 text-sm font-medium focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer hover:bg-gray-100 transition-colors">
           @for (modality of modalities; track $index) {
             <option [value]="modality">{{ modality }}</option>
           }
         </select>
-        <select 
-          [(ngModel)]="filters.duration"
-          (change)="onFilterChange()"
-          class="h-10 px-4 pr-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 text-sm font-medium focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer hover:bg-gray-100 transition-colors">
+        <label for="program-filter-duration" class="sr-only">Filtrar por duración</label>
+        <select id="program-filter-duration" [(ngModel)]="filters.duration" (change)="onFilterChange()" class="h-10 px-4 pr-10 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 text-sm font-medium focus:ring-2 focus:ring-primary focus:border-primary cursor-pointer hover:bg-gray-100 transition-colors">
           @for (duration of durations; track $index) {
             <option [value]="duration">{{ duration }}</option>
           }

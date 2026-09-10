@@ -56,11 +56,11 @@ const DEFAULT_CONFIG: CampusConfig = {
 export class CampusLifePageComponent implements OnInit, OnDestroy {
   config: CampusConfig = DEFAULT_CONFIG;
   plataformas: Plataforma[] = [];
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService
   ) {}
 
   ngOnInit(): void {
@@ -89,7 +89,7 @@ export class CampusLifePageComponent implements OnInit, OnDestroy {
   }
 
   private applyConfig(cfg?: Partial<CampusConfig>): void {
-    this.config = { ...DEFAULT_CONFIG, ...(cfg ?? {}), campus: cfg?.campus ?? [] };
+    this.config = { ...DEFAULT_CONFIG, ...cfg, campus: cfg?.campus ?? [] };
   }
 
   openMap(url: string): void {

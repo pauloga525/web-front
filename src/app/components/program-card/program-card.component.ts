@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class ProgramCardComponent {
   @Input() program: any;
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   navigateToCareer(careerTitle: string) {
     const slug = careerTitle.toLowerCase()

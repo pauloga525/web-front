@@ -67,9 +67,9 @@ export class BachelorProgramsComponent implements OnInit {
   currentFilters = { faculty: '', modality: '', duration: '' };
 
   constructor(
-    private router: Router,
-    private especialidadesApi: EspecialidadesApiService,
-    private configService: ConfiguracionPublicaService,
+    private readonly router: Router,
+    private readonly especialidadesApi: EspecialidadesApiService,
+    private readonly configService: ConfiguracionPublicaService,
   ) {}
 
   ngOnInit(): void {

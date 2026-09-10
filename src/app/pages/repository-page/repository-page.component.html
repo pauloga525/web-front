@@ -37,24 +37,25 @@
         <div class="search-box">
           <div class="search-input-wrapper">
             <span class="material-symbols-outlined search-icon">search</span>
-            <input 
-              type="text" 
+            <input
+              type="text"
               class="search-input"
               [(ngModel)]="searchQuery"
-              placeholder="Buscar por título, autor, palabra clave o DOI...">
+              placeholder="Buscar por título, autor, palabra clave o DOI..."
+              aria-label="Buscar por título, autor, palabra clave o DOI">
             <button class="search-button" (click)="onSearch()">Buscar</button>
           </div>
           
           <div class="filter-controls">
             <span class="filter-label">Filtrar por:</span>
-            <select class="filter-select" [(ngModel)]="selectedFaculty">
+            <select class="filter-select" aria-label="Filtrar por facultad" [(ngModel)]="selectedFaculty">
               <option value="">Todas las Facultades</option>
               <option value="salud">Ciencias de la Salud</option>
               <option value="ingenieria">Ingeniería</option>
               <option value="sociales">Ciencias Sociales</option>
               <option value="artes">Artes y Humanidades</option>
             </select>
-            <select class="filter-select" [(ngModel)]="selectedYear">
+            <select class="filter-select" aria-label="Filtrar por año de publicación" [(ngModel)]="selectedYear">
               <option value="">Año de Publicación</option>
               <option value="2023">2023</option>
               <option value="2022">2022</option>
@@ -62,7 +63,7 @@
               <option value="2020">2020</option>
               <option value="anterior">Anterior</option>
             </select>
-            <select class="filter-select" [(ngModel)]="selectedDocType">
+            <select class="filter-select" aria-label="Filtrar por tipo de documento" [(ngModel)]="selectedDocType">
               <option value="">Tipo de Documento</option>
               <option value="tesis">Tesis</option>
               <option value="articulo">Artículo</option>

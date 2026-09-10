@@ -21,7 +21,7 @@ export class NewsDetailComponent implements OnInit {
   loading = true;
   readonly currentYear = new Date().getFullYear();
 
-  constructor(private route: ActivatedRoute, private noticiasApi: NoticiasApiService) {}
+  constructor(private readonly route: ActivatedRoute, private readonly noticiasApi: NoticiasApiService) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {

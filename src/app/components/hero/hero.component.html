@@ -2,18 +2,13 @@
   <div class="absolute inset-0">
     @if (hero.imagen_fallback) {
       @if (isVideoUrl(hero.imagen_fallback)) {
-        <video
-          autoplay
-          muted
-          loop
-          playsinline
-          class="w-full h-full object-cover object-center"
-        >
+        <video autoplay muted loop playsinline class="w-full h-full object-cover object-center">
           <source [src]="hero.imagen_fallback" [type]="hero.imagen_fallback.endsWith('.webm') ? 'video/webm' : 'video/mp4'">
+          <track kind="captions" srclang="es" label="Español" src="data:text/vtt,WEBVTT" default>
         </video>
       } @else {
         <img
-          alt="Imagen de fondo hero"
+          alt="Fondo hero"
           class="w-full h-full object-cover object-center"
           [src]="hero.imagen_fallback"
         >

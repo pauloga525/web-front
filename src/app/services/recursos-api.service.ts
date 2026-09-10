@@ -34,7 +34,7 @@ export interface RecursoApi {
 export class RecursosApiService {
   private readonly url = `${environment.apiUrl}/recursos`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getAll(): Observable<RecursoApi[]> {
     return this.http.get<RecursoApi[]>(`${this.url}/publicos`).pipe(

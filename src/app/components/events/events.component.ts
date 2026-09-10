@@ -23,7 +23,7 @@ interface Event {
   styleUrl: './events.component.css'
 })
 export class EventsComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   events: Event[] = [];
   sectionTitle = 'PRÓXIMOS EVENTOS';
@@ -31,9 +31,9 @@ export class EventsComponent implements OnInit, OnDestroy {
   btnUrl = '/events';
 
   constructor(
-    private eventosApi: EventosApiService,
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService
+    private readonly eventosApi: EventosApiService,
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService
   ) {}
 
   ngOnInit() {
