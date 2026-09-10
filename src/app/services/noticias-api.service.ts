@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { WebsocketService } from './websocket.service';
 
@@ -45,10 +45,10 @@ export interface FiltroNoticiasApi {
 export class NoticiasApiService {
   private readonly url = `${environment.apiUrl}/noticias`;
 
-  private _noticias = new BehaviorSubject<NoticiaApi[]>([]);
+  private readonly _noticias = new BehaviorSubject<NoticiaApi[]>([]);
   noticias$ = this._noticias.asObservable();
 
-  constructor(private http: HttpClient, private websocket: WebsocketService) {
+  constructor(private readonly http: HttpClient, private readonly websocket: WebsocketService) {
     this.cargar();
 
     this.websocket.event$.subscribe(event => {

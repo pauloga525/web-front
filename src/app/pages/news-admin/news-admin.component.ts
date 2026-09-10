@@ -19,8 +19,8 @@ export class NewsAdminComponent implements OnInit, OnDestroy {
   private sub?: Subscription;
 
   constructor(
-    private noticiasApi: NoticiasApiService,
-    private router: Router
+    private readonly noticiasApi: NoticiasApiService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +38,6 @@ export class NewsAdminComponent implements OnInit, OnDestroy {
   }
 
   goToDashboard(): void {
-    window.open('http://localhost:4201', '_blank');
+    window.open('http://localhost:4201', '_blank', 'noopener');
   }
 }

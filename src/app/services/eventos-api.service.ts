@@ -6,7 +6,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { WebsocketService } from './websocket.service';
 
@@ -64,10 +64,10 @@ export interface FiltroEventosApi {
 export class EventosApiService {
   private readonly url = `${environment.apiUrl}/eventos`;
 
-  private _eventos = new BehaviorSubject<EventoApi[]>([]);
+  private readonly _eventos = new BehaviorSubject<EventoApi[]>([]);
   eventos$ = this._eventos.asObservable();
 
-  constructor(private http: HttpClient, private websocket: WebsocketService) {
+  constructor(private readonly http: HttpClient, private readonly websocket: WebsocketService) {
     this.cargar();
 
     this.websocket.event$.subscribe(event => {

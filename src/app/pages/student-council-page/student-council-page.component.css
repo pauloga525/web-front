@@ -3,6 +3,7 @@
 /* Smooth transitions */
 .group {
   transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease forwards;
 }
 
 .group:hover {
@@ -54,10 +55,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.group {
-  animation: fadeInUp 0.6s ease forwards;
 }
 
 .group:nth-child(1) { animation-delay: 0.1s; }

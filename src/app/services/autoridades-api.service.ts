@@ -31,10 +31,10 @@ export interface AutoridadApi {
 export class AutoridadesApiService {
   private readonly url = `${environment.apiUrl}/autoridades`;
 
-  private _autoridades = new BehaviorSubject<AutoridadApi[]>([]);
+  private readonly _autoridades = new BehaviorSubject<AutoridadApi[]>([]);
   autoridades$ = this._autoridades.asObservable();
 
-  constructor(private http: HttpClient, private websocket: WebsocketService) {
+  constructor(private readonly http: HttpClient, private readonly websocket: WebsocketService) {
     this.cargar();
 
     this.websocket.event$.subscribe(event => {

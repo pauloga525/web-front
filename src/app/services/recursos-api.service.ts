@@ -26,7 +26,7 @@ export interface RecursoApi {
 export class RecursosApiService {
   private readonly url = `${environment.apiUrl}/recursos`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getByCategoria(categoria: string): Observable<RecursoApi[]> {
     const params = new HttpParams().set('categoria', categoria);

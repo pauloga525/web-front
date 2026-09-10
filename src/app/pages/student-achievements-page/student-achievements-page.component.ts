@@ -19,7 +19,7 @@ export class StudentAchievementsPageComponent implements OnInit {
   categories: string[] = [];
   selectedCategory = 'Todos';
 
-  constructor(private logrosApi: LogrosApiService) {}
+  constructor(private readonly logrosApi: LogrosApiService) {}
 
   ngOnInit(): void {
     this.logrosApi.logros$.subscribe(lista => {

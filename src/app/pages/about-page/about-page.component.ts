@@ -106,16 +106,16 @@ export class AboutPageComponent implements OnInit, OnDestroy {
     { label: 'Nosotros', route: '/about' }
   ];
 
-  config: NosotrosConfig = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+  config: NosotrosConfig = structuredClone(DEFAULT_CONFIG);
   leaders: AutoridadApi[] = [];
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
-    private router: Router,
-    private autoridadesApi: AutoridadesApiService,
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService,
+    private readonly router: Router,
+    private readonly autoridadesApi: AutoridadesApiService,
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService,
   ) {}
 
   ngOnInit(): void {

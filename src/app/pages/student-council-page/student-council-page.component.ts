@@ -1,11 +1,9 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
-import { ViewEncapsulation } from '@angular/core';
 import { StorageService } from '../../services/storage.service';
 
 interface CouncilMember {
@@ -65,7 +63,7 @@ export class StudentCouncilPageComponent implements OnInit {
     }
   ];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, private storage: StorageService) {}
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: Object, private readonly storage: StorageService) {}
 
   ngOnInit() {
     this.checkDarkMode();

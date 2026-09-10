@@ -87,9 +87,15 @@
                   </div>
                 }
                 <div class="map-overlay">
-                  <span class="map-btn" (click)="openMap(c.mapaUrl)" style="cursor: pointer;">
+                  <button
+                    type="button"
+                    class="map-btn"
+                    (click)="openMap(c.mapaUrl)"
+                    aria-label="Ver mapa"
+                    style="cursor: pointer;"
+                  >
                     <span class="material-icons-outlined">map</span> Ver Mapa
-                  </span>
+                  </button>
                 </div>
               </div>
             </div>

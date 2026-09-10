@@ -19,13 +19,13 @@ interface Partner {
   styleUrl: './community.component.css'
 })
 export class CommunityComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   partners: Partner[] = [];
 
   constructor(
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService
   ) {}
 
   ngOnInit(): void {

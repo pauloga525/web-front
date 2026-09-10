@@ -1,10 +1,10 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
-import { NoticiasApiService, NoticiaApi } from '../../services/noticias-api.service';
+import { NoticiasApiService } from '../../services/noticias-api.service';
 import { Subscription } from 'rxjs';
 
 interface FeaturedNews {
@@ -45,9 +45,8 @@ export class NewsPageComponent implements OnInit, OnDestroy {
   private sub?: Subscription;
 
   constructor(
-    private ngZone: NgZone,
-    private noticiasApi: NoticiasApiService,
-    private router: Router
+    private readonly ngZone: NgZone,
+    private readonly noticiasApi: NoticiasApiService
   ) {}
 
   ngOnInit(): void {
@@ -90,10 +89,6 @@ export class NewsPageComponent implements OnInit, OnDestroy {
 
   previousPage(): void { this.goToPage(this.currentPage - 1); }
   nextPage(): void     { this.goToPage(this.currentPage + 1); }
-
-  navigateToNewsDetail(id: string): void {
-    this.router.navigate(['/noticias', id]);
-  }
 
   scrollLeft(): void {
     this.scrollContainer?.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });

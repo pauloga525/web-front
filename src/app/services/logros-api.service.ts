@@ -24,10 +24,10 @@ export interface LogroApi {
 export class LogrosApiService {
   private readonly url = `${environment.apiUrl}/logros`;
 
-  private _logros = new BehaviorSubject<LogroApi[]>([]);
+  private readonly _logros = new BehaviorSubject<LogroApi[]>([]);
   logros$ = this._logros.asObservable();
 
-  constructor(private http: HttpClient, private websocket: WebsocketService) {
+  constructor(private readonly http: HttpClient, private readonly websocket: WebsocketService) {
     this.cargar();
 
     this.websocket.event$.subscribe(event => {

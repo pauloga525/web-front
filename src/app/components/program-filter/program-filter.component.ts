@@ -6,8 +6,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-program-filter',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './program-filter.component.html',
-  styleUrl: './program-filter.component.css'
+  templateUrl: './program-filter.component.html'
 })
 export class ProgramFilterComponent {
   @Output() filterChange = new EventEmitter<any>();

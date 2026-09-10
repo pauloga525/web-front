@@ -157,10 +157,6 @@ export class InstructivosPageComponent implements OnInit {
     return type === 'pdf' ? 'text-red-500' : 'text-secondary';
   }
 
-  getBackgroundColor(type: string): string {
-    return type === 'pdf' ? 'bg-blue-50' : 'bg-blue-50';
-  }
-
   getSymbolColor(type: string): string {
     return type === 'pdf' ? 'text-yellow-200' : 'text-blue-200';
   }
@@ -170,7 +166,7 @@ export class InstructivosPageComponent implements OnInit {
       : 'bg-secondary text-white hover:bg-secondary/80';
   }
 
-  getHoverTextColor(type: string): string {
-    return type === 'pdf' ? 'group-hover:text-secondary' : 'group-hover:text-secondary';
+  getHoverTextColor(): string {
+    return 'group-hover:text-secondary';
   }
 }

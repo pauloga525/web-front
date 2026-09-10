@@ -264,7 +264,6 @@
 .filter-select {
   height: 2.5rem;
   padding: 0 1rem;
-  padding-right: 2.5rem;
   border-radius: var(--radius-lg);
   background-color: var(--color-gray-50);
   border: 1px solid var(--color-gray-200);
@@ -287,8 +286,7 @@
 
 .filter-select:focus {
   outline: none;
-  ring: 2px;
-  ring-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary);
   border-color: var(--color-primary);
 }
 
@@ -404,7 +402,7 @@
   align-items: center;
   justify-content: center;
   background-color: #e2e8f0;
-  color: #94a3b8;
+  color: #54657e;
 }
 
 .card-image-placeholder .material-icons {

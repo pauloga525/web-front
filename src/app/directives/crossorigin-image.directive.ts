@@ -9,7 +9,7 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
   standalone: true
 })
 export class CrossOriginImageDirective implements OnInit {
-  constructor(private el: ElementRef) {}
+  constructor(private readonly el: ElementRef) {}
 
   ngOnInit(): void {
     this.el.nativeElement.setAttribute('crossorigin', 'anonymous');

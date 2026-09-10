@@ -20,7 +20,7 @@ export class NewsDetailComponent implements OnInit {
   relatedNews: NoticiaApi[] = [];
   loading = true;
 
-  constructor(private route: ActivatedRoute, private noticiasApi: NoticiasApiService) {}
+  constructor(private readonly route: ActivatedRoute, private readonly noticiasApi: NoticiasApiService) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {

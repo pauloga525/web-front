@@ -70,7 +70,7 @@ const DEFAULT_CONFIG: EstudiantesPageConfig = {
 })
 export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
   config: EstudiantesPageConfig = DEFAULT_CONFIG;
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   // ── Gallery carousel ────────────────────────────────────────────────────────
   galleryIndex = 0;
@@ -89,9 +89,9 @@ export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
   private dragStartTY = 0;
 
   constructor(
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService,
-    private router: Router
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -147,7 +147,7 @@ export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
   private applyConfig(config?: Partial<EstudiantesPageConfig>): void {
     this.config = {
       ...DEFAULT_CONFIG,
-      ...(config ?? {}),
+      ...config,
       galeria: config?.galeria ?? DEFAULT_CONFIG.galeria,
       clubes: config?.clubes ?? DEFAULT_CONFIG.clubes,
       promociones: config?.promociones ?? DEFAULT_CONFIG.promociones,
@@ -159,7 +159,7 @@ export class StudentPromotionsPageComponent implements OnInit, OnDestroy {
   }
 
   private extractYear(value: string): string {
-    return value.match(/\d{4}/)?.[0] ?? '';
+    return /\d{4}/.exec(value)?.[0] ?? '';
   }
 
   // ── Gallery carousel methods ────────────────────────────────────────────────

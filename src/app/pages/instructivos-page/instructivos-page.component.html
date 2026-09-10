@@ -35,6 +35,7 @@
             (keyup.enter)="onSearch()"
             class="w-full md:w-80 py-3 pl-10 pr-4 rounded-lg bg-white border border-gray-200 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
             placeholder="Buscar ayuda..."
+            aria-label="Buscar ayuda"
             type="text"
           />
         </div>
@@ -120,7 +121,7 @@
               </span>
               <span class="text-xs text-gray-500">{{ getDisplayDate(instructivo) }}</span>
             </div>
-            <h3 [ngClass]="getHoverTextColor(instructivo.type)" class="font-bold text-lg text-gray-800 mb-2 transition-colors">
+            <h3 [ngClass]="getHoverTextColor()" class="font-bold text-lg text-gray-800 mb-2 transition-colors">
               {{ instructivo.title }}
             </h3>
             <p class="text-sm text-gray-600 line-clamp-2">{{ instructivo.description }}</p>

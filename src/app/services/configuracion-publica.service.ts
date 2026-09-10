@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
 export class ConfiguracionPublicaService {
   private readonly url = `${environment.apiUrl}/configuracion`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   /**
    * Lee una configuración pública por clave.

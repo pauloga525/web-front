@@ -13,7 +13,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class AppComponent implements OnInit {
   title = 'UETS';
 
-  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(private readonly router: Router, @Inject(PLATFORM_ID) private readonly platformId: Object) {
     // Agregar crossorigin a imágenes de Google de forma global
     if (isPlatformBrowser(this.platformId)) {
       effect(() => {

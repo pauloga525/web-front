@@ -26,18 +26,20 @@
           <span class="material-icons">filter_list</span>
           <span class="filter-label-text">Filtros</span>
         </div>
-        <select 
+        <select
           [(ngModel)]="currentFilters.grade"
           (change)="onFilterChange()"
+          aria-label="Filtrar por grado"
           class="filter-select">
           <option value="">Todos los Grados</option>
           <option value="1">Grado 6°</option>
           <option value="2">Grado 7°</option>
           <option value="3">Grado 8°</option>
         </select>
-        <select 
+        <select
           [(ngModel)]="currentFilters.focus"
           (change)="onFilterChange()"
+          aria-label="Filtrar por enfoque"
           class="filter-select">
           <option value="">Todos los Enfoques</option>
           <option value="transition">Transición</option>

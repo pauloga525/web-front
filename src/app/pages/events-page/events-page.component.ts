@@ -15,7 +15,7 @@ function toEventItem(e: EventoApi): EventItem {
   const fecha = e.fecha ?? '';                          // YYYY-MM-DD
   const parts = fecha.split('-');
   const meses = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
-  const mesIdx = parts[1] ? parseInt(parts[1], 10) - 1 : 0;
+  const mesIdx = parts[1] ? Number.parseInt(parts[1], 10) - 1 : 0;
   return {
     id:             e.slug || e._id,
     title:          e.titulo,
@@ -64,7 +64,7 @@ export class EventsPageComponent implements OnInit {
     year: String(new Date().getFullYear())
   };
 
-  constructor(private eventosApi: EventosApiService) {}
+  constructor(private readonly eventosApi: EventosApiService) {}
 
   ngOnInit() {
     this.eventosApi.getDestacado().subscribe(ev => {

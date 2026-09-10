@@ -27,7 +27,7 @@
           <span class="material-icons">filter_list</span>
           <span class="filter-label-text">Filtros</span>
         </div>
-        <select [(ngModel)]="currentFilters.faculty" (change)="onFilterChange()" class="filter-select">
+        <select [(ngModel)]="currentFilters.faculty" (change)="onFilterChange()" aria-label="Filtrar por facultad" class="filter-select">
           <option value="">Todas las Facultades</option>
           <option value="Business">Negocios</option>
           <option value="Tech">Tecnología</option>
@@ -35,13 +35,13 @@
           <option value="Health">Salud</option>
           <option value="Engineering">Ingeniería</option>
         </select>
-        <select [(ngModel)]="currentFilters.modality" (change)="onFilterChange()" class="filter-select">
+        <select [(ngModel)]="currentFilters.modality" (change)="onFilterChange()" aria-label="Filtrar por modalidad" class="filter-select">
           <option value="">Cualquier Modalidad</option>
           <option value="Presencial">Presencial</option>
           <option value="Online">En línea</option>
           <option value="Hybrid">Híbrida</option>
         </select>
-        <select [(ngModel)]="currentFilters.duration" (change)="onFilterChange()" class="filter-select">
+        <select [(ngModel)]="currentFilters.duration" (change)="onFilterChange()" aria-label="Filtrar por duración" class="filter-select">
           <option value="">Cualquier Duración</option>
           <option value="2">Cursos Cortos</option>
           <option value="4">Pregrado (4-5 Años)</option>
@@ -66,7 +66,12 @@
     <div class="programs-grid">
       @for (program of filteredPrograms; track program.id) {
         <div class="program-card">
-          <div class="program-card-image" (click)="navigateToCareer(program)">
+          <button
+            type="button"
+            class="program-card-image block w-full text-left"
+            (click)="navigateToCareer(program)"
+            [attr.aria-label]="'Ver carrera ' + program.title"
+          >
             @if (program.image) {
               <img [src]="program.image" [alt]="program.title" class="card-image" />
             } @else {
@@ -74,7 +79,7 @@
                 <span class="material-icons">school</span>
               </div>
             }
-          </div>
+          </button>
           <div class="program-card-content">
             <h3 class="program-card-title">{{ program.title }}</h3>
             <p class="program-card-description">{{ program.description }}</p>

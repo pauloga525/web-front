@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../components/header/header.component';
@@ -12,7 +12,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
   templateUrl: './repository-page.component.html',
   styleUrl: './repository-page.component.css'
 })
-export class RepositoryPageComponent implements OnInit {
+export class RepositoryPageComponent {
   searchQuery: string = '';
   selectedFaculty: string = '';
   selectedYear: string = '';
@@ -57,10 +57,6 @@ export class RepositoryPageComponent implements OnInit {
   ];
 
   constructor() {}
-
-  ngOnInit(): void {
-    // Initialize component data
-  }
 
   onSearch(): void {
     console.log('Searching:', {

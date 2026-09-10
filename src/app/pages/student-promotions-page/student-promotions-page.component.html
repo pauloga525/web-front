@@ -35,10 +35,12 @@
 
               <!-- Slides -->
               @for (item of galleryItems; track item.id) {
-                <div class="absolute inset-0 transition-opacity duration-500 cursor-pointer"
+                <button type="button"
+                     class="block w-full absolute inset-0 transition-opacity duration-500 cursor-pointer"
                      [style.opacity]="galleryIndex === $index ? '1' : '0'"
                      [style.z-index]="galleryIndex === $index ? '1' : '0'"
-                     (click)="openLightbox($index)">
+                     (click)="openLightbox($index)"
+                     [attr.aria-label]="item.caption || 'Ver imagen ampliada'">
                   <img [src]="item.url" [alt]="item.alt || item.caption"
                        class="w-full h-full object-cover" draggable="false" />
                   @if (item.caption) {
@@ -46,7 +48,7 @@
                       <p class="text-white font-semibold text-sm drop-shadow">{{ item.caption }}</p>
                     </div>
                   }
-                </div>
+                </button>
               }
 
               @if (galleryItems.length > 1) {

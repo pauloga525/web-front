@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -24,7 +24,7 @@ interface Curriculum {
   styleUrl: './academic-program.component.css',
   encapsulation: ViewEncapsulation.Emulated
 })
-export class AcademicProgramComponent implements OnInit {
+export class AcademicProgramComponent {
   levelName = 'Programas Académicos';
   levelDescription = 'Explorar nuestra oferta completa de programas diseñados para impulsar tu desarrollo académico y profesional.';
   sectionTitle = 'Nuestras Opciones Educativas';
@@ -115,11 +115,7 @@ export class AcademicProgramComponent implements OnInit {
 
   subjects: Subject[] = [];
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit() {
-    // Inicialización adicional si es necesaria
-  }
+  constructor(private readonly route: ActivatedRoute) {}
 
   onFilterChange() {
     // El filtro se aplica automáticamente a través del getter filteredPrograms

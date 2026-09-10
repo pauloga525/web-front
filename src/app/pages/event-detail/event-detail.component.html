@@ -126,20 +126,20 @@
         <p class="text-gray-500 text-sm mb-6">Completa tus datos para reservar tu cupo y recibir tu certificado digital.</p>
         <form class="space-y-4" (ngSubmit)="onRegister()">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre Completo</label>
-            <input class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Ej. Juan Pérez" type="text">
+            <label for="registro-nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre Completo</label>
+            <input id="registro-nombre" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Ej. Juan Pérez" type="text">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico</label>
-            <input class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="ejemplo@correo.com" type="email">
+            <label for="registro-correo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico</label>
+            <input id="registro-correo" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="ejemplo@correo.com" type="email">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono</label>
-            <input class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="099 123 4567" type="tel">
+            <label for="registro-telefono" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono</label>
+            <input id="registro-telefono" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary" placeholder="099 123 4567" type="tel">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de Visitante</label>
-            <select class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary">
+            <label for="registro-tipo-visitante" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de Visitante</label>
+            <select id="registro-tipo-visitante" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-primary focus:border-primary">
               <option>Estudiante Externo</option>
               <option>Padre de Familia</option>
               <option>Docente</option>

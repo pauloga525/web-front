@@ -15,7 +15,7 @@ export interface Achievement {
 
 @Injectable({ providedIn: 'root' })
 export class AchievementsService {
-  constructor(private api: LogrosApiService) {}
+  constructor(private readonly api: LogrosApiService) {}
 
   getAllAchievements(): Achievement[] {
     return this.api.getAll().map(l => this.toItem(l));

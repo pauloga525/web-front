@@ -19,10 +19,10 @@ export class WebsocketService {
   private socket: Socket | null = null;
   private readonly apiUrl = environment.apiUrl.replace('/api/v1', '');
   
-  private eventSubject = new BehaviorSubject<WebSocketEvent | null>(null);
+  private readonly eventSubject = new BehaviorSubject<WebSocketEvent | null>(null);
   event$ = this.eventSubject.asObservable();
 
-  private isConnectedSubject = new BehaviorSubject(false);
+  private readonly isConnectedSubject = new BehaviorSubject(false);
   isConnected$ = this.isConnectedSubject.asObservable();
 
   constructor() {

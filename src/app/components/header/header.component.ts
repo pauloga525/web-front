@@ -95,8 +95,8 @@ export class HeaderComponent implements OnInit {
   }
 
   constructor(
-    private router: Router,
-    private configPublica: ConfiguracionPublicaService,
+    private readonly router: Router,
+    private readonly configPublica: ConfiguracionPublicaService,
   ) {}
 
   ngOnInit() {

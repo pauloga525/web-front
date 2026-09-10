@@ -60,7 +60,7 @@ export class StudentGalleryPageComponent implements OnInit, OnDestroy {
   maxPageButtons = 5;
 
   promotionGroups: PromotionGroup[] = [];
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   // Modal de visualización
   isViewerOpen = false;
@@ -72,9 +72,9 @@ export class StudentGalleryPageComponent implements OnInit, OnDestroy {
   dragStartY = 0;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private route: ActivatedRoute,
-    private configService: ConfiguracionPublicaService,
+    @Inject(PLATFORM_ID) private readonly platformId: Object,
+    private readonly route: ActivatedRoute,
+    private readonly configService: ConfiguracionPublicaService,
   ) {}
 
   ngOnInit() {
@@ -142,7 +142,7 @@ export class StudentGalleryPageComponent implements OnInit, OnDestroy {
     const groupsMap = new Map<string, Photo[]>();
 
     for (const promo of promotions) {
-      const yearMatch = promo.classOf.match(/\d{4}/);
+      const yearMatch = /\d{4}/.exec(promo.classOf);
       const year = yearMatch ? yearMatch[0] : promo.classOf || 'Sin año';
       const photos = groupsMap.get(year) ?? [];
 
@@ -268,7 +268,7 @@ export class StudentGalleryPageComponent implements OnInit, OnDestroy {
   }
 
   get showLastDots(): boolean {
-    return this.pageNumbers[this.pageNumbers.length - 1] < this.totalPages;
+    return (this.pageNumbers.at(-1) ?? 0) < this.totalPages;
   }
 
   goToPage(page: number) {

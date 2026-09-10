@@ -1,9 +1,6 @@
 .student-gallery-container {
   --primary-color: #003366;
   --secondary-color: #D4AF37;
-}
-
-.student-gallery-container {
   color: var(--primary-color);
 }
 

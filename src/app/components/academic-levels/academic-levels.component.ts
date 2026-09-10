@@ -22,9 +22,9 @@ interface AcademicLevel {
   styleUrl: './academic-levels.component.css'
 })
 export class AcademicLevelsComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
-  private defaultLevels: AcademicLevel[] = [
+  private readonly defaultLevels: AcademicLevel[] = [
     { name: 'Preparatoria',     icon: 'toys',          description: 'Aprendizaje a través del juego y el descubrimiento.',          image: '/image/Preparatoria/Preparatoria.png',      route: '/programa/preparatoria'    },
     { name: 'Básica Elemental', icon: 'eco',           description: 'Cimientos sólidos en lectura, escritura y lógica.',            image: '/image/basicaelemental/BElemental.png',     route: '/programa/basica-elemental' },
     { name: 'Básica Media',     icon: 'library_books', description: 'Fortalecimiento de conocimientos y habilidades fundamentales.', image: '/image/basicamedia/BMedia.png',             route: '/programa/basica-media'    },
@@ -35,8 +35,8 @@ export class AcademicLevelsComponent implements OnInit, OnDestroy {
   levels: AcademicLevel[] = [...this.defaultLevels];
 
   constructor(
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService
   ) {}
 
   ngOnInit(): void {

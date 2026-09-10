@@ -43,7 +43,7 @@ const MESES = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV'
 
 function toEventView(e: EventoApi): EventView {
   const parts = (e.fecha ?? '').split('-');
-  const mesIdx = parts[1] ? parseInt(parts[1], 10) - 1 : 0;
+  const mesIdx = parts[1] ? Number.parseInt(parts[1], 10) - 1 : 0;
   return {
     title:               e.titulo,
     image:               e.imagenPrincipal,
@@ -66,7 +66,7 @@ function toEventView(e: EventoApi): EventView {
 
 function toEventItem(e: EventoApi): EventItem {
   const parts = (e.fecha ?? '').split('-');
-  const mesIdx = parts[1] ? parseInt(parts[1], 10) - 1 : 0;
+  const mesIdx = parts[1] ? Number.parseInt(parts[1], 10) - 1 : 0;
   return {
     id:             e.slug || e._id,
     title:          e.titulo,
@@ -99,7 +99,7 @@ export class EventDetailComponent implements OnInit {
   agenda: AgendaItem[] = [];
   galleryImages: GalleryImage[] = [];
 
-  constructor(private route: ActivatedRoute, private eventosApi: EventosApiService) {}
+  constructor(private readonly route: ActivatedRoute, private readonly eventosApi: EventosApiService) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {

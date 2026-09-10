@@ -20,7 +20,7 @@ interface Pillar {
   styleUrl: './stats.component.css'
 })
 export class StatsComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   stats: Pillar[] = [
     { title: 'Estudiantes', value: '+2.450', icon: 'group' },
@@ -53,8 +53,8 @@ export class StatsComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private configService: ConfiguracionPublicaService,
-    private websocket: WebsocketService
+    private readonly configService: ConfiguracionPublicaService,
+    private readonly websocket: WebsocketService
   ) {}
 
   ngOnInit(): void {

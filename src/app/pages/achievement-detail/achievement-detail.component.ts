@@ -20,8 +20,8 @@ export class AchievementDetailComponent implements OnInit {
   loading = true;
 
   constructor(
-    private route: ActivatedRoute,
-    private logrosApi: LogrosApiService
+    private readonly route: ActivatedRoute,
+    private readonly logrosApi: LogrosApiService
   ) {}
 
   ngOnInit(): void {

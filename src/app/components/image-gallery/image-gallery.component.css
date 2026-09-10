@@ -1,5 +1,6 @@
 .image-gallery-container {
   background: var(--color-surface-light, #ffffff);
+  animation: zoomIn 0.3s ease-out;
 }
 
 :host-context(.dark) .image-gallery-container {
@@ -97,10 +98,6 @@
     opacity: 1;
     transform: scale(1);
   }
-}
-
-.image-gallery-container {
-  animation: zoomIn 0.3s ease-out;
 }
 
 /* Touch support */

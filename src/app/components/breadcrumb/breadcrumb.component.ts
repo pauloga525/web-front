@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AutoridadesApiService } from '../../services/autoridades-api.service';
@@ -22,7 +21,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
   breadcrumbs: BreadcrumbItem[] = [];
   private authoritySub?: Subscription;
 
-  private breadcrumbMap: { [key: string]: BreadcrumbItem[] } = {
+  private readonly breadcrumbMap: { [key: string]: BreadcrumbItem[] } = {
     '/': [{ label: 'Inicio', path: '/' }],
     '/about': [
       { label: 'Inicio', path: '/' },
@@ -115,9 +114,9 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private router: Router,
-    private location: Location,
-    private autoridadesApi: AutoridadesApiService
+    private readonly router: Router,
+    private readonly location: Location,
+    private readonly autoridadesApi: AutoridadesApiService
   ) {}
 
   ngOnInit() {

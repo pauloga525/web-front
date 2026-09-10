@@ -85,7 +85,7 @@ export class BasicaMediaPageComponent implements OnInit {
   get subjects()              { return this.config.subjects; }
   get heroImagenFondo()       { return this.config.heroImagenFondo; }
 
-  constructor(private configService: ConfiguracionPublicaService) {}
+  constructor(private readonly configService: ConfiguracionPublicaService) {}
 
   ngOnInit(): void {
     this.configService.get<NivelConfig>('nivel_basica-media', DEFAULT).subscribe(data => {

@@ -13,9 +13,6 @@
   --campus-surface-dark: #1E293B;
   --campus-text-light: #1E293B;
   --campus-text-dark: #E2E8F0;
-}
-
-.campus-page-wrapper {
   font-family: 'Roboto', sans-serif;
   color: var(--campus-text-light);
 }
@@ -229,13 +226,13 @@
 }
 
 .badge-yellow {
-  background: rgba(255, 215, 0, 0.1);
-  color: #a08500;
+  background: #fffbe6;
+  color: #816c00;
 }
 
 .badge-cyan {
-  background: rgba(0, 188, 212, 0.1);
-  color: #0088a0;
+  background: #e6f8fb;
+  color: #00778c;
 }
 
 .campus-title {
@@ -546,7 +543,7 @@
 }
 
 .blue-bg {
-  background: #3b82f6;
+  background: #1469f4;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.75rem;
