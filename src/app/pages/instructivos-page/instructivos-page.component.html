@@ -100,13 +100,13 @@
           class="bg-white rounded-xl border border-gray-200 hover:shadow-lg hover:border-blue-300 transition-all duration-300 group flex flex-col"
         >
           <!-- Header con icono -->
-          <div class="h-40 rounded-t-xl bg-blue-50 flex items-center justify-center relative overflow-hidden">
-            <span class="material-symbols-outlined text-6xl absolute -bottom-4 -right-4 transform rotate-12" [ngClass]="instructivo.type === 'pdf' ? 'text-yellow-200' : 'text-blue-200'">
-              {{ instructivo.type === 'pdf' ? 'picture_as_pdf' : 'play_circle' }}
+          <div class="h-40 rounded-t-xl bg-gray-50 flex items-center justify-center relative overflow-hidden">
+            <span class="material-symbols-outlined text-6xl absolute -bottom-4 -right-4 transform rotate-12" [ngClass]="getBigIconTint(instructivo.type)">
+              {{ getBigTypeIcon(instructivo.type) }}
             </span>
             <div class="bg-white p-3 rounded-full shadow-sm z-10 border border-gray-100">
               <span class="material-icons text-2xl" [ngClass]="getIconColor(instructivo.type)">
-                {{ instructivo.type === 'video' ? 'play_circle_filled' : 'picture_as_pdf' }}
+                {{ getTypeIcon(instructivo.type) }}
               </span>
             </div>
           </div>

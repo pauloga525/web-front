@@ -7,15 +7,19 @@ import { ConfiguracionPublicaService } from '../../services/configuracion-public
 import { RecursosApiService, EnlaceRecurso } from '../../services/recursos-api.service';
 import { VideoModalComponent } from '../../components/video-modal/video-modal.component';
 
+type TipoInstructivo = 'pdf' | 'word' | 'excel' | 'video';
+
 interface InstructivoCard {
   id: string;
   title: string;
   description: string;
-  type: 'pdf' | 'video';
+  type: TipoInstructivo;
   category: string;
   url: string;
   enlaces: EnlaceRecurso[];
 }
+
+const TIPOS_VALIDOS: TipoInstructivo[] = ['pdf', 'word', 'excel', 'video'];
 
 interface InstructivoCategoria { id: number; icon: string; name: string; }
 interface Plataforma { id: number; name: string; image: string; url: string; }
@@ -68,12 +72,12 @@ export class InstructivosPageComponent implements OnInit {
       this.config = { ...DEFAULT_CONFIG, ...cfg };
       if (!this.selectedCategory) this.selectedCategory = this.config.categorias[0]?.name ?? '';
     });
-    this.recursosApi.getByTipo('pdf', 'video').subscribe(list => {
+    this.recursosApi.getByTipo(...TIPOS_VALIDOS).subscribe(list => {
       this.instructivos = list.map(r => ({
         id: r._id,
         title: r.titulo,
         description: r.descripcion,
-        type: r.tipo === 'video' ? 'video' : 'pdf',
+        type: (TIPOS_VALIDOS.includes(r.tipo as TipoInstructivo) ? r.tipo : 'pdf') as TipoInstructivo,
         category: r.categoria,
         url: r.url,
         // Compatibilidad con instructivos antiguos guardados solo con `url` (sin `enlaces`).
@@ -113,24 +117,64 @@ export class InstructivosPageComponent implements OnInit {
   onSearch(): void {}
 
   getTagColor(type: string): string {
-    return type === 'pdf' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700';
+    switch (type) {
+      case 'word':  return 'bg-blue-100 text-blue-700';
+      case 'excel': return 'bg-green-100 text-green-700';
+      case 'video': return 'bg-purple-100 text-purple-700';
+      default:      return 'bg-red-100 text-red-700'; // pdf
+    }
   }
 
   getTagText(type: string): string {
-    return type === 'pdf' ? 'PDF' : 'Video';
+    switch (type) {
+      case 'word':  return 'Word';
+      case 'excel': return 'Excel';
+      case 'video': return 'Video';
+      default:      return 'PDF';
+    }
   }
 
   getIconColor(type: string): string {
-    return type === 'pdf' ? 'text-red-500' : 'text-secondary';
+    switch (type) {
+      case 'word':  return 'text-blue-600';
+      case 'excel': return 'text-green-600';
+      case 'video': return 'text-secondary';
+      default:      return 'text-red-500'; // pdf
+    }
+  }
+
+  /** Icono de Material Symbols/Icons según el tipo de archivo. */
+  getTypeIcon(type: string): string {
+    switch (type) {
+      case 'word':  return 'description';
+      case 'excel': return 'table_chart';
+      case 'video': return 'play_circle_filled';
+      default:      return 'picture_as_pdf'; // pdf
+    }
+  }
+
+  /** Versión "outline" del icono grande decorativo de fondo de cada tarjeta. */
+  getBigTypeIcon(type: string): string {
+    return type === 'video' ? 'play_circle' : this.getTypeIcon(type);
+  }
+
+  getBigIconTint(type: string): string {
+    switch (type) {
+      case 'word':  return 'text-blue-200';
+      case 'excel': return 'text-green-200';
+      case 'video': return 'text-blue-200';
+      default:      return 'text-yellow-200'; // pdf
+    }
   }
 
   getButtonColor(type: string): string {
-    return type === 'pdf' ? 'border border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-secondary hover:border-secondary'
-      : 'bg-secondary text-white hover:bg-secondary/80';
+    return type === 'video'
+      ? 'bg-secondary text-white hover:bg-secondary/80'
+      : 'border border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-secondary hover:border-secondary';
   }
 
   getButtonText(type: string): string {
-    return type === 'pdf' ? 'Descargar' : 'Ver Tutorial';
+    return type === 'video' ? 'Ver Tutorial' : 'Descargar';
   }
 
   abrirTutorial(instructivo: InstructivoCard): void {
