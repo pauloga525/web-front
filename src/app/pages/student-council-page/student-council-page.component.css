@@ -1,5 +1,42 @@
 /* Student Council Page Styles - Isolated Namespace */
 
+/* ============================================
+   HERO — imagen de fondo opcional (configurable desde el admin)
+   ============================================ */
+
+/* La altura la define la propia imagen (height: auto), no una proporción
+   fija — así se ve completa, sin recortarse ni dejar espacios vacíos.
+   max-height es solo un tope de seguridad para imágenes muy verticales. */
+.hero-wrapper {
+  --hero-max-h: 320px;
+  position: relative;
+  width: 100%;
+  max-height: var(--hero-max-h);
+  overflow: hidden;
+  background-color: #0b2c5f;
+}
+
+@media (min-width: 640px) {
+  .hero-wrapper {
+    --hero-max-h: 420px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-wrapper {
+    --hero-max-h: 620px;
+  }
+}
+
+.hero-bg-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: var(--hero-max-h);
+  object-fit: contain;
+  object-position: center;
+}
+
 /* Smooth transitions */
 .group {
   transition: all 0.3s ease;

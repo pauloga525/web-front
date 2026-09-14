@@ -5,6 +5,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 import { ConsejoApiService, MiembroConsejoApi } from '../../services/consejo-api.service';
+import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
 
 @Component({
   selector: 'app-student-council-page',
@@ -15,11 +16,18 @@ import { ConsejoApiService, MiembroConsejoApi } from '../../services/consejo-api
 })
 export class StudentCouncilPageComponent implements OnInit {
   councilMembers: MiembroConsejoApi[] = [];
+  heroImagen = '';
 
-  constructor(private readonly consejoApi: ConsejoApiService) {}
+  constructor(
+    private readonly consejoApi: ConsejoApiService,
+    private readonly configPublica: ConfiguracionPublicaService,
+  ) {}
 
   ngOnInit() {
     this.consejoApi.miembros$.subscribe(list => this.councilMembers = list);
+    this.configPublica.get<{ heroImagen?: string }>('consejo_page', {}).subscribe(cfg => {
+      this.heroImagen = cfg?.heroImagen || '';
+    });
   }
 
   openDetail(memberId: number) {

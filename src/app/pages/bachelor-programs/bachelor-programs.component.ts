@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
@@ -41,7 +40,6 @@ interface ProgramItem {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     RouterModule,
     HeaderComponent,
     BreadcrumbComponent,
@@ -62,9 +60,6 @@ export class BachelorProgramsComponent implements OnInit {
   get ctaUrlDescarga()  { return this.pageConfig.ctaUrlDescarga || '/contact'; }
 
   programs: ProgramItem[] = [];
-  filteredPrograms: ProgramItem[] = [];
-
-  currentFilters = { faculty: '', modality: '', duration: '' };
 
   constructor(
     private readonly router: Router,
@@ -90,9 +85,8 @@ export class BachelorProgramsComponent implements OnInit {
           image:       e.imagenHero || e.imagen || '',
           slug:        this.toSlug(e.titulo || e.nombre || ''),
         }));
-        this.filteredPrograms = [...this.programs];
       },
-      error: () => { this.filteredPrograms = []; }
+      error: () => { this.programs = []; }
     });
   }
 
@@ -100,14 +94,6 @@ export class BachelorProgramsComponent implements OnInit {
     return text.toLowerCase()
       .normalize('NFD').replace(/[̀-ͯ]/g, '')
       .replace(/\s+/g, '-');
-  }
-
-  onFilterChange(): void {
-    this.filteredPrograms = this.programs.filter(program => {
-      if (this.currentFilters.faculty && program.faculty !== this.currentFilters.faculty) return false;
-      if (this.currentFilters.duration && !program.duration.startsWith(this.currentFilters.duration)) return false;
-      return true;
-    });
   }
 
   navigateToCareer(program: ProgramItem): void {

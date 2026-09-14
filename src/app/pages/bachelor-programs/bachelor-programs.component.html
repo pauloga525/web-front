@@ -2,55 +2,15 @@
 <app-breadcrumb></app-breadcrumb>
 
 <!-- Hero Section -->
+<!-- Solo el badge "Académico" (superpuesto arriba a la izquierda de la
+     imagen) y la descripción debajo — sin franja de color ni título. -->
 <div class="hero-wrapper">
   <img *ngIf="heroImagenFondo" [src]="heroImagenFondo" alt="" class="hero-bg-img" />
-  <div class="hero-overlay"></div>
-  <div class="hero-container">
-    <div class="hero-box">
-      <div class="hero-content">
-        <span class="hero-badge">Académico</span>
-        <h1 class="hero-title">
-          {{ heroTitulo }}
-          <span class="hero-title-accent"></span>
-        </h1>
-        <p class="hero-description">{{ heroDescripcion }}</p>
-      </div>
-    </div>
-  </div>
+  <span class="hero-badge">Académico</span>
 </div>
 
-<!-- Filters Section -->
-<div class="filters-section">
-  <div class="filters-container">
-    <div class="filters-wrapper">
-      <div class="filters-controls">
-        <div class="filter-label">
-          <span class="material-icons">filter_list</span>
-          <span class="filter-label-text">Filtros</span>
-        </div>
-        <select [(ngModel)]="currentFilters.faculty" (change)="onFilterChange()" aria-label="Filtrar por facultad" class="filter-select">
-          <option value="">Todas las Facultades</option>
-          <option value="Business">Negocios</option>
-          <option value="Tech">Tecnología</option>
-          <option value="Arts">Artes</option>
-          <option value="Health">Salud</option>
-          <option value="Engineering">Ingeniería</option>
-        </select>
-        <select [(ngModel)]="currentFilters.modality" (change)="onFilterChange()" aria-label="Filtrar por modalidad" class="filter-select">
-          <option value="">Cualquier Modalidad</option>
-          <option value="Presencial">Presencial</option>
-          <option value="Online">En línea</option>
-          <option value="Hybrid">Híbrida</option>
-        </select>
-        <select [(ngModel)]="currentFilters.duration" (change)="onFilterChange()" aria-label="Filtrar por duración" class="filter-select">
-          <option value="">Cualquier Duración</option>
-          <option value="2">Cursos Cortos</option>
-          <option value="4">Pregrado (4-5 Años)</option>
-          <option value="6">Postgrado (1-2 Años)</option>
-        </select>
-      </div>
-    </div>
-  </div>
+<div class="hero-description-section">
+  <p class="hero-description">{{ heroDescripcion }}</p>
 </div>
 
 <!-- Programs Section -->
@@ -60,12 +20,12 @@
       <h2 class="programs-title">Conoce Nuestra Oferta Académica</h2>
     </div>
 
-    @if (!filteredPrograms.length) {
+    @if (!programs.length) {
       <p class="programs-empty">No hay especialidades publicadas aún.</p>
     }
 
     <div class="programs-grid">
-      @for (program of filteredPrograms; track program.id) {
+      @for (program of programs; track program.id) {
         <div class="program-card">
           <button
             type="button"

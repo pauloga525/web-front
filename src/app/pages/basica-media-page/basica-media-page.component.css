@@ -69,39 +69,38 @@
    1. HERO SECTION
    ============================================ */
 
-/* Alto controlado por aspect-ratio + tope en max-height, en vez de dejar
-   que la imagen decida su propia altura según su proporción real — con
-   fotos muy verticales o casi cuadradas eso hacía que el hero se viera
-   enorme, sobre todo en celular. object-fit: cover recorta lo mínimo
-   necesario para llenar el recuadro sin dejar espacios vacíos. */
+/* La altura la define la propia imagen (height: auto), no una proporción
+   fija — así no quedan franjas vacías arriba/abajo cuando el banner no
+   calza con un aspect-ratio predefinido. max-height es solo un tope de
+   seguridad para banners inusualmente verticales/cuadrados (si se llega
+   a ese límite, object-fit: contain evita que se deforme o recorte). */
 .hero-wrapper {
+  --hero-max-h: 320px;
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  max-height: 420px;
+  max-height: var(--hero-max-h);
   overflow: hidden;
   background-color: #0b2c5f;
 }
 
 @media (min-width: 640px) {
   .hero-wrapper {
-    aspect-ratio: 16 / 9;
-    max-height: 480px;
+    --hero-max-h: 420px;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-wrapper {
-    aspect-ratio: 21 / 9;
-    max-height: 620px;
+    --hero-max-h: 620px;
   }
 }
 
 .hero-bg-img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: var(--hero-max-h);
+  object-fit: contain;
   object-position: center;
 }
 
@@ -122,63 +121,14 @@
   50% { transform: translate(20px, 20px); }
 }
 
-.hero-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  max-width: 80rem;
-  padding: 2rem 1rem;
-  padding-left: 2rem;
-}
-
-@media (min-width: 640px) {
-  .hero-container {
-    padding: 3rem 1.5rem;
-    padding-left: 3rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-container {
-    padding: 4rem 2rem;
-    padding-left: 4rem;
-  }
-}
-
-.hero-box {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(to top, rgba(11, 44, 95, 0.92), rgba(11, 44, 95, 0.45), transparent);
-  z-index: 1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0;
-  max-width: 32rem;
-}
-
+/* Badge "Académico" superpuesto arriba a la izquierda de la imagen — sin
+   franja de color, título ni descripción debajo. */
 .hero-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
   display: inline-block;
-  margin-bottom: 0.5rem;
   border-radius: var(--radius-lg);
   background-color: rgba(37, 99, 235, 0.9);
   padding: 0.25rem 0.75rem;
@@ -190,42 +140,11 @@
   width: fit-content;
 }
 
-.hero-title {
-  max-width: 48rem;
-  font-size: 1.5rem;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  color: var(--color-white);
-}
-
-@media (min-width: 640px) {
-  .hero-title {
-    font-size: 2rem;
-  }
-}
-
 @media (min-width: 1024px) {
-  .hero-title {
-    font-size: 3rem;
+  .hero-badge {
+    top: 1.5rem;
+    left: 1.5rem;
   }
-}
-
-.hero-title-accent {
-  display: block;
-  margin-top: 0.5rem;
-  height: 0.5rem;
-  width: 2rem;
-  background-color: var(--color-primary);
-  border-radius: 9999px;
-}
-
-.hero-description {
-  margin-top: 1.5rem;
-  max-width: 28rem;
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #f3f4f6;
-  line-height: 1.625;
 }
 
 /* ============================================

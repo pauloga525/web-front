@@ -2,21 +2,12 @@
 <app-breadcrumb></app-breadcrumb>
 
 <!-- 1. Hero Section -->
+<!-- Solo el badge "Académico", superpuesto arriba a la izquierda de la
+     imagen — sin franja de color, título ni descripción debajo (la
+     imagen ya trae su propio título/campus dibujados). -->
 <div class="hero-wrapper">
   <img *ngIf="heroImagenFondo" [src]="heroImagenFondo" alt="" class="hero-bg-img" />
-  <div class="hero-overlay"></div>
-  <div class="hero-container">
-    <div class="hero-box">
-      <div class="hero-content">
-        <span class="hero-badge">Académico</span>
-        <h1 class="hero-title">
-          {{ levelName }}
-          <span class="hero-title-accent"></span>
-        </h1>
-        <p class="hero-description">{{ levelDescription }}</p>
-      </div>
-    </div>
-  </div>
+  <span class="hero-badge">Académico</span>
 </div>
 
 <!-- 2. Overview Section -->
