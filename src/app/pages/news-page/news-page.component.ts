@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
@@ -62,12 +62,15 @@ export class NewsPageComponent implements OnInit, OnDestroy {
   itemsPerPage = 6;
   totalPages = 1;
 
+  carouselIndex = 0;
+  private carouselTimer?: ReturnType<typeof setInterval>;
+  private carouselPausado = false;
+
   private sub?: Subscription;
 
   constructor(
     private readonly noticiasApi: NoticiasApiService,
     private readonly configService: ConfiguracionPublicaService,
-    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -102,12 +105,41 @@ export class NewsPageComponent implements OnInit, OnDestroy {
 
       this.totalPages = Math.ceil(this.allNews.length / this.itemsPerPage) || 1;
       this.updatePaginatedNews();
+
+      this.carouselIndex = 0;
+      this.startCarousel();
     });
   }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.stopCarousel();
   }
+
+  // ── Carrusel de noticias destacadas ────────────────────────────────────
+  private startCarousel(): void {
+    this.stopCarousel();
+    if (this.featuredNews.length > 1) {
+      this.carouselTimer = setInterval(() => {
+        if (!this.carouselPausado) this.nextSlide();
+      }, 6000);
+    }
+  }
+
+  private stopCarousel(): void {
+    if (this.carouselTimer) clearInterval(this.carouselTimer);
+  }
+
+  pauseCarousel(): void  { this.carouselPausado = true; }
+  resumeCarousel(): void { this.carouselPausado = false; }
+
+  goToSlide(index: number): void {
+    if (!this.featuredNews.length) return;
+    this.carouselIndex = ((index % this.featuredNews.length) + this.featuredNews.length) % this.featuredNews.length;
+  }
+
+  nextSlide(): void { this.goToSlide(this.carouselIndex + 1); }
+  prevSlide(): void { this.goToSlide(this.carouselIndex - 1); }
 
   updatePaginatedNews(): void {
     const start = (this.currentPage - 1) * this.itemsPerPage;
@@ -125,22 +157,10 @@ export class NewsPageComponent implements OnInit, OnDestroy {
   previousPage(): void { this.goToPage(this.currentPage - 1); }
   nextPage(): void     { this.goToPage(this.currentPage + 1); }
 
-  navigateToNewsDetail(id: string): void {
-    this.router.navigate(['/noticias', id]);
-  }
-
   get heroBackgroundStyle(): string {
     const overlay = 'linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6))';
     return this.config.heroImagenFondo
       ? `${overlay}, url("${this.config.heroImagenFondo}")`
       : overlay;
-  }
-
-  get mainFeatured(): FeaturedNews | undefined {
-    return this.featuredNews[0];
-  }
-
-  get otherFeatured(): FeaturedNews[] {
-    return this.featuredNews.slice(1);
   }
 }

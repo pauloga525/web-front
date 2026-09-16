@@ -1,0 +1,132 @@
+/* ============================================
+   HERO — imagen de fondo opcional (configurable desde el admin)
+   ============================================ */
+
+/* La altura la define la propia imagen (height: auto), no una proporción
+   fija — así se ve completa, sin recortarse ni dejar espacios vacíos.
+   max-height es solo un tope de seguridad para imágenes muy verticales. */
+.hero-wrapper {
+  --hero-max-h: 320px;
+  position: relative;
+  width: 100%;
+  max-height: var(--hero-max-h);
+  overflow: hidden;
+  background-color: #0b2c5f;
+}
+
+@media (min-width: 640px) {
+  .hero-wrapper { --hero-max-h: 420px; }
+}
+
+@media (min-width: 1024px) {
+  .hero-wrapper { --hero-max-h: 620px; }
+}
+
+.hero-bg-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: var(--hero-max-h);
+  object-fit: contain;
+  object-position: center;
+}
+
+/* ============================================
+   CONTENIDO
+   ============================================ */
+
+.page-container {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: #0b2c5f;
+  letter-spacing: -0.02em;
+}
+
+.page-divider {
+  margin: 1.5rem 0 2.5rem;
+  border: none;
+  border-top: 1px solid #e2e8f0;
+}
+
+.sin-contenido {
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 3rem 0;
+}
+
+/* Tablas */
+.tabla-block {
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0b2c5f;
+  margin-bottom: 1rem;
+}
+
+.section-title-center {
+  text-align: center;
+}
+
+.tabla-scroll {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+}
+
+.tabla-puntajes {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.tabla-puntajes td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.tabla-puntajes tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla-puntajes tr:nth-child(even):not(.fila-encabezado) td {
+  background-color: #f8fafc;
+}
+
+.tabla-puntajes tr.fila-encabezado td {
+  background-color: #0066cc;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Gráficos */
+.grafico-block {
+  margin-bottom: 3rem;
+}
+
+.grafico-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+}
+
+.grafico-subtitulo {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}

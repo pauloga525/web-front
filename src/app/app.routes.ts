@@ -10,6 +10,7 @@ import { EventsPageComponent } from './pages/events-page/events-page.component';
 import { EventDetailComponent } from './pages/event-detail/event-detail.component';
 import { CalendarPageComponent } from './pages/calendar-page/calendar-page.component';
 import { BachelorProgramsComponent } from './pages/bachelor-programs/bachelor-programs.component';
+import { BoscometroPageComponent } from './pages/boscometro-page/boscometro-page.component';
 import { BasicaMediaPageComponent } from './pages/basica-media-page/basica-media-page.component';
 import { PreparatoriaPageComponent } from './pages/preparatoria-page/preparatoria-page.component';
 import { BasicaElementalPageComponent } from './pages/basica-elemental-page/basica-elemental-page.component';
@@ -58,6 +59,7 @@ export const routes: Routes = [
   { path: 'programa/basica-superior', component: BasicaSuperiorPageComponent },
   { path: 'programa/basica-media', component: BasicaMediaPageComponent },
   { path: 'programa/bachillerato', component: BachelorProgramsComponent },
+  { path: 'boscometro', component: BoscometroPageComponent },
   { path: 'programa/especialidad/:slug', component: SpecialtyDetailComponent },
   { path: '**', redirectTo: '' }
 ];

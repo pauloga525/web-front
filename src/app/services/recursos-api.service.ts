@@ -14,6 +14,18 @@ export interface EnlaceRecurso {
   descripcion: string;
 }
 
+/** Una fila de una tabla de Boscómetro importada desde Excel. */
+export interface FilaTablaBoscometro {
+  valores: string[];
+  esEncabezado: boolean;
+}
+
+/** Un punto (curso + total) de un gráfico de Boscómetro importado desde Excel. */
+export interface PuntoGraficoBoscometro {
+  curso: string;
+  total: number;
+}
+
 export interface RecursoApi {
   _id: string;
   titulo: string;
@@ -24,6 +36,10 @@ export interface RecursoApi {
   categoria: string;
   tags: string[];
   enlaces: EnlaceRecurso[];
+  /** Solo presente en recursos tipo 'boscometro_tabla'. */
+  filas?: FilaTablaBoscometro[];
+  /** Solo presente en recursos tipo 'boscometro_grafico'. */
+  datos?: PuntoGraficoBoscometro[];
   publicado: boolean;
   orden: number;
   createdAt: string;

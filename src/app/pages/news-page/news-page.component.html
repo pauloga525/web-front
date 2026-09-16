@@ -22,56 +22,59 @@
     <div class="flex flex-1 justify-center py-16 px-4 md:px-10">
       <div class="layout-content-container flex flex-col max-w-[1200px] flex-1 gap-16 w-full">
         
-        <!-- Featured News Section -->
+        <!-- Featured News Section — a todo el ancho de la pantalla, con el
+             fondo azul desvaneciéndose hasta transparente. -->
         <section class="featured-section" *ngIf="featuredNews.length">
-          <div class="section-header">
-            <div>
-              <h2 class="text-white text-3xl font-bold">{{ config.destacadasTitulo }}</h2>
-              <p class="text-white/80 text-sm mt-2">Lo más relevante de nuestro campus</p>
+          <div class="featured-section-inner">
+            <div class="section-header">
+              <div>
+                <h2 class="text-white text-3xl font-bold">{{ config.destacadasTitulo }}</h2>
+                <p class="text-white/80 text-sm mt-2">Lo más relevante de nuestro campus</p>
+              </div>
             </div>
-          </div>
 
-          <div class="featured-layout">
-            <!-- Historia principal -->
-            <article
-              class="featured-main"
-              *ngIf="mainFeatured as main"
-              (click)="navigateToNewsDetail(main._id)"
-              role="button"
-              tabindex="0"
-            >
-              <div class="featured-main-image-wrapper">
-                <img [src]="main.image" [alt]="main.title" class="featured-main-image" />
-                <div class="featured-main-overlay"></div>
+            <!-- Carrusel: un slide a la vez, con la descripción siempre visible
+                 en un panel claro junto a la foto (no superpuesta sobre ella). -->
+            <div class="featured-carousel"
+                 (mouseenter)="pauseCarousel()" (mouseleave)="resumeCarousel()">
+              <div class="featured-track" [style.transform]="'translateX(-' + (carouselIndex * 100) + '%)'">
+                @for (item of featuredNews; track item._id) {
+                  <article class="featured-slide">
+                    <a [routerLink]="['/noticias', item._id]" class="card-stretched-link" [attr.aria-label]="item.title"></a>
+                    <div class="featured-slide-image-wrapper">
+                      <img [src]="item.image" [alt]="item.title" class="featured-slide-image" />
+                    </div>
+                    <div class="featured-slide-content">
+                      <span class="featured-slide-badge">{{ item.category || 'Destacado' }}</span>
+                      <h3 class="featured-slide-title">{{ item.title }}</h3>
+                      <p class="featured-slide-description" *ngIf="item.description">{{ item.description }}</p>
+                      <div class="featured-slide-meta">
+                        <span class="featured-slide-date" *ngIf="item.date">{{ item.date }}</span>
+                        <span class="featured-slide-cta">
+                          Leer noticia
+                          <span class="material-icons">arrow_forward</span>
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                }
               </div>
-              <div class="featured-main-content">
-                <span class="featured-card-badge">{{ main.category || 'Destacado' }}</span>
-                <h3 class="featured-main-title">{{ main.title }}</h3>
-                <p class="featured-main-description" *ngIf="main.description">{{ main.description }}</p>
-                <div class="featured-main-meta">
-                  <span class="featured-card-date" *ngIf="main.date">{{ main.date }}</span>
-                  <span class="featured-main-cta">
-                    Leer noticia
-                    <span class="material-icons">arrow_forward</span>
-                  </span>
-                </div>
-              </div>
-            </article>
+            </div>
 
-            <!-- Lista lateral -->
-            <div class="featured-side-list" *ngIf="otherFeatured.length">
-              @for (item of otherFeatured; track item._id) {
-                <article class="featured-side-item" (click)="navigateToNewsDetail(item._id)" role="button" tabindex="0">
-                  <div class="featured-side-thumb">
-                    <img [src]="item.image" [alt]="item.title" />
-                  </div>
-                  <div class="featured-side-content">
-                    <span class="featured-side-category" *ngIf="item.category">{{ item.category }}</span>
-                    <h4 class="featured-side-title">{{ item.title }}</h4>
-                    <span class="featured-card-date" *ngIf="item.date">{{ item.date }}</span>
-                  </div>
-                </article>
-              }
+            <!-- Flechas y puntos -->
+            <div class="carousel-nav" *ngIf="featuredNews.length > 1">
+              <button type="button" class="scroll-btn" (click)="prevSlide()" aria-label="Noticia anterior">
+                <span class="material-icons">chevron_left</span>
+              </button>
+              <div class="carousel-dots">
+                @for (item of featuredNews; track item._id; let i = $index) {
+                  <button type="button" class="carousel-dot" [class.active]="i === carouselIndex"
+                    (click)="goToSlide(i)" [attr.aria-label]="'Ir a la noticia ' + (i + 1)"></button>
+                }
+              </div>
+              <button type="button" class="scroll-btn" (click)="nextSlide()" aria-label="Siguiente noticia">
+                <span class="material-icons">chevron_right</span>
+              </button>
             </div>
           </div>
         </section>

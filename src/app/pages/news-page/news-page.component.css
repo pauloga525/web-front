@@ -1,204 +1,19 @@
-/* ============ FEATURED HORIZONTAL SECTION ============ */
-.featured-scroll-container {
-  position: relative;
-  z-index: 2;
-  overflow: hidden;
-  border-radius: 16px;
-}
+/* ============ FEATURED CAROUSEL ============ */
+/* Antes había HTML/CSS de dos diseños distintos que ya no coincidían entre
+   sí (el HTML usaba clases "featured-layout/featured-main" que nunca
+   tuvieron estilos), por eso la sección se veía rota. Esto lo reemplaza
+   por un carrusel real (un slide a la vez, con flechas y puntos) donde la
+   descripción va en un panel claro junto a la foto — nunca superpuesta
+   sobre la imagen — así siempre es legible sin importar la foto. */
 
-.featured-cards-wrapper {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 8px;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-.featured-cards-wrapper::-webkit-scrollbar {
-  height: 6px;
-}
-
-.featured-cards-wrapper::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-
-.featured-cards-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(244, 180, 0, 0.5);
-  border-radius: 10px;
-}
-
-.featured-cards-wrapper::-webkit-scrollbar-thumb:hover {
-  background: rgba(244, 180, 0, 0.8);
-}
-
-/* Featured Card */
-.featured-card {
-  flex: 0 0 calc(33.333% - 14px);
-  min-width: 280px;
-  height: 340px;
-  border-radius: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-  scroll-snap-align: start;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 15px 45px rgba(11, 44, 95, 0.25), 
-              0 0 0 1px rgba(255, 255, 255, 0.1);
-  border: 1.5px solid rgba(244, 180, 0, 0.15);
-  background: white;
-}
-
-/* Makes the whole card navigable/clickable via a real, keyboard-accessible <a>
-   instead of role="button" on a non-interactive element. */
+/* Hace que toda la tarjeta sea clicable con un <a> real y accesible por
+   teclado, en vez de un role="button" sobre un elemento no interactivo. */
 .card-stretched-link {
   position: absolute;
   inset: 0;
   z-index: 10;
 }
 
-.featured-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: linear-gradient(90deg, #F4B400 0%, #FFD700 50%, #F4B400 100%);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 10;
-}
-
-.featured-card:hover::before {
-  transform: scaleX(1);
-}
-
-.featured-card:hover {
-  transform: translateY(-16px) scale(1.04);
-  box-shadow: 0 25px 60px rgba(11, 44, 95, 0.35), 
-              0 0 40px rgba(244, 180, 0, 0.2);
-  border-color: rgba(244, 180, 0, 0.4);
-}
-
-.featured-card-image-wrapper {
-  position: relative;
-  width: 100%;
-  height: 70%;
-  overflow: hidden;
-  background: linear-gradient(135deg, #0B2C5F 0%, #1a3f7f 100%);
-}
-
-.featured-card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-  filter: brightness(1.1) saturate(1.1);
-}
-
-.featured-card:hover .featured-card-image {
-  transform: scale(1.15) rotate(3deg);
-  filter: brightness(1.25) saturate(1.2);
-}
-
-.featured-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, 
-    rgba(0, 0, 0, 0) 0%, 
-    rgba(11, 44, 95, 0.2) 40%,
-    rgba(11, 44, 95, 0.5) 100%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: 5;
-}
-
-.featured-card:hover .featured-card-overlay {
-  opacity: 1;
-}
-
-/* Card Content */
-.featured-card-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 18px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  gap: 10px;
-}
-
-.featured-card-badge {
-  display: inline-block;
-  width: fit-content;
-  background: linear-gradient(135deg, #F4B400 0%, #FFD700 50%, #f39c12 100%);
-  background-size: 200% 200%;
-  color: #0B2C5F;
-  font-size: 11px;
-  font-weight: 800;
-  padding: 7px 14px;
-  border-radius: 22px;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  box-shadow: 0 6px 16px rgba(244, 180, 0, 0.35);
-  border: 1.5px solid rgba(255, 255, 255, 0.5);
-  animation: gradientPulse 3s ease infinite;
-}
-
-@keyframes gradientPulse {
-  0%, 100% {
-    box-shadow: 0 6px 16px rgba(244, 180, 0, 0.35);
-  }
-  50% {
-    box-shadow: 0 8px 24px rgba(244, 180, 0, 0.5);
-  }
-}
-
-.featured-card-title {
-  color: #0B2C5F;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.45;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.featured-card:hover .featured-card-title {
-  color: #F4B400;
-  transform: translateX(4px);
-}
-
-.featured-card-date {
-  color: #999;
-  font-size: 12px;
-  font-weight: 600;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: color 0.3s ease;
-}
-
-.featured-card:hover .featured-card-date {
-  color: #0B2C5F;
-}
-
-.featured-card-date::before {
-  content: '📅';
-  font-size: 12px;
-}
-
-/* Scroll Indicators */
 .section-header {
   display: flex;
   align-items: center;
@@ -210,18 +25,185 @@
   flex-wrap: wrap;
 }
 
-.scroll-indicators {
+.featured-carousel {
+  position: relative;
+  z-index: 2;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(11, 44, 95, 0.3);
+  /* Fuerza su propia capa de composición — sin esto, algunos motores no
+     recortan bien un hijo con transform contra un overflow:hidden con
+     border-radius, y se alcanza a ver un borde del siguiente slide. */
+  transform: translateZ(0);
+}
+
+.featured-track {
   display: flex;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.featured-slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  background: #fff;
+}
+
+@media (min-width: 768px) {
+  .featured-slide {
+    grid-template-columns: 1.1fr 1fr;
+    min-height: 380px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .featured-slide {
+    min-height: 480px;
+  }
+
+  .featured-slide-title {
+    font-size: 32px;
+  }
+
+  .featured-slide-description {
+    font-size: 17px;
+    -webkit-line-clamp: 4;
+  }
+}
+
+.featured-slide-image-wrapper {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0B2C5F 0%, #1a3f7f 100%);
+}
+
+@media (min-width: 768px) {
+  .featured-slide-image-wrapper {
+    height: 100%;
+  }
+}
+
+.featured-slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.featured-slide-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   gap: 12px;
-  flex-shrink: 0;
+  padding: 28px;
+}
+
+@media (min-width: 1440px) {
+  .featured-slide-content {
+    padding: 48px;
+    gap: 16px;
+  }
+}
+
+.featured-slide-badge {
+  display: inline-block;
+  width: fit-content;
+  background: linear-gradient(135deg, #F4B400 0%, #FFD700 50%, #f39c12 100%);
+  color: #0B2C5F;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 7px 14px;
+  border-radius: 22px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  box-shadow: 0 6px 16px rgba(244, 180, 0, 0.35);
+}
+
+.featured-slide-title {
+  color: #0B2C5F;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.35;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .featured-slide-title {
+    font-size: 26px;
+  }
+}
+
+/* La descripción es justo lo que faltaba: antes quedaba invisible sobre
+   el fondo oscuro o recortada por el layout roto. */
+.featured-slide-description {
+  color: #52606d;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.featured-slide-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.featured-slide-date {
+  color: #0066cc;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.featured-slide-date::before {
+  content: '📅';
+  font-size: 12px;
+}
+
+.featured-slide-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #F4B400;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.featured-slide-cta .material-icons {
+  font-size: 18px;
+}
+
+/* Controles del carrusel */
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 24px;
 }
 
 .scroll-btn {
   width: 52px;
   height: 52px;
   background: linear-gradient(135deg, rgba(15, 22, 38, 0.6), rgba(10, 16, 30, 0.4));
-  border: 2.5px solid rgba(244, 180, 0, 0.6);
-  color: #F4B400;
+  border: 2.5px solid rgba(255, 255, 255, 0.6);
+  color: #ffffff;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -230,59 +212,69 @@
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   backdrop-filter: blur(16px);
   flex-shrink: 0;
-  box-shadow: 0 8px 24px rgba(244, 180, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .scroll-btn:hover {
-  background: linear-gradient(135deg, rgba(244, 180, 0, 0.25), rgba(244, 180, 0, 0.15));
-  border-color: #FFD700;
-  box-shadow: 0 12px 32px rgba(244, 180, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transform: scale(1.15) translateY(-2px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.15));
+  border-color: #ffffff;
+  box-shadow: 0 12px 32px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
 }
 
 .scroll-btn:active {
-  transform: scale(0.98);
+  transform: scale(0.95);
+}
+
+.scroll-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  transform: none;
 }
 
 .scroll-btn .material-icons {
   font-size: 26px;
   font-weight: bold;
-  transition: transform 0.3s ease;
 }
 
-.scroll-btn:hover .material-icons {
-  transform: scale(1.1);
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-@media (max-width: 1024px) {
-  .featured-card {
-    flex: 0 0 calc(50% - 10px);
-    min-width: 240px;
-  }
+.carousel-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel-dot:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.carousel-dot.active {
+  background: #ffffff;
+  width: 26px;
+  border-radius: 9999px;
 }
 
 @media (max-width: 768px) {
-  .featured-card {
-    flex: 0 0 calc(100% - 8px);
-    min-width: 200px;
-    height: 280px;
+  .featured-slide-content {
+    padding: 20px;
   }
 
-  .featured-card-image-wrapper {
-    height: 65%;
+  .featured-slide-title {
+    font-size: 18px;
   }
 
-  .featured-card-content {
-    padding: 14px;
-  }
-
-  .featured-card-title {
-    font-size: 15px;
-  }
-
-  .featured-card-badge {
-    font-size: 10px;
-    padding: 5px 10px;
+  .featured-slide-description {
+    font-size: 14px;
   }
 
   .scroll-btn {
@@ -294,62 +286,58 @@
     font-size: 20px;
   }
 
+  .carousel-nav {
+    gap: 16px;
+    margin-top: 18px;
+  }
+
   .section-header {
     flex-direction: column;
     gap: 12px;
-  }
-
-  .scroll-indicators {
-    width: 100%;
-    justify-content: flex-end;
-  }
-}
-
-@media (max-width: 480px) {
-  .featured-card {
-    flex: 0 0 100%;
-    min-width: 100%;
-    height: 240px;
-  }
-
-  .featured-card-image-wrapper {
-    height: 60%;
-  }
-
-  .featured-card-content {
-    padding: 12px;
-  }
-
-  .featured-card-title {
-    font-size: 14px;
-    -webkit-line-clamp: 2;
+    align-items: flex-start;
   }
 }
 
 /* ============ FEATURED SECTION ============ */
+/* A todo el ancho de la pantalla (se sale del contenedor centrado del
+   resto de la página con el truco clásico de "full-bleed": 100vw + margen
+   negativo de medio viewport), con el mismo azul de antes pero
+   desvaneciéndose hacia abajo hasta el dorado institucional, en vez de un
+   bloque sólido con bordes duros. El contenido interno (título, carrusel)
+   se mantiene centrado con su propio ancho máximo. */
 .featured-section {
-  background: linear-gradient(135deg, #0F3460 0%, #16213E 25%, #0B2C5F 50%, #1a4d7f 75%, #0F3460 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 8s ease infinite;
-  padding: 56px 48px;
-  border-radius: 28px;
-  margin-bottom: 60px;
+  width: 100vw;
   position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: linear-gradient(180deg, #0F3460 0%, #16213E 25%, #0B2C5F 55%, #F4B400 100%);
+  padding: 56px 0 100px;
+  margin-bottom: 60px;
   overflow: hidden;
-  box-shadow: 0 30px 80px rgba(11, 44, 95, 0.4), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(244, 180, 0, 0.25);
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
+.featured-section-inner {
+  position: relative;
+  z-index: 1;
+  /* Más ancho que el resto del contenido (1200px) — esta sección ya ocupa
+     toda la pantalla de fondo, así que en monitores grandes el carrusel
+     también debe crecer en vez de dejar franjas vacías a los lados. */
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+  .featured-section-inner {
+    padding: 0 40px;
   }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
+}
+
+@media (min-width: 1600px) {
+  .featured-section-inner {
+    max-width: 85vw;
   }
 }
 
