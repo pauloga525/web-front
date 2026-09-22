@@ -9,6 +9,75 @@ import { ConfiguracionPublicaService } from '../../services/configuracion-public
 
 interface Plataforma { id: number; name: string; image: string; url: string; }
 
+interface RepoStat        { id: number; numero: string; etiqueta: string; }
+interface RepoColeccion   { id: number; icon: string; title: string; description: string; count: string; }
+interface RepoPublicacion { id: number; type: string; title: string; authors: string; date: string; access: 'open' | 'restricted'; }
+interface RepoNavLink     { id: number; icon: string; label: string; href: string; }
+
+/**
+ * Misma forma que RepositoriosConfig del admin (services/repositorios.service.ts
+ * en web-admin) — se lee de la clave 'repositorios', la misma en la que guarda
+ * el editor. Antes esta página ignoraba esa clave por completo y todo el
+ * contenido (hero, colecciones, publicaciones, sidebar) estaba fijo aquí, así
+ * que ningún cambio hecho en el panel admin se reflejaba nunca en el sitio.
+ */
+interface RepositoriosConfig {
+  heroBadgeIcon:  string;
+  heroBadgeText:  string;
+  heroTitulo:     string;
+  heroSubtitulo:  string;
+  heroStats:      RepoStat[];
+  colecciones:    RepoColeccion[];
+  pubTitulo:      string;
+  pubVerTodoUrl:  string;
+  publicaciones:  RepoPublicacion[];
+  guiaTitulo:     string;
+  guiaTexto:      string;
+  guiaUrl:        string;
+  guiaBotonLabel: string;
+  navTitulo:      string;
+  navLinks:       RepoNavLink[];
+  soporteHorario: string;
+  soporteEmail:   string;
+}
+
+const DEFAULT_CONFIG: RepositoriosConfig = {
+  heroBadgeIcon:  'school',
+  heroBadgeText:  'Archivo Institucional',
+  heroTitulo:     'Repositorio Digital',
+  heroSubtitulo:  'Preservando y difundiendo la producción intelectual, científica y académica de nuestra comunidad. Acceso abierto al conocimiento.',
+  heroStats: [
+    { id: 1, numero: '1,240+', etiqueta: 'Documentos Digitalizados' },
+    { id: 2, numero: '850+',   etiqueta: 'Tesis de Grado'           },
+  ],
+  colecciones: [
+    { id: 1, icon: 'school',      title: 'Tesis de Grado',         description: 'Trabajos de titulación de bachillerato.',            count: '850+' },
+    { id: 2, icon: 'article',     title: 'Artículos Científicos',  description: 'Publicaciones en revistas indexadas.',               count: '320+' },
+    { id: 3, icon: 'menu_book',   title: 'Libros y Capítulos',     description: 'Producción editorial de docentes e investigadores.', count: '140+' },
+    { id: 4, icon: 'description', title: 'Informes Técnicos',      description: 'Documentos técnicos y reportes institucionales.',     count: '130+' },
+  ],
+  pubTitulo:     'Últimas Publicaciones',
+  pubVerTodoUrl: '',
+  publicaciones: [
+    { id: 1, type: 'Tesis',    title: 'Diseño de sistema de control para brazo robótico',  authors: 'García, J.', date: '2024', access: 'open'       },
+    { id: 2, type: 'Artículo', title: 'Implementación de energías renovables en Ecuador',  authors: 'López, M.',  date: '2024', access: 'open'       },
+    { id: 3, type: 'Informe',  title: 'Análisis de rendimiento académico 2023',            authors: 'UETS',       date: '2023', access: 'restricted' },
+  ],
+  guiaTitulo:     'Guía de Autoarchivo',
+  guiaTexto:      '¿Deseas publicar tu tesis o investigación en el repositorio? Consulta nuestra guía paso a paso para estudiantes y docentes.',
+  guiaUrl:        '',
+  guiaBotonLabel: 'Ver Guía de Envío',
+  navTitulo:      'Navegar por',
+  navLinks: [
+    { id: 1, icon: 'school',         label: 'Tesis y Proyectos', href: '' },
+    { id: 2, icon: 'article',        label: 'Artículos',         href: '' },
+    { id: 3, icon: 'person',         label: 'Por Autor',         href: '' },
+    { id: 4, icon: 'calendar_today', label: 'Por Año',           href: '' },
+  ],
+  soporteHorario: 'Lunes a Viernes 8:00 - 17:00',
+  soporteEmail:   'biblioteca@uets.edu.ec',
+};
+
 @Component({
   selector: 'app-repository-page',
   standalone: true,
@@ -22,57 +91,30 @@ export class RepositoryPageComponent implements OnInit {
   selectedYear: string = '';
   selectedDocType: string = '';
 
-  // "Enlaces de Interés" — antes esta sección estaba fija en el HTML con
-  // logos locales que ni el admin de Repositorios ni el de Campus podían
-  // tocar. El título y la lista de logos ahora vienen de la config
-  // 'campus' (plataformasTitulo/plataformas), la misma que alimenta
-  // Campus, Inicio, Biblioteca e Instructivos, para que las 5 páginas
-  // muestren siempre el mismo título.
+  config: RepositoriosConfig = DEFAULT_CONFIG;
+
+  // "Enlaces de Interés" — el título y la lista de logos vienen de la config
+  // 'campus' (plataformasTitulo/plataformas), la misma que alimenta Campus,
+  // Inicio, Biblioteca e Instructivos, para que las 5 páginas muestren
+  // siempre el mismo título.
   enlacesTitulo = 'Enlaces de Interés';
   plataformasDescripcion = '';
   plataformas: Plataforma[] = [];
 
   constructor(private configService: ConfiguracionPublicaService) {}
 
-  collections = [
-    { id: 1, icon: 'school', title: 'Tesis de Grado', count: 850, description: 'Trabajos de titulación de pregrado y posgrado de todas las facultades.' },
-    { id: 2, icon: 'article', title: 'Revistas Científicas', count: 120, description: 'Artículos publicados en nuestras revistas institucionales indexadas.' },
-    { id: 3, icon: 'science', title: 'Investigación Docente', count: 240, description: 'Producción científica generada por nuestro cuerpo docente e investigadores.' },
-    { id: 4, icon: 'menu_book', title: 'Libros y Capítulos', count: 45, description: 'Publicaciones editoriales y capítulos de libros académicos.' }
-  ];
-
-  recentPublications = [
-    {
-      type: 'Tesis de Grado',
-      title: 'Análisis del impacto de la inteligencia artificial en la educación secundaria rural',
-      authors: 'María González',
-      date: 'Oct 12, 2023',
-      access: 'open'
-    },
-    {
-      type: 'Artículo Científico',
-      title: 'Sostenibilidad ambiental en procesos industriales del sector textil',
-      authors: 'Dr. Juan Pérez, Ing. Ana Lopez',
-      date: 'Sep 28, 2023',
-      access: 'open'
-    },
-    {
-      type: 'Tesis de Maestría',
-      title: 'Estrategias de marketing digital para PYMES post-pandemia',
-      authors: 'Carlos Ruiz',
-      date: 'Sep 15, 2023',
-      access: 'restricted'
-    }
-  ];
-
-  navigationLinks = [
-    { icon: 'domain', label: 'Facultades' },
-    { icon: 'person', label: 'Autores' },
-    { icon: 'calendar_month', label: 'Fecha de Publicación' },
-    { icon: 'key', label: 'Palabras Clave' }
-  ];
-
   ngOnInit(): void {
+    this.configService.get<Partial<RepositoriosConfig>>('repositorios', DEFAULT_CONFIG).subscribe(cfg => {
+      this.config = {
+        ...DEFAULT_CONFIG,
+        ...cfg,
+        heroStats:     cfg?.heroStats     ?? DEFAULT_CONFIG.heroStats,
+        colecciones:   cfg?.colecciones   ?? DEFAULT_CONFIG.colecciones,
+        publicaciones: cfg?.publicaciones ?? DEFAULT_CONFIG.publicaciones,
+        navLinks:      cfg?.navLinks      ?? DEFAULT_CONFIG.navLinks,
+      };
+    });
+
     this.configService.get<{ plataformasTitulo?: string; plataformasDescripcion?: string }>('campus', {}).subscribe(cfg => {
       if (cfg?.plataformasTitulo) this.enlacesTitulo = cfg.plataformasTitulo;
       if (cfg?.plataformasDescripcion) this.plataformasDescripcion = cfg.plataformasDescripcion;

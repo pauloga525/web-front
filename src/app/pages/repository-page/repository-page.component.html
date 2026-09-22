@@ -11,21 +11,21 @@
       <div class="hero-container">
         <div class="hero-content">
           <div class="hero-badge">
-            <span class="material-symbols-outlined badge-icon">school</span>
-            <span class="badge-text">Archivo Institucional</span>
+            <span class="material-symbols-outlined badge-icon">{{ config.heroBadgeIcon }}</span>
+            <span class="badge-text">{{ config.heroBadgeText }}</span>
           </div>
-          <h1 class="hero-title">Repositorio Digital</h1>
+          <h1 class="hero-title">{{ config.heroTitulo }}</h1>
           <p class="hero-subtitle">
-            Preservando y difundiendo la producción intelectual, científica y académica de nuestra comunidad universitaria. Acceso abierto al conocimiento.
+            {{ config.heroSubtitulo }}
           </p>
         </div>
         <div class="hero-stats">
           <div class="stat-card">
-            <div class="stat-number">1,240+</div>
-            <div class="stat-label">Documentos Digitalizados</div>
-            <div class="stat-divider"></div>
-            <div class="stat-number">850+</div>
-            <div class="stat-label">Tesis de Grado</div>
+            <ng-container *ngFor="let stat of config.heroStats; let last = last">
+              <div class="stat-number">{{ stat.numero }}</div>
+              <div class="stat-label">{{ stat.etiqueta }}</div>
+              <div class="stat-divider" *ngIf="!last"></div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@
               Colecciones
             </h2>
             <div class="collections-grid">
-              <div *ngFor="let collection of collections" class="collection-card">
+              <div *ngFor="let collection of config.colecciones" class="collection-card">
                 <div class="collection-header">
                   <div class="collection-icon" [attr.data-icon]="collection.icon">
                     <span class="material-symbols-outlined">{{ collection.icon }}</span>
@@ -105,12 +105,12 @@
             <div class="publications-header">
               <h2 class="section-title">
                 <span class="material-symbols-outlined">schedule</span>
-                Últimas Publicaciones
+                {{ config.pubTitulo }}
               </h2>
-              <a href="#" class="view-all-link">Ver todo</a>
+              <a [href]="config.pubVerTodoUrl || '#'" class="view-all-link">Ver todo</a>
             </div>
             <div class="publications-list">
-              <div *ngFor="let pub of recentPublications" class="publication-item">
+              <div *ngFor="let pub of config.publicaciones" class="publication-item">
                 <div class="publication-icon">
                   <span class="material-symbols-outlined">description</span>
                 </div>
@@ -143,20 +143,20 @@
           <div class="upload-guide-card">
             <h3 class="sidebar-card-title">
               <span class="material-symbols-outlined">upload_file</span>
-              Guía de Autoarchivo
+              {{ config.guiaTitulo }}
             </h3>
             <p class="sidebar-card-text">
-              ¿Deseas publicar tu tesis o investigación en el repositorio? Consulta nuestra guía paso a paso para estudiantes y docentes.
+              {{ config.guiaTexto }}
             </p>
-            <a href="#" class="guide-button">Ver Guía de Envío</a>
+            <a [href]="config.guiaUrl || '#'" class="guide-button">{{ config.guiaBotonLabel }}</a>
           </div>
 
           <!-- Navigation Links -->
           <div class="navigation-card">
-            <h3 class="sidebar-card-title">Navegar por</h3>
+            <h3 class="sidebar-card-title">{{ config.navTitulo }}</h3>
             <ul class="navigation-list">
-              <li *ngFor="let link of navigationLinks">
-                <a href="#" class="nav-link">
+              <li *ngFor="let link of config.navLinks">
+                <a [href]="link.href || '#'" class="nav-link">
                   <span class="nav-link-content">
                     <span class="material-symbols-outlined">{{ link.icon }}</span>
                     {{ link.label }}
@@ -173,8 +173,8 @@
               <span class="material-symbols-outlined">support_agent</span>
             </div>
             <h4 class="support-title">Soporte Bibliotecario</h4>
-            <p class="support-hours">Lunes a Viernes 8:00 - 17:00</p>
-            <a href="mailto:biblioteca@uets.edu.ec" class="support-email">biblioteca@uets.edu.ec</a>
+            <p class="support-hours">{{ config.soporteHorario }}</p>
+            <a [href]="'mailto:' + config.soporteEmail" class="support-email">{{ config.soporteEmail }}</a>
           </div>
         </aside>
       </div>

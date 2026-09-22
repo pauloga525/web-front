@@ -73,7 +73,7 @@ export class StatsComponent implements OnInit, OnDestroy {
             this.pillars = config.porQue.map((item: any) => ({
               title: item.titulo,
               value: item.descripcion,
-              icon:  this.mapIcon(item.icono),
+              icon:  item.icono || 'star',
             }));
           }
         },
@@ -96,21 +96,10 @@ export class StatsComponent implements OnInit, OnDestroy {
           this.pillars = porQue.map((item: any) => ({
             title: item.titulo,
             value: item.descripcion,
-            icon:  this.mapIcon(item.icono),
+            icon:  item.icono || 'star',
           }));
         }
       });
-  }
-
-  private mapIcon(key: string): string {
-    const map: Record<string, string> = {
-      book: 'book', gear: 'settings', users: 'group', computer: 'computer',
-      robot: 'smart_toy', chip: 'memory', terminal: 'terminal', wrench: 'build',
-      factory: 'factory', hammer: 'hardware', car: 'directions_car',
-      engine: 'engineering', bolt: 'bolt', plug: 'power', battery: 'battery_full',
-      clipboard: 'assignment', atom: 'science', microscope: 'biotech',
-    };
-    return map[key] || 'star';
   }
 
   ngOnDestroy(): void {
