@@ -40,6 +40,8 @@ export interface RecursoApi {
   filas?: FilaTablaBoscometro[];
   /** Solo presente en recursos tipo 'boscometro_grafico'. */
   datos?: PuntoGraficoBoscometro[];
+  /** Vincula una tabla con su gráfico cuando se importaron juntos como una sección. */
+  seccionId?: string;
   publicado: boolean;
   orden: number;
   createdAt: string;

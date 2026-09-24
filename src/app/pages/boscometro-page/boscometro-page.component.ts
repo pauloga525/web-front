@@ -10,6 +10,14 @@ import { RecursosApiService, RecursoApi } from '../../services/recursos-api.serv
 const TIPO_TABLA = 'boscometro_tabla';
 const TIPO_GRAFICO = 'boscometro_grafico';
 
+/** Una sección agrupa la tabla y el gráfico que se importaron juntos (mismo seccionId). */
+export interface SeccionBoscometro {
+  key: string;
+  orden: number;
+  tabla?: RecursoApi;
+  grafico?: RecursoApi;
+}
+
 @Component({
   selector: 'app-boscometro-page',
   standalone: true,
@@ -19,8 +27,7 @@ const TIPO_GRAFICO = 'boscometro_grafico';
 })
 export class BoscometroPageComponent implements OnInit {
   heroImagen = '';
-  tablas: RecursoApi[] = [];
-  graficos: RecursoApi[] = [];
+  secciones: SeccionBoscometro[] = [];
 
   constructor(
     private readonly configPublica: ConfiguracionPublicaService,
@@ -33,8 +40,22 @@ export class BoscometroPageComponent implements OnInit {
     });
 
     this.recursosApi.getByTipo(TIPO_TABLA, TIPO_GRAFICO).subscribe(list => {
-      this.tablas = list.filter(r => r.tipo === TIPO_TABLA);
-      this.graficos = list.filter(r => r.tipo === TIPO_GRAFICO);
+      this.secciones = this.construirSecciones(list);
     });
+  }
+
+  /** Agrupa tablas y gráficos por `seccionId` para mostrarlos juntos. Los recursos
+   * legacy sin seccionId (o con solo tabla o solo gráfico) se siguen mostrando igual,
+   * cada uno como su propia sección incompleta. */
+  private construirSecciones(list: RecursoApi[]): SeccionBoscometro[] {
+    const map = new Map<string, SeccionBoscometro>();
+    for (const r of list) {
+      const key = r.seccionId || r._id;
+      const s = map.get(key) || { key, orden: r.orden };
+      if (r.tipo === TIPO_TABLA) s.tabla = r; else if (r.tipo === TIPO_GRAFICO) s.grafico = r;
+      s.orden = Math.min(s.orden, r.orden);
+      map.set(key, s);
+    }
+    return [...map.values()].sort((a, b) => a.orden - b.orden);
   }
 }

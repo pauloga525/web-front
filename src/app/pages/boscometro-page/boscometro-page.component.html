@@ -10,32 +10,31 @@
   <h1 class="page-title">Boscómetro</h1>
   <hr class="page-divider" />
 
-  <!-- Tablas de puntajes -->
-  <section class="tablas-section" *ngIf="tablas.length">
-    <div class="tabla-block" *ngFor="let t of tablas">
-      <h2 class="section-title">{{ t.titulo }}</h2>
+  <!-- Secciones: tabla de puntajes seguida de su gráfico -->
+  <section class="seccion-block" *ngFor="let s of secciones">
+    <div class="tabla-block" *ngIf="s.tabla">
+      <h2 class="section-title">{{ s.tabla.titulo }}</h2>
       <div class="tabla-scroll">
         <table class="tabla-puntajes">
           <tbody>
-            <tr *ngFor="let fila of t.filas" [class.fila-encabezado]="fila.esEncabezado">
+            <tr *ngFor="let fila of s.tabla.filas" [class.fila-encabezado]="fila.esEncabezado">
               <td *ngFor="let valor of fila.valores">{{ valor }}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </section>
 
-  <!-- Gráficos por nivel -->
-  <section class="grafico-block" *ngFor="let g of graficos">
-    <h2 class="section-title section-title-center">{{ g.titulo }}</h2>
-    <div class="grafico-card">
-      <p class="grafico-subtitulo" *ngIf="g.descripcion">{{ g.descripcion }}</p>
-      <app-bar-chart [datos]="g.datos ?? []"></app-bar-chart>
+    <div class="grafico-block" *ngIf="s.grafico">
+      <h2 class="section-title section-title-center">{{ s.grafico.titulo }}</h2>
+      <div class="grafico-card">
+        <p class="grafico-subtitulo" *ngIf="s.grafico.descripcion">{{ s.grafico.descripcion }}</p>
+        <app-bar-chart [datos]="s.grafico.datos ?? []"></app-bar-chart>
+      </div>
     </div>
   </section>
 
-  <p class="sin-contenido" *ngIf="!tablas.length && !graficos.length">
+  <p class="sin-contenido" *ngIf="!secciones.length">
     Aún no hay tablas ni gráficos publicados.
   </p>
 </div>
