@@ -24,15 +24,7 @@ interface AcademicLevel {
 export class AcademicLevelsComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
-  private readonly defaultLevels: AcademicLevel[] = [
-    { name: 'Preparatoria',     icon: 'toys',          description: 'Aprendizaje a través del juego y el descubrimiento.',          image: '/image/Preparatoria/Preparatoria.png',      route: '/programa/preparatoria'    },
-    { name: 'Básica Elemental', icon: 'eco',           description: 'Cimientos sólidos en lectura, escritura y lógica.',            image: '/image/basicaelemental/BElemental.png',     route: '/programa/basica-elemental' },
-    { name: 'Básica Media',     icon: 'library_books', description: 'Fortalecimiento de conocimientos y habilidades fundamentales.', image: '/image/basicamedia/BMedia.png',             route: '/programa/basica-media'    },
-    { name: 'Básica Superior',  icon: 'science',       description: 'Desarrollo del pensamiento crítico y analítico.',              image: '/image/basicasuperior/BSuperior.png',       route: '/programa/basica-superior' },
-    { name: 'Bachillerato',     icon: 'school',        description: 'Preparación integral para el éxito universitario.',            image: '/image/bachillerato/Bachillerato.png',      route: '/programa/bachillerato'    }
-  ];
-
-  levels: AcademicLevel[] = [...this.defaultLevels];
+  levels: AcademicLevel[] = [];
 
   constructor(
     private readonly configService: ConfiguracionPublicaService,
