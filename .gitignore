@@ -1,5 +1,6 @@
 node_modules/
 .env
+src/environments/environment*.ts
 dist/
 .angular/
 bun.lock/
