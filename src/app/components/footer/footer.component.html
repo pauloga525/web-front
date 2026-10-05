@@ -91,26 +91,85 @@
         </ul>
       </div>
 
-      <!-- Location Map -->
-      <div>
-        <h4 class="font-bold text-white mb-4 sm:mb-6 text-sm sm:text-base">Ubicación</h4>
-        <button
-          type="button"
-          class="bg-blue-800 rounded-xl overflow-hidden h-24 sm:h-32 w-full relative group cursor-pointer hover:ring-2 hover:ring-blue-400 transition-all block"
-          (click)="openMapModal()"
-          aria-label="Ver ubicación en el mapa"
-        >
-          <img
-            alt="Mapa" 
-            class="w-full h-full object-cover opacity-30 grayscale group-hover:grayscale-0 transition-all duration-500" 
-            [src]="contact.map"
-          >
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="w-8 sm:w-10 h-8 sm:h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20 group-hover:bg-blue-600 group-hover:scale-110 transition-all">
-              <span class="material-icons text-white text-base sm:text-lg">map</span>
+      <!-- Location Map (carrusel de sedes) -->
+      <div
+        (mouseenter)="pausarCarrusel(true)"
+        (mouseleave)="pausarCarrusel(false)"
+        (focusin)="pausarCarrusel(true)"
+        (focusout)="pausarCarrusel(false)"
+      >
+        <h4 class="font-bold text-white mb-4 sm:mb-6 text-sm sm:text-base">{{ slides.length > 1 ? 'Nuestras sedes' : 'Ubicación' }}</h4>
+
+        <div class="relative">
+          <div class="overflow-hidden rounded-xl">
+            <div
+              class="flex transition-transform duration-500 ease-in-out"
+              [style.transform]="'translateX(-' + (sedeActiva * 100) + '%)'"
+            >
+              @for (sede of slides; track sede.id) {
+                <button
+                  type="button"
+                  class="bg-blue-800 h-24 sm:h-32 w-full shrink-0 relative group cursor-pointer block"
+                  (click)="openMapModal()"
+                  [attr.aria-label]="'Ver ubicación en el mapa' + (sede.nombre ? ': ' + sede.nombre : '')"
+                >
+                  @if (sede.mapaImagen) {
+                    <img
+                      [alt]="sede.nombre ? 'Mapa ' + sede.nombre : 'Mapa'"
+                      class="w-full h-full object-cover opacity-30 grayscale group-hover:grayscale-0 group-hover:opacity-60 transition-all duration-500"
+                      [src]="sede.mapaImagen"
+                    >
+                  }
+                  <div class="absolute inset-0 flex flex-col items-center justify-center gap-1 px-8">
+                    <div class="w-8 sm:w-10 h-8 sm:h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20 group-hover:bg-blue-600 group-hover:scale-110 transition-all">
+                      <span class="material-icons text-white text-base sm:text-lg">map</span>
+                    </div>
+                    @if (sede.nombre) {
+                      <span class="text-white text-xs sm:text-sm font-semibold text-center truncate max-w-full drop-shadow">{{ sede.nombre }}</span>
+                    }
+                  </div>
+                </button>
+              }
             </div>
           </div>
-        </button>
+
+          @if (slides.length > 1) {
+            <button
+              type="button"
+              (click)="sedeAnterior()"
+              aria-label="Sede anterior"
+              class="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/40 hover:bg-blue-600 text-white flex items-center justify-center transition-colors"
+            >
+              <span class="material-icons text-base leading-none">chevron_left</span>
+            </button>
+            <button
+              type="button"
+              (click)="sedeSiguiente()"
+              aria-label="Sede siguiente"
+              class="absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black/40 hover:bg-blue-600 text-white flex items-center justify-center transition-colors"
+            >
+              <span class="material-icons text-base leading-none">chevron_right</span>
+            </button>
+
+            <div class="flex justify-center gap-1.5 mt-3">
+              @for (sede of slides; track sede.id; let i = $index) {
+                <button
+                  type="button"
+                  (click)="irASede(i)"
+                  [attr.aria-label]="'Ir a la sede ' + (i + 1)"
+                  [class]="i === sedeActiva ? 'w-5 h-1.5 rounded-full bg-white transition-all' : 'w-1.5 h-1.5 rounded-full bg-white/40 hover:bg-white/70 transition-all'"
+                ></button>
+              }
+            </div>
+          }
+        </div>
+
+        @if (slideActual.direccion && slides.length > 1) {
+          <p class="mt-3 text-xs text-gray-400 flex items-start gap-1">
+            <span class="material-icons text-primary text-sm flex-shrink-0">location_on</span>
+            <span>{{ slideActual.direccion }}</span>
+          </p>
+        }
       </div>
     </div>
 
@@ -143,10 +202,10 @@
         <!-- Modal Header -->
         <div class="bg-blue-900 text-white p-4 sm:p-6 flex justify-between items-center flex-shrink-0">
           <div>
-            <h3 class="text-lg sm:text-2xl font-bold mb-1">Ubicación del Plantel</h3>
+            <h3 class="text-lg sm:text-2xl font-bold mb-1">{{ sedes.length && slideActual.nombre ? slideActual.nombre : 'Ubicación del Plantel' }}</h3>
             <p class="text-sm sm:text-base text-blue-200 flex items-center gap-2">
               <span class="material-icons text-base">location_on</span>
-              {{ contact.address }}
+              {{ sedes.length ? (slideActual.direccion || contact.address) : contact.address }}
             </p>
           </div>
           <button 
@@ -175,7 +234,7 @@
         <!-- Modal Footer -->
         <div class="bg-gray-100 px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center gap-2 flex-shrink-0">
           <a
-            [href]="contact.mapEmbed"
+            [href]="(sedes.length ? slideActual.mapaUrl : '') || contact.mapEmbed"
             target="_blank"
             rel="noopener noreferrer"
             class="text-blue-600 hover:text-blue-800 text-sm sm:text-base font-semibold flex items-center gap-2 transition-colors"

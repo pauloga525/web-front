@@ -10,6 +10,9 @@ import { takeUntil } from 'rxjs/operators';
 
 interface FooterLink  { label: string; href: string; }
 interface SocialLink  { name: string; href: string; icon: string; }
+interface Sede        { id: number; nombre: string; direccion: string; mapaImagen: string; mapaUrl: string; }
+
+const SEDE_AUTOPLAY_MS = 5000;
 
 @Component({
   selector: 'app-footer',
@@ -23,6 +26,14 @@ export class FooterComponent implements OnInit, OnDestroy {
   isMapModalOpen      = false;
   isComingSoonModalOpen = false;
   mapUrl: SafeResourceUrl;
+  private readonly defaultMapUrl: SafeResourceUrl;
+
+  // Carrusel de sedes (columna "Ubicación"). Si no hay sedes configuradas
+  // se muestra el mapa único de `contact`, como antes.
+  sedes: Sede[] = [];
+  sedeActiva = 0;
+  private sedeTimer: ReturnType<typeof setInterval> | null = null;
+  private sedePausada = false;
 
   logoUrl  = '';
   logoAlt  = 'Logo UETS';
@@ -69,9 +80,10 @@ export class FooterComponent implements OnInit, OnDestroy {
     private readonly configService: ConfiguracionPublicaService,
     private readonly websocket: WebsocketService
   ) {
-    this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+    this.defaultMapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       'https://www.openstreetmap.org/export/embed.html?bbox=-79.0214698,-2.9215462,-79.0114698,-2.9115462&layer=mapnik&marker=-2.9165462,-79.0164698&zoom=17'
     );
+    this.mapUrl = this.defaultMapUrl;
   }
 
   ngOnInit(): void {
@@ -124,6 +136,61 @@ export class FooterComponent implements OnInit, OnDestroy {
     if (cfg.email)       this.contact.email    = cfg.email;
     if (cfg.mapaImagen) this.contact.map      = cfg.mapaImagen;
     if (cfg.mapaUrl)     this.contact.mapEmbed = cfg.mapaUrl;
+    if (Array.isArray(cfg.sedes)) this.setSedes(cfg.sedes);
+  }
+
+  /** Slides del carrusel: las sedes configuradas o, si no hay, el mapa único. */
+  get slides(): Sede[] {
+    if (this.sedes.length) return this.sedes;
+    return [{
+      id: 0,
+      nombre: '',
+      direccion: this.contact.address,
+      mapaImagen: this.contact.map,
+      mapaUrl: this.contact.mapEmbed,
+    }];
+  }
+
+  get slideActual(): Sede {
+    const lista = this.slides;
+    return lista[Math.min(this.sedeActiva, lista.length - 1)];
+  }
+
+  private setSedes(lista: any[]): void {
+    this.sedes = lista
+      .filter(s => s && (s.nombre || s.direccion || s.mapaImagen || s.mapaUrl))
+      .map((s, i) => ({
+        id: s.id ?? i,
+        nombre: s.nombre ?? '',
+        direccion: s.direccion ?? '',
+        mapaImagen: s.mapaImagen ?? '',
+        mapaUrl: s.mapaUrl ?? '',
+      }));
+    if (this.sedeActiva >= this.slides.length) this.sedeActiva = 0;
+    this.iniciarAutoplay();
+  }
+
+  irASede(i: number): void {
+    const total = this.slides.length;
+    this.sedeActiva = ((i % total) + total) % total;
+    this.iniciarAutoplay();
+  }
+  sedeSiguiente(): void { this.irASede(this.sedeActiva + 1); }
+  sedeAnterior():  void { this.irASede(this.sedeActiva - 1); }
+  pausarCarrusel(p: boolean): void { this.sedePausada = p; }
+
+  private iniciarAutoplay(): void {
+    this.detenerAutoplay();
+    if (this.slides.length < 2) return;
+    this.sedeTimer = setInterval(() => {
+      if (!this.sedePausada && !this.isMapModalOpen) {
+        this.sedeActiva = (this.sedeActiva + 1) % this.slides.length;
+      }
+    }, SEDE_AUTOPLAY_MS);
+  }
+
+  private detenerAutoplay(): void {
+    if (this.sedeTimer) { clearInterval(this.sedeTimer); this.sedeTimer = null; }
   }
 
   private applyLinkLists(cfg: any): void {
@@ -141,11 +208,25 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.detenerAutoplay();
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  openMapModal():       void { this.isMapModalOpen       = true;  }
+  openMapModal(): void {
+    // Con sedes configuradas el mapa se busca por la dirección de la sede activa;
+    // sin sedes se conserva el mapa embebido original.
+    const sede = this.slideActual;
+    if (this.sedes.length) {
+      const q = encodeURIComponent(sede.direccion || sede.nombre);
+      this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        `https://maps.google.com/maps?q=${q}&output=embed`
+      );
+    } else {
+      this.mapUrl = this.defaultMapUrl;
+    }
+    this.isMapModalOpen = true;
+  }
   closeMapModal():      void { this.isMapModalOpen       = false; }
   openComingSoonModal():  void { this.isComingSoonModalOpen = true;  }
   closeComingSoonModal(): void { this.isComingSoonModalOpen = false; }
