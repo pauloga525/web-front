@@ -103,7 +103,11 @@ export class FooterComponent implements OnInit, OnDestroy {
     // Actualizaciones en tiempo real
     this.websocket.on('configuracion:site_footer:actualizada')
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => this.applyConfig(data?.datos ?? data));
+      .subscribe(() => {
+        this.configService.get<any>('site_footer', {})
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(cfg => this.applyConfig(cfg));
+      });
 
     this.websocket.on('configuracion:site_header:actualizada')
       .pipe(takeUntil(this.destroy$))
@@ -139,16 +143,19 @@ export class FooterComponent implements OnInit, OnDestroy {
     if (Array.isArray(cfg.sedes)) this.setSedes(cfg.sedes);
   }
 
-  /** Slides del carrusel: las sedes configuradas o, si no hay, el mapa único. */
+  /**
+   * Slides del carrusel. El mapa único original es siempre la primera diapositiva
+   * (sede principal) y las sedes agregadas desde el panel se suman a continuación.
+   */
   get slides(): Sede[] {
-    if (this.sedes.length) return this.sedes;
-    return [{
+    const principal: Sede = {
       id: 0,
-      nombre: '',
+      nombre: this.sedes.length ? 'Sede principal' : '',
       direccion: this.contact.address,
       mapaImagen: this.contact.map,
       mapaUrl: this.contact.mapEmbed,
-    }];
+    };
+    return [principal, ...this.sedes];
   }
 
   get slideActual(): Sede {
@@ -214,10 +221,9 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   openMapModal(): void {
-    // Con sedes configuradas el mapa se busca por la dirección de la sede activa;
-    // sin sedes se conserva el mapa embebido original.
+    // Las sedes agregadas buscan su mapa por dirección; la principal conserva el embebido original.
     const sede = this.slideActual;
-    if (this.sedes.length) {
+    if (sede.id !== 0) {
       const q = encodeURIComponent(sede.direccion || sede.nombre);
       this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
         `https://maps.google.com/maps?q=${q}&output=embed`

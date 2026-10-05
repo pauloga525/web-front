@@ -202,10 +202,10 @@
         <!-- Modal Header -->
         <div class="bg-blue-900 text-white p-4 sm:p-6 flex justify-between items-center flex-shrink-0">
           <div>
-            <h3 class="text-lg sm:text-2xl font-bold mb-1">{{ sedes.length && slideActual.nombre ? slideActual.nombre : 'Ubicación del Plantel' }}</h3>
+            <h3 class="text-lg sm:text-2xl font-bold mb-1">{{ slideActual.nombre || 'Ubicación del Plantel' }}</h3>
             <p class="text-sm sm:text-base text-blue-200 flex items-center gap-2">
               <span class="material-icons text-base">location_on</span>
-              {{ sedes.length ? (slideActual.direccion || contact.address) : contact.address }}
+              {{ slideActual.direccion || contact.address }}
             </p>
           </div>
           <button 
@@ -234,7 +234,7 @@
         <!-- Modal Footer -->
         <div class="bg-gray-100 px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center gap-2 flex-shrink-0">
           <a
-            [href]="(sedes.length ? slideActual.mapaUrl : '') || contact.mapEmbed"
+            [href]="slideActual.mapaUrl || contact.mapEmbed"
             target="_blank"
             rel="noopener noreferrer"
             class="text-blue-600 hover:text-blue-800 text-sm sm:text-base font-semibold flex items-center gap-2 transition-colors"
