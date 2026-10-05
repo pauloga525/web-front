@@ -17,9 +17,9 @@
         <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">{{ descripcion }}</p>
         <div class="flex gap-2 sm:gap-3">
           @for (social of socialLinks; track social.name) {
-            <a 
-              [href]="social.href" 
-              target="_blank" 
+            <a
+              [href]="social.href"
+              target="_blank"
               rel="noopener noreferrer"
               [title]="social.name"
               class="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-600 hover:text-white transition-colors text-xs sm:text-sm flex items-center justify-center"
@@ -67,7 +67,7 @@
 
       <!-- Contact -->
       <div>
-        <h4 class="font-bold text-white mb-4 sm:mb-6 text-sm sm:text-base">Contacto</h4>
+        <h4 class="font-bold text-white mb-4 sm:mb-6 text-sm sm:text-base">Contacto uets</h4>
         <ul class="space-y-2 sm:space-y-4 text-xs sm:text-sm text-gray-400">
           <li>
             <button
@@ -208,8 +208,8 @@
               {{ slideActual.direccion || contact.address }}
             </p>
           </div>
-          <button 
-            (click)="closeMapModal()" 
+          <button
+            (click)="closeMapModal()"
             class="text-white hover:bg-blue-800 w-10 h-10 rounded-full flex items-center justify-center transition-colors flex-shrink-0"
             [attr.aria-label]="'Cerrar mapa'"
           >
@@ -225,8 +225,8 @@
             width="100%"
             height="100%"
             style="border: none; display: block;"
-            allowfullscreen="" 
-            loading="lazy" 
+            allowfullscreen=""
+            loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
           ></iframe>
         </div>
@@ -242,8 +242,8 @@
             <span class="material-icons text-base">open_in_new</span>
             Abrir en Google Maps
           </a>
-          <button 
-            (click)="closeMapModal()" 
+          <button
+            (click)="closeMapModal()"
             class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors text-sm sm:text-base font-semibold"
           >
             Cerrar
@@ -293,8 +293,8 @@
 
         <!-- Modal Footer -->
         <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-center">
-          <button 
-            (click)="closeComingSoonModal()" 
+          <button
+            (click)="closeComingSoonModal()"
             class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
           >
             Entendido
