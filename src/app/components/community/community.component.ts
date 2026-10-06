@@ -1,14 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
 import { WebsocketService } from '../../services/websocket.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+import { SOCIAL_META, SocialMeta, SocialType, socialType } from './social-networks';
+
+interface PartnerSocial {
+  type: SocialType;
+  url: string;
+  meta: SocialMeta;
+}
 
 interface Partner {
   name: string;
   logo: string;
   url: string;
+  socials: PartnerSocial[];
 }
 
 @Component({
@@ -22,6 +30,7 @@ export class CommunityComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   partners: Partner[] = [];
+  selected: Partner | null = null;
 
   constructor(
     private readonly configService: ConfiguracionPublicaService,
@@ -52,8 +61,28 @@ export class CommunityComponent implements OnInit, OnDestroy {
     return logos.map((l: any) => ({
       name: l.nombre,
       logo: l.url,
-      url:  l.enlace || '#',
+      url:  l.enlace || '',
+      socials: (Array.isArray(l.redes) ? l.redes : [])
+        .filter((r: any) => r?.url)
+        .map((r: any): PartnerSocial => {
+          const type = socialType(r.tipo);
+          return { type, url: r.url, meta: SOCIAL_META[type] };
+        }),
     }));
+  }
+
+  /** Con redes abre el modal; sin redes cae al enlace simple (si existe). */
+  open(partner: Partner): void {
+    if (partner.socials.length) {
+      this.selected = partner;
+    } else if (partner.url) {
+      window.open(partner.url, '_blank', 'noopener,noreferrer');
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  close(): void {
+    this.selected = null;
   }
 
   ngOnDestroy(): void {
