@@ -24,40 +24,49 @@
 </section>
 
 @if (selected) {
-  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50" (click)="close()">
-    <div class="w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
-      <div class="flex items-start justify-between mb-4">
-        <div class="flex items-center gap-3 min-w-0">
-          <img [src]="selected.logo" [alt]="selected.name" class="w-12 h-12 object-contain shrink-0" />
-          <h3 class="font-bold text-secondary text-base leading-tight">{{ selected.name }}</h3>
-        </div>
-        <button type="button" (click)="close()" aria-label="Cerrar" class="text-gray-400 hover:text-gray-700 text-2xl leading-none px-1">&times;</button>
+  <div class="community-backdrop fixed inset-0 z-[100] flex items-center justify-center p-4 bg-secondary/60 backdrop-blur-sm" (click)="close()">
+    <div class="community-modal relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden" role="dialog" aria-modal="true" [attr.aria-label]="selected.name" (click)="$event.stopPropagation()">
+
+      <!-- Cabecera -->
+      <div class="relative bg-gradient-to-br from-secondary to-secondary/80 px-6 pt-8 pb-14 text-center">
+        <button type="button" (click)="close()" aria-label="Cerrar"
+          class="absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/15 transition-colors">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <p class="text-[11px] uppercase tracking-[0.2em] text-white/60 font-semibold">Comunidad Salesiana</p>
+        <h3 class="mt-1 text-xl font-extrabold text-white leading-tight">{{ selected.name }}</h3>
       </div>
 
-      <div class="space-y-2">
-        @for (s of selected.socials; track $index) {
-          <a
-            [href]="s.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:border-primary hover:bg-gray-50 transition-colors"
-          >
-            <span class="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
-              [style.background]="s.meta.color">{{ s.meta.label.charAt(0) }}</span>
-            <span class="flex-1 min-w-0">
-              <span class="block text-sm font-semibold text-gray-800">{{ s.meta.label }}</span>
-              <span class="block text-xs text-gray-500">{{ s.meta.action }}</span>
-            </span>
-          </a>
-        }
-        @if (selected.url) {
-          <a
-            [href]="selected.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center justify-center p-2 text-xs text-gray-500 hover:text-primary transition-colors"
-          >Visitar sitio web</a>
-        }
+      <!-- Logo superpuesto -->
+      <div class="relative -mt-10 flex justify-center">
+        <div class="w-20 h-20 rounded-full bg-white shadow-lg ring-4 ring-white flex items-center justify-center p-2">
+          <img [src]="selected.logo" [alt]="selected.name" class="max-w-full max-h-full object-contain" />
+        </div>
+      </div>
+
+      <!-- Redes -->
+      <div class="px-6 pt-4 pb-6">
+        <p class="text-center text-sm text-gray-500 mb-4">Síguenos y conoce más en:</p>
+        <div class="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
+          @for (s of selected.socials; track $index) {
+            <a
+              [href]="s.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-row group flex items-center gap-4 p-3 rounded-2xl border border-gray-100 bg-gray-50/60 hover:bg-white hover:border-transparent hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <span class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-md group-hover:scale-110 transition-transform duration-200"
+                [style.background]="s.meta.color">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path [attr.d]="s.meta.path"/></svg>
+              </span>
+              <span class="flex-1 min-w-0">
+                <span class="block text-sm font-bold text-gray-800">{{ s.meta.label }}</span>
+                <span class="block text-xs text-gray-500 truncate">{{ s.meta.action }}</span>
+              </span>
+              <svg class="w-5 h-5 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+            </a>
+          }
+        </div>
       </div>
     </div>
   </div>

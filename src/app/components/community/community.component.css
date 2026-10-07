@@ -1,1 +1,8 @@
-/* Community Component Styles */
+.community-backdrop { animation: communityFade .2s ease-out; }
+.community-modal { animation: communityPop .25s cubic-bezier(.2,.9,.3,1.2); }
+
+@keyframes communityFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes communityPop {
+  from { opacity: 0; transform: translateY(16px) scale(.96); }
+  to   { opacity: 1; transform: none; }
+}
