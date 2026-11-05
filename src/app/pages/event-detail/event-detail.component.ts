@@ -32,6 +32,7 @@ interface EventView {
   category: string;
   categoriaColor: string;
   direccion: string;
+  infoImportante: string;
   slug: string;
   _id: string;
 }
@@ -53,6 +54,7 @@ function toEventView(e: EventoApi): EventView {
     category:            e.categoria,
     categoriaColor:      e.categoriaColor ?? 'blue',
     direccion:           e.direccion ?? '',
+    infoImportante:      e.infoImportante ?? '',
     slug:                e.slug,
     _id:                 e._id,
   };

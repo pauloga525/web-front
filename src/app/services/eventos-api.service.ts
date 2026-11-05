@@ -36,6 +36,7 @@ export interface EventoApi {
   horaFin: string;
   ubicacion: string;
   direccion?: string;
+  infoImportante?: string;
   imagenPrincipal: string;
   galeria?: string[];
   agenda?: AgendaItemApi[];

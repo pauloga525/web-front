@@ -141,18 +141,20 @@
 
     <!-- Right Column - Sidebar -->
     <div class="lg:col-span-1">
-      <!-- Important Info -->
+      <!-- Important Info (editable por evento desde el panel; se oculta si está vacío) -->
+      @if (event.infoImportante) {
       <div class="sticky top-40 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-100 dark:border-blue-800">
         <div class="flex items-start gap-3">
           <span class="material-icons text-secondary dark:text-primary">info</span>
           <div>
             <h4 class="text-sm font-bold text-secondary dark:text-white mb-1">Información Importante</h4>
             <p class="text-xs text-gray-600 dark:text-gray-300">
-              El ingreso es gratuito. Se recomienda llegar 15 minutos antes de la hora de inicio. Contamos con parqueadero limitado.
+              {{ event.infoImportante }}
             </p>
           </div>
         </div>
       </div>
+      }
     </div>
   </div>
 </div>
