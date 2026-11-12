@@ -103,11 +103,46 @@ export class BibliotecaPageComponent implements OnInit {
     return list;
   }
 
-  onSearch(): void {}
-  onFilterChange(): void {}
-  onSortChange(): void {}
+  // ─── Paginación ─────────────────────────────────────────────────────────────
+
+  readonly pageSize = 15; // 3 filas de 5 libros
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.filteredBooks.length / this.pageSize));
+  }
+
+  /** Página actual, ajustada si los filtros redujeron el total. */
+  get page(): number {
+    return Math.min(Math.max(1, this.currentPage), this.totalPages);
+  }
+
+  get pagedBooks(): Book[] {
+    const start = (this.page - 1) * this.pageSize;
+    return this.filteredBooks.slice(start, start + this.pageSize);
+  }
+
+  /** Números de página a mostrar; `null` es un "…". Siempre incluye la primera, la última y las vecinas de la actual. */
+  get pageItems(): (number | null)[] {
+    const total = this.totalPages, actual = this.page;
+    const visibles = new Set([1, total, actual - 1, actual, actual + 1].filter(n => n >= 1 && n <= total));
+    if (actual <= 3) [2, 3, 4].forEach(n => n <= total && visibles.add(n));
+    if (actual >= total - 2) [total - 3, total - 2, total - 1].forEach(n => n >= 1 && visibles.add(n));
+    const orden = [...visibles].sort((a, b) => a - b);
+    const items: (number | null)[] = [];
+    orden.forEach((n, i) => {
+      if (i > 0 && n - orden[i - 1] > 1) items.push(orden[i - 1] + 2 === n ? orden[i - 1] + 1 : null);
+      items.push(n);
+    });
+    return items;
+  }
+
+  onSearch(): void { this.currentPage = 1; }
+  onFilterChange(): void { this.currentPage = 1; }
+  onSortChange(): void { this.currentPage = 1; }
 
   goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages || page === this.page) return;
     this.currentPage = page;
+    document.getElementById('catalogo-libros')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }

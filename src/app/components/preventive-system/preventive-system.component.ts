@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
 import { WebsocketService } from '../../services/websocket.service';
 import { Subject } from 'rxjs';
@@ -14,7 +15,7 @@ interface Feature {
 @Component({
   selector: 'app-preventive-system',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './preventive-system.component.html',
   styleUrl: './preventive-system.component.css'
 })
@@ -25,6 +26,8 @@ export class PreventiveSystemComponent implements OnInit, OnDestroy {
   sectionSubtitle    = '"Razón, Religión y Amor"';
   sectionDescription = 'Nuestro modelo pedagógico se fundamenta en la herencia de Don Bosco, creando un ambiente de familia donde la educación es cosa del corazón.';
   sectionImage       = '';
+  /** Enlace del botón "Conocer más", configurable desde el panel (home.institucional.botonUrl). */
+  botonUrl           = '';
 
   features: Feature[] = [
     { title: 'Formación Integral',  description: 'Desarrollo académico y espiritual.', icon: 'school'    },
@@ -58,6 +61,7 @@ export class PreventiveSystemComponent implements OnInit, OnDestroy {
     if (inst.subtitulo) this.sectionSubtitle    = inst.subtitulo;
     if (inst.descripcion) this.sectionDescription = inst.descripcion;
     if (inst.imagen)    this.sectionImage       = inst.imagen;
+    this.botonUrl = this.limpiarUrl(inst.botonUrl);
     if (inst.caracteristicas?.length) {
       this.features = inst.caracteristicas.map((c: any) => ({
         title:       c.texto,
@@ -65,6 +69,16 @@ export class PreventiveSystemComponent implements OnInit, OnDestroy {
         icon:        'check_circle',
       }));
     }
+  }
+
+  /** Solo acepta URLs http(s) o rutas internas que empiecen con "/". */
+  private limpiarUrl(url: unknown): string {
+    const u = typeof url === 'string' ? url.trim() : '';
+    return /^https?:\/\//i.test(u) || (u.startsWith('/') && !u.startsWith('//')) ? u : '';
+  }
+
+  get botonExterno(): boolean {
+    return /^https?:\/\//i.test(this.botonUrl);
   }
 
   ngOnDestroy(): void {
