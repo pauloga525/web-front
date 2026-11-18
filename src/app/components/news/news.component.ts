@@ -9,6 +9,8 @@ interface NewsItem {
   category: string;
   description: string;
   image: string;
+  date: string;
+  readTime: string;
 }
 
 @Component({
@@ -19,19 +21,28 @@ interface NewsItem {
   styleUrl: './news.component.css'
 })
 export class NewsComponent implements OnInit {
-  newsItems: NewsItem[] = [];
+  /** Noticia principal (la primera marcada como destacada; si no hay, la más reciente). */
+  lead: NewsItem | null = null;
+  /** Hasta 3 noticias más, en la columna lateral. */
+  others: NewsItem[] = [];
 
   constructor(private readonly noticiasApi: NoticiasApiService) {}
 
   ngOnInit(): void {
     this.noticiasApi.noticias$.subscribe(lista => {
-      this.newsItems = lista.slice(0, 2).map(n => ({
+      const items = lista.map((n): NewsItem & { destacada: boolean } => ({
         _id: n._id,
         title: n.title,
         category: n.category || n.tag,
         description: n.description,
         image: n.featuredImage || n.image,
+        date: n.date || '',
+        readTime: n.readTime || '',
+        destacada: !!n.destacada,
       }));
+      const idx = Math.max(0, items.findIndex(n => n.destacada));
+      this.lead = items[idx] ?? null;
+      this.others = items.filter((_, i) => i !== idx).slice(0, 3);
     });
   }
 }

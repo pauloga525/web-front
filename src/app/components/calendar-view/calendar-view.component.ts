@@ -10,6 +10,8 @@ export interface CalendarEvent {
   day: number;
   month: number;
   year: number;
+  /** El evento ya terminó. */
+  finalizado?: boolean;
 }
 
 export interface CalendarDay {
@@ -119,6 +121,25 @@ export class CalendarViewComponent implements OnInit, OnChanges {
   getMonthName(): string {
     const months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     return months[this.currentMonth];
+  }
+
+  /** Punto del día: relleno si está por venir, solo contorno si ya terminó. */
+  getDotClass(event: CalendarEvent): string {
+    if (!event.finalizado) return this.getCategoryColor(event.category);
+    const borders: { [key: string]: string } = {
+      academic: 'border-blue-500',
+      cultural: 'border-yellow-500',
+      pastoral: 'border-green-500',
+      sports: 'border-red-500'
+    };
+    return 'border-2 bg-transparent ' + (borders[event.category] || 'border-gray-500');
+  }
+
+  tituloDia(calendarDay: CalendarDay): string {
+    const base = 'Día ' + calendarDay.day;
+    if (!calendarDay.events.length) return base;
+    const fin = calendarDay.events.filter(e => e.finalizado).length;
+    return `${base}: ${calendarDay.events.length} evento(s)` + (fin ? `, ${fin} finalizado(s)` : '');
   }
 
   getCategoryColor(category: string): string {

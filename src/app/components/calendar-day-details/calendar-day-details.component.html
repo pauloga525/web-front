@@ -16,6 +16,9 @@
           <span [class]="'inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-bold ' + getCategoryColor(event.category)">
             {{ getCategoryLabel(event.category) }}
           </span>
+          @if (event.finalizado) {
+            <span class="inline-flex items-center gap-1 mt-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-900"><span class="material-icons text-[12px] leading-none" aria-hidden="true">task_alt</span>FINALIZADO</span>
+          }
         </a>
       }
     </div>
@@ -39,7 +42,7 @@
               </div>
               <div>
                 <div class="text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors">{{ event.title }}</div>
-                <div class="text-xs text-gray-500">{{ event.location }}</div>
+                <div class="text-xs text-gray-500">{{ event.location }}@if (event.finalizado) {<span class="font-semibold text-gray-700 dark:text-gray-300"> · Finalizado</span>}</div>
               </div>
             </a>
           </li>

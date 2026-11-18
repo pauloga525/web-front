@@ -47,6 +47,13 @@ export interface EventoApi {
   updatedAt: string;
 }
 
+/** true si el evento ya terminó (fecha + hora de fin; sin hora de fin, al final del día). */
+export function eventoFinalizado(e: Pick<EventoApi, 'fecha' | 'horaFin'>, ahora: Date = new Date()): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(e?.fecha ?? '')) return false;
+  const fin = new Date(`${e.fecha}T${/^\d{2}:\d{2}$/.test(e.horaFin ?? '') ? e.horaFin : '23:59'}:59`);
+  return !Number.isNaN(fin.getTime()) && fin < ahora;
+}
+
 export interface EventosPaginadosApi {
   items: EventoApi[];
   total: number;

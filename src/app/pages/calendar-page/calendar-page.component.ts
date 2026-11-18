@@ -7,7 +7,7 @@ import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.comp
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CalendarViewComponent, CalendarEvent } from '../../components/calendar-view/calendar-view.component';
 import { CalendarDayDetailsComponent } from '../../components/calendar-day-details/calendar-day-details.component';
-import { EventosApiService, EventoApi } from '../../services/eventos-api.service';
+import { EventosApiService, EventoApi, eventoFinalizado } from '../../services/eventos-api.service';
 
 type Categoria = CalendarEvent['category'];
 
@@ -95,7 +95,8 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
           category: this.mapCategory(evento.categoria),
           day,
           month,
-          year
+          year,
+          finalizado: eventoFinalizado(evento)
         };
       })
       .filter((event): event is CalendarEvent => event !== null);

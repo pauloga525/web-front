@@ -8,7 +8,7 @@ import { EventsFilterComponent, EventFilter } from '../../components/events-filt
 import { FeaturedEventComponent } from '../../components/featured-event/featured-event.component';
 import { EventCardComponent, EventItem } from '../../components/event-card/event-card.component';
 import { EventsPaginationComponent } from '../../components/events-pagination/events-pagination.component';
-import { EventosApiService, EventoApi } from '../../services/eventos-api.service';
+import { EventosApiService, EventoApi, eventoFinalizado } from '../../services/eventos-api.service';
 import { ConfiguracionPublicaService } from '../../services/configuracion-publica.service';
 
 interface HeroEventosApi {
@@ -56,6 +56,7 @@ function toEventItem(e: EventoApi): EventItem {
     location:       e.ubicacion,
     description:    e.descripcionCorta,
     image:          e.imagenPrincipal,
+    finalizado:     eventoFinalizado(e),
   };
 }
 

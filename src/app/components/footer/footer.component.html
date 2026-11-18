@@ -178,7 +178,11 @@
       <p>{{ copyright || ('© ' + currentYear + ' Unidad Educativa. Todos los derechos reservados.') }}</p>
       <div class="flex gap-2 sm:gap-4 flex-wrap justify-center sm:justify-end">
         @for (link of footerLinks; track link.label) {
-          <a class="hover:text-gray-300" [href]="link.href">{{ link.label }}</a>
+          @if (esRutaInterna(link.href)) {
+            <a class="hover:text-gray-300" [routerLink]="link.href">{{ link.label }}</a>
+          } @else {
+            <a class="hover:text-gray-300" [href]="link.href">{{ link.label }}</a>
+          }
         }
       </div>
     </div>

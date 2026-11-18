@@ -61,9 +61,8 @@ export class FooterComponent implements OnInit, OnDestroy {
   ];
 
   footerLinks: FooterLink[] = [
-    { label: 'Privacidad', href: '#' },
-    { label: 'Términos',   href: '#' },
-    { label: 'Cookies',    href: '#' },
+    { label: 'Política de privacidad', href: '/politica-privacidad' },
+    { label: 'Términos de uso',        href: '/terminos-de-uso'     },
   ];
 
   contact = {
@@ -210,8 +209,27 @@ export class FooterComponent implements OnInit, OnDestroy {
       this.quickLinks = cfg.quickLinks.map((l: any) => ({ label: l.label, href: l.href }));
     }
     if (Array.isArray(cfg.footerLinks) && cfg.footerLinks.length) {
-      this.footerLinks = cfg.footerLinks.map((l: any) => ({ label: l.label, href: l.href }));
+      this.footerLinks = cfg.footerLinks
+        .filter((l: any) => l?.label)
+        .map((l: any) => ({ label: l.label, href: this.rutaLegal(l.label, l.href) }));
     }
+  }
+
+  /**
+   * Los enlaces "Privacidad" y "Términos" del pie se guardaron sin URL en el panel;
+   * si no tienen una, apuntan a las páginas legales del sitio.
+   */
+  private rutaLegal(label: string, href: string): string {
+    const h = (href ?? '').trim();
+    if (h && h !== '#') return h;
+    const l = label.toLowerCase();
+    if (l.includes('privacidad')) return '/politica-privacidad';
+    if (l.includes('términos') || l.includes('terminos') || l.includes('condiciones')) return '/terminos-de-uso';
+    return h || '#';
+  }
+
+  esRutaInterna(href: string): boolean {
+    return href.startsWith('/') && !href.startsWith('//');
   }
 
   ngOnDestroy(): void {

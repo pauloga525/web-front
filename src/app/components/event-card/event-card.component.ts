@@ -13,6 +13,8 @@ export interface EventItem {
   location: string;
   description: string;
   image: string;
+  /** El evento ya terminó: se muestra la etiqueta "Finalizado". */
+  finalizado?: boolean;
 }
 
 @Component({

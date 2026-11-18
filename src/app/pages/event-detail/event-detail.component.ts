@@ -4,7 +4,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { BreadcrumbComponent } from '../../components/breadcrumb/breadcrumb.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { EventosApiService, EventoApi } from '../../services/eventos-api.service';
+import { EventosApiService, EventoApi, eventoFinalizado } from '../../services/eventos-api.service';
 import { EventItem } from '../../components/event-card/event-card.component';
 
 interface AgendaItem {
@@ -35,6 +35,7 @@ interface EventView {
   infoImportante: string;
   slug: string;
   _id: string;
+  finalizado: boolean;
 }
 
 const MESES = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
@@ -57,6 +58,7 @@ function toEventView(e: EventoApi): EventView {
     infoImportante:      e.infoImportante ?? '',
     slug:                e.slug,
     _id:                 e._id,
+    finalizado:          eventoFinalizado(e),
   };
 }
 
@@ -74,6 +76,7 @@ function toEventItem(e: EventoApi): EventItem {
     location:       e.ubicacion,
     description:    e.descripcionCorta,
     image:          e.imagenPrincipal,
+    finalizado:     eventoFinalizado(e),
   };
 }
 

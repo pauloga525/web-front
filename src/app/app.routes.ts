@@ -29,6 +29,7 @@ import { StudentCouncilPageComponent } from './pages/student-council-page/studen
 import { BibliotecaPageComponent } from './pages/biblioteca-page/biblioteca-page.component';
 import { RepositoryPageComponent } from './pages/repository-page/repository-page.component';
 import { InstructivosPageComponent } from './pages/instructivos-page/instructivos-page.component';
+import { LegalPageComponent } from './pages/legal-page/legal-page.component';
 import { UniformsPageComponent } from './pages/uniforms-page/uniforms-page.component';
 
 export const routes: Routes = [
@@ -61,6 +62,8 @@ export const routes: Routes = [
   { path: 'programa/bachillerato', component: BachelorProgramsComponent },
   { path: 'boscometro', component: BoscometroPageComponent },
   { path: 'programa/especialidad/:slug', component: SpecialtyDetailComponent },
+  { path: 'politica-privacidad', component: LegalPageComponent, data: { tipo: 'privacidad' } },
+  { path: 'terminos-de-uso', component: LegalPageComponent, data: { tipo: 'terminos' } },
   { path: '**', redirectTo: '' }
 ];
 
