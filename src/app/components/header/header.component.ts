@@ -1,5 +1,5 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, HostListener, inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { SuppressImageWarningDirective } from '../../directives/suppress-image-warning.directive';
@@ -20,6 +20,7 @@ interface NavItem {
 interface SiteHeaderConfig {
   logoUrl: string;
   logoAlt: string;
+  faviconUrl?: string;
   aulaVirtualUrl: string;
   aulaVirtualLabel: string;
   navItems: NavItem[];
@@ -85,6 +86,7 @@ export class HeaderComponent implements OnInit {
   isMobileMenuOpen = false;
   openMobileDropdowns = new Set<number>();
   config: SiteHeaderConfig = DEFAULT_HEADER_CONFIG;
+  private readonly document = inject(DOCUMENT);
 
   get navItems(): NavItem[] {
     return this.config.navItems?.length ? this.config.navItems : DEFAULT_HEADER_CONFIG.navItems;
@@ -103,6 +105,7 @@ export class HeaderComponent implements OnInit {
     this.currentRoute = this.router.url;
     this.configPublica.get<SiteHeaderConfig>('site_header', DEFAULT_HEADER_CONFIG).subscribe(config => {
       this.config = { ...DEFAULT_HEADER_CONFIG, ...config };
+      this.aplicarFavicon();
     });
 
     this.router.events
@@ -111,6 +114,20 @@ export class HeaderComponent implements OnInit {
         this.currentRoute = event.urlAfterRedirects;
         this.closeDropdown();
       });
+  }
+
+  /** Pone en la pestaña el favicon configurado en el admin (o el logo si no hay favicon). */
+  private aplicarFavicon(): void {
+    const href = this.normalizeLogoUrl(this.config.faviconUrl) || this.logoUrl;
+    if (!href) return;
+    let link = this.document.querySelector<HTMLLinkElement>('link[rel~="icon"]');
+    if (!link) {
+      link = this.document.createElement('link');
+      link.rel = 'icon';
+      this.document.head.appendChild(link);
+    }
+    link.removeAttribute('type');
+    link.href = href;
   }
 
   private normalizeLogoUrl(url?: string): string {
