@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import { HeroComponent } from '../../components/hero/hero.component';
+import { AvisoImportanteComponent } from '../../components/aviso-importante/aviso-importante.component';
 import { StatsComponent } from '../../components/stats/stats.component';
 import { AcademicLevelsComponent } from '../../components/academic-levels/academic-levels.component';
 import { EventsComponent } from '../../components/events/events.component';
@@ -17,6 +18,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
   imports: [
     HeaderComponent,
     HeroComponent,
+    AvisoImportanteComponent,
     StatsComponent,
     AcademicLevelsComponent,
     EventsComponent,

@@ -1,0 +1,125 @@
+@if (abierto && aviso) {
+  <div class="aviso-fondo fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-3 sm:p-6 bg-[#06183a]/75 backdrop-blur-[2px]"
+       [class.saliendo]="cerrando"
+       (click)="onFondo($event)">
+
+    @if (esBingo) {
+      <!-- Bolas que salen de detrás de la ventana y rebotan por toda la pantalla (decorativas) -->
+      <div #orbitaZona class="orbita pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        @for (o of orbita; track $index) {
+          <span #orbitaPos class="orbita-pos" [style.--retraso]="o.retraso + 'ms'">
+            <span class="bola orbita-bola" [class.bola-clara]="o.clara" [style.width.px]="o.size" [style.height.px]="o.size">
+              <span class="bola-centro"><span class="bola-letra">{{ o.letra }}</span><span class="bola-num">{{ o.numero }}</span></span>
+            </span>
+          </span>
+        }
+      </div>
+    }
+
+    <article #dialogo role="dialog" aria-modal="true" aria-labelledby="aviso-titulo" [attr.aria-describedby]="aviso.texto ? 'aviso-texto' : null"
+             class="aviso-ventana relative w-full max-w-4xl max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100dvh-3rem)] overflow-y-auto overflow-x-hidden overscroll-contain rounded-3xl bg-[#0F3670] dark:bg-gray-800 ring-1 ring-white/10 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)]">
+
+      <button #btnCerrar type="button" (click)="cerrar()" aria-label="Cerrar aviso"
+              class="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+        <span class="material-icons text-[22px]" aria-hidden="true">close</span>
+      </button>
+
+      @if (esBingo) {
+        <!-- Decoración de fondo recortada a la tarjeta (no genera barras de desplazamiento) -->
+        <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl" aria-hidden="true">
+        <div class="aviso-carton pointer-events-none select-none absolute inset-y-0 right-0 w-full lg:w-3/5 hidden sm:grid grid-cols-5 content-center gap-x-6 gap-y-3 pr-8 font-barlow font-extrabold text-white/[0.035] text-4xl lg:text-5xl text-center" aria-hidden="true">
+          @for (n of carton; track $index) { <span>{{ n }}</span> }
+        </div>
+        <div class="pointer-events-none absolute -right-24 top-1/2 -translate-y-1/2 w-[28rem] h-[28rem] rounded-full bg-primary/10 blur-3xl"></div>
+        </div>
+      }
+
+      <div class="relative grid items-center gap-8 p-6 pt-8 sm:p-10 lg:p-12 lg:grid-cols-[minmax(0,1fr)_auto]">
+
+        <div class="flex flex-col gap-4 sm:gap-5 min-w-0">
+          @if (esBingo) {
+            <!-- Fila B-I-N-G-O: en móvil y tableta reemplaza al grupo de bolas -->
+            <div class="flex gap-1.5 lg:hidden" aria-hidden="true">
+              @for (b of bolas; track b.letra) {
+                <span class="bola bola-sm" [class.bola-clara]="b.clara"><span class="bola-centro"><span class="bola-letra">{{ b.letra }}</span><span class="bola-num">{{ b.numero }}</span></span></span>
+              }
+            </div>
+          } @else {
+            <span class="material-symbols-outlined w-11 h-11 rounded-full bg-primary/15 text-primary flex items-center justify-center text-[24px]" aria-hidden="true">campaign</span>
+          }
+
+          @if (aviso.titulo) {
+            <h2 id="aviso-titulo" class="font-barlow text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight text-balance max-w-[30ch] pr-10 lg:pr-0">{{ aviso.titulo }}</h2>
+          }
+          @if (aviso.texto) {
+            <p id="aviso-texto" class="text-sm sm:text-base text-gray-200 leading-relaxed max-w-[60ch] whitespace-pre-line">{{ aviso.texto }}</p>
+          }
+
+          @if (aviso.enlace && aviso.botonTexto) {
+            <div class="pt-1">
+              @if (enlaceInterno) {
+                <a [routerLink]="aviso.enlace" (click)="cerrar()"
+                   class="inline-flex items-center gap-2 bg-primary hover:bg-yellow-400 text-secondary font-bold px-6 sm:px-8 py-3 rounded-full text-sm sm:text-base transition-colors shadow-lg shadow-black/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary group">
+                  {{ aviso.botonTexto }}
+                  <span class="material-icons text-sm group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
+                </a>
+              } @else {
+                <a [href]="aviso.enlace" target="_blank" rel="noopener noreferrer" (click)="cerrar()"
+                   class="inline-flex items-center gap-2 bg-primary hover:bg-yellow-400 text-secondary font-bold px-6 sm:px-8 py-3 rounded-full text-sm sm:text-base transition-colors shadow-lg shadow-black/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary group">
+                  {{ aviso.botonTexto }}
+                  <span class="material-icons text-sm group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true">open_in_new</span>
+                  <span class="sr-only">(se abre en otra pestaña)</span>
+                </a>
+              }
+            </div>
+          }
+        </div>
+
+        @if (esBingo) {
+          <!-- Grupo de bolas de bingo (escritorio) -->
+          <div class="bolas relative hidden lg:block w-[340px] h-[250px] shrink-0" aria-hidden="true">
+            @for (b of bolas; track b.letra) {
+              <span class="bola absolute" [class.bola-clara]="b.clara"
+                    [style.width.px]="b.size" [style.height.px]="b.size"
+                    [style.top.%]="b.top" [style.left.%]="b.left"
+                    [style.--retraso]="b.retraso + 's'" [style.--giro]="b.giro + 'deg'">
+                <span class="bola-centro"><span class="bola-letra">{{ b.letra }}</span><span class="bola-num">{{ b.numero }}</span></span>
+              </span>
+            }
+          </div>
+        } @else if (aviso.imagenUrl) {
+          <div class="w-full lg:w-80 shrink-0">
+            <img [src]="aviso.imagenUrl" [alt]="aviso.titulo || 'Aviso importante'"
+                 class="w-full aspect-[4/3] object-cover rounded-2xl ring-1 ring-white/10" />
+          </div>
+        }
+      </div>
+    </article>
+  </div>
+}
+
+@if (mostrarRecordatorio && aviso) {
+  <!-- Mini tarjeta flotante: queda tras cerrar la ventana y la vuelve a abrir -->
+  <div class="recordatorio fixed z-[150] bottom-4 right-4 sm:bottom-6 sm:right-6">
+    <button #btnRecordatorio type="button" (click)="abrir()" aria-haspopup="dialog"
+            [attr.aria-label]="'Ver aviso: ' + (aviso.titulo || 'Aviso importante')"
+            class="flex items-center gap-3 sm:w-80 p-1.5 sm:p-3 sm:pr-5 rounded-full sm:rounded-2xl text-left bg-[#0F3670] dark:bg-gray-800 ring-1 ring-white/15 shadow-[0_14px_30px_-12px_rgba(0,0,0,0.6)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary group">
+      @if (esBingo) {
+        <span class="bola recordatorio-bola shrink-0 w-11 h-11 sm:w-12 sm:h-12" aria-hidden="true"><span class="bola-centro"><span class="bola-letra">N</span><span class="bola-num">41</span></span></span>
+      } @else {
+        <span class="recordatorio-bola material-symbols-outlined shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-primary text-secondary flex items-center justify-center text-[24px]" aria-hidden="true">campaign</span>
+      }
+      <span class="hidden sm:flex flex-col gap-0.5 min-w-0">
+        <span class="font-barlow text-sm font-bold text-white leading-snug line-clamp-2">{{ aviso.titulo || 'Aviso importante' }}</span>
+        <span class="text-xs font-semibold text-primary flex items-center gap-1">
+          Ver aviso
+          <span class="material-icons text-[14px] group-hover:translate-x-0.5 transition-transform" aria-hidden="true">arrow_forward</span>
+        </span>
+      </span>
+    </button>
+    <button type="button" (click)="ocultarRecordatorio($event)" aria-label="Ocultar recordatorio del aviso"
+            class="hidden sm:flex absolute -top-2 -left-2 w-6 h-6 rounded-full items-center justify-center bg-white text-secondary shadow-md ring-1 ring-black/5 hover:bg-gray-100 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+      <span class="material-icons text-[14px]" aria-hidden="true">close</span>
+    </button>
+  </div>
+}
