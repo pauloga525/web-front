@@ -23,9 +23,6 @@ interface SiteHeaderConfig {
   faviconUrl?: string;
   aulaVirtualUrl: string;
   aulaVirtualLabel: string;
-  /** Acceso a los sistemas internos (planificación, solicitudes, tutorías...). Vacío = no se muestra. */
-  plataformaUrl?: string;
-  plataformaLabel?: string;
   navItems: NavItem[];
 }
 
@@ -34,8 +31,6 @@ const DEFAULT_HEADER_CONFIG: SiteHeaderConfig = {
   logoAlt: 'Logo Unidad Educativa Ecuador',
   aulaVirtualUrl: 'https://edu.esemtia.com/LoginEsemtia.aspx',
   aulaVirtualLabel: 'Aula Virtual',
-  plataformaUrl: '',
-  plataformaLabel: 'Plataforma',
   navItems: [
     { label: 'Inicio', routerLink: '/' },
     {
@@ -91,6 +86,9 @@ export class HeaderComponent implements OnInit {
   isMobileMenuOpen = false;
   openMobileDropdowns = new Set<number>();
   config: SiteHeaderConfig = DEFAULT_HEADER_CONFIG;
+  /** Botón fijo junto a Aula Virtual: acceso a planificación curricular, solicitudes, tutorías... */
+  readonly sistemaUetsUrl = 'https://www.academico.uets.edu.ec/';
+  readonly sistemaUetsLabel = 'Sistema UETS';
   private readonly document = inject(DOCUMENT);
 
   get navItems(): NavItem[] {

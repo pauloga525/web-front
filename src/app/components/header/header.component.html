@@ -69,23 +69,21 @@
         }
       </nav>
 
-      <!-- Plataforma + Aula Virtual -->
+      <!-- Sistema UETS + Aula Virtual -->
       <div class="hidden xl:flex items-center gap-3 animate-in fade-in slide-in-from-right-4 duration-700">
-        <!-- Plataforma: acceso a planificación curricular, solicitudes, tutorías...
+        <!-- Sistema UETS: acceso a planificación curricular, solicitudes, tutorías...
              Variante con borde para no competir con el botón sólido de Aula Virtual. -->
-        @if (config.plataformaUrl) {
-          <a
-            [href]="config.plataformaUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Planificación curricular, solicitudes, tutorías y más sistemas institucionales"
-            class="group border-2 border-secondary dark:border-primary text-secondary dark:text-primary bg-white dark:bg-transparent hover:bg-secondary hover:text-white dark:hover:bg-primary dark:hover:text-secondary px-4 2xl:px-5 py-[10px] rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
-          >
-            <span class="material-icons text-base transition-transform duration-300 group-hover:rotate-90" aria-hidden="true">apps</span>
-            {{ config.plataformaLabel || 'Plataforma' }}
-            <span class="sr-only">(se abre en otra pestaña)</span>
-          </a>
-        }
+        <a
+          [href]="sistemaUetsUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Planificación curricular, solicitudes, tutorías y más sistemas institucionales"
+          class="group border-2 border-secondary dark:border-primary text-secondary dark:text-primary bg-white dark:bg-transparent hover:bg-secondary hover:text-white dark:hover:bg-primary dark:hover:text-secondary px-4 2xl:px-5 py-[10px] rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+        >
+          <span class="material-icons text-base transition-transform duration-300 group-hover:rotate-90" aria-hidden="true">apps</span>
+          {{ sistemaUetsLabel }}
+          <span class="sr-only">(se abre en otra pestaña)</span>
+        </a>
         <a 
           class="bg-secondary hover:bg-secondary/80 text-white px-4 2xl:px-6 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-110 whitespace-nowrap" 
           [href]="config.aulaVirtualUrl || 'https://edu.esemtia.com/LoginEsemtia.aspx'"
@@ -151,24 +149,22 @@
           }
         }
 
-        <!-- Mobile Plataforma + Aula Virtual -->
+        <!-- Mobile Sistema UETS + Aula Virtual -->
         <div class="px-4 py-3 space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          @if (config.plataformaUrl) {
-            <a
-              [href]="config.plataformaUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              (click)="closeMobileMenu()"
-              class="border-2 border-secondary dark:border-primary text-secondary dark:text-primary bg-white dark:bg-transparent hover:bg-secondary/5 dark:hover:bg-primary/10 px-6 py-[10px] rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-colors duration-300 w-full"
-            >
-              <span class="material-icons text-base" aria-hidden="true">apps</span>
-              <span class="flex flex-col items-start leading-tight">
-                {{ config.plataformaLabel || 'Plataforma' }}
-                <span class="text-[11px] font-medium text-gray-500 dark:text-gray-400">Planificación, solicitudes, tutorías</span>
-              </span>
-              <span class="sr-only">(se abre en otra pestaña)</span>
-            </a>
-          }
+          <a
+            [href]="sistemaUetsUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            (click)="closeMobileMenu()"
+            class="border-2 border-secondary dark:border-primary text-secondary dark:text-primary bg-white dark:bg-transparent hover:bg-secondary/5 dark:hover:bg-primary/10 px-6 py-[10px] rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-colors duration-300 w-full"
+          >
+            <span class="material-icons text-base" aria-hidden="true">apps</span>
+            <span class="flex flex-col items-start leading-tight">
+              {{ sistemaUetsLabel }}
+              <span class="text-[11px] font-medium text-gray-500 dark:text-gray-400">Planificación, solicitudes, tutorías</span>
+            </span>
+            <span class="sr-only">(se abre en otra pestaña)</span>
+          </a>
           <a 
             [href]="config.aulaVirtualUrl || 'https://edu.esemtia.com/LoginEsemtia.aspx'"
             target="_blank"
