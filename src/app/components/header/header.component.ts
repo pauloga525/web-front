@@ -88,7 +88,7 @@ export class HeaderComponent implements OnInit {
   config: SiteHeaderConfig = DEFAULT_HEADER_CONFIG;
   /** Botón fijo junto a Aula Virtual: acceso a planificación curricular, solicitudes, tutorías... */
   readonly sistemaUetsUrl = 'https://www.academico.uets.edu.ec/';
-  readonly sistemaUetsLabel = 'Sistema UETS';
+  readonly sistemaUetsLabel = 'Portal Académico';
   private readonly document = inject(DOCUMENT);
 
   get navItems(): NavItem[] {
